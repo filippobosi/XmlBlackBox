@@ -11,6 +11,7 @@ import org.xmlblackbox.test.infrastructure.util.DBConnection;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import org.xmlblackbox.test.infrastructure.xml.CheckInsertXmlContent;
 import org.xmlblackbox.test.infrastructure.xml.DbCheck;
+import org.xmlblackbox.test.infrastructure.xml.DbConnection;
 import org.xmlblackbox.test.infrastructure.xml.ExecuteQuery;
 import org.xmlblackbox.test.infrastructure.xml.HTTPClient;
 import org.xmlblackbox.test.infrastructure.xml.Query;
@@ -20,6 +21,7 @@ import org.xmlblackbox.test.infrastructure.xml.Set;
 import org.xmlblackbox.test.infrastructure.xml.SetVariable;
 import org.xmlblackbox.test.infrastructure.xml.WebServiceClient;
 import org.xmlblackbox.test.infrastructure.xml.XmlCheckRow;
+import org.xmlblackbox.test.infrastructure.xml.XmlDbConnections;
 import org.xmlblackbox.test.infrastructure.xml.XmlElement;
 import org.xmlblackbox.test.infrastructure.xml.XmlInsertRemoveNodeRow;
 import org.xmlblackbox.test.infrastructure.xml.XmlInsertRow;
@@ -311,6 +313,20 @@ public class MainTestCase extends DatabaseTestCase {
             } else if (obj instanceof XmlValidate) {
                 XmlValidate xmlValidate= (XmlValidate) obj;
                 xmlValidate.executeValidazioneXml();
+            } else if (obj instanceof XmlDbConnections) {
+                XmlDbConnections xmlDbConnections= (XmlDbConnections) obj;
+                Iterator connectionList = xmlDbConnections.getDbConnectionList().iterator();
+                while (connectionList.hasNext()) {
+					DbConnection connection= (DbConnection) connectionList.next();
+					Connection conn = DBConnection.getConnection(
+							connection.getDriver(),
+							connection.getDbUrl(),
+							connection.getUsername(),
+							connection.getPassword()
+							);
+					memory.setConnection(connection.getName(), conn);
+					
+				}
             } else if (obj instanceof SetVariable) {
                 SetVariable setVariable= (SetVariable) obj;
                 Iterator<Set> iter = setVariable.getSetList().iterator();

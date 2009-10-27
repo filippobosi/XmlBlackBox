@@ -75,6 +75,34 @@ public class DBConnection {
 		
 	}
 	
+	public static Connection getConnection(String driver, String url, String username, String password) throws Exception{
+		log.info("-- Starting db connection...");
+		
+		log.debug("- Driver : "+driver);
+		log.debug("- Url : "+url);
+		log.debug("- User : "+username);
+		log.debug("- Password : "+password);
+
+		Connection jdbcConnection = null;
+		try {
+				Class driverClass = Class.forName(driver);
+				jdbcConnection = DriverManager.getConnection(
+										url, 
+										username, 
+										password);
+				jdbcConnection.setAutoCommit(true);
+			}catch(SQLException e){
+				log.error("[!] Impossibile completare la connessione al database",e);
+				throw e;
+			} catch (ClassNotFoundException e) {
+				log.error("[!] Impossibile completare la connessione al database - driver non trovato",e);
+				throw e;
+			}
+	
+		log.info("-- Connection succesful...");
+		return jdbcConnection;
+		
+	}
 	
 	
 	

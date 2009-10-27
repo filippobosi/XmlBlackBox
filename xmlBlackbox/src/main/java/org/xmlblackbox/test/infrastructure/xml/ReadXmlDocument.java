@@ -30,6 +30,7 @@ public class ReadXmlDocument {
 	private List listaSetVariable = new Vector();
 	private List listaExecuteQuery = new Vector();
 	private List listaCheckXmlContent = new Vector();
+	private List listaDbConnection= new Vector();
 	
 	private String nomeTest = null;
 	
@@ -104,6 +105,10 @@ public class ReadXmlDocument {
                     CheckInsertXmlContent checkXmlContent = new CheckInsertXmlContent(element2);
                     listaCheckXmlContent.add(checkXmlContent);
                     getListaCompleta().add(checkXmlContent);
+		        } else if ("DB-CONNECTIONS".equals(element2.getName())) {
+                    XmlDbConnections xmlDbConnections = new XmlDbConnections(element2);
+                    listaDbConnection.add(xmlDbConnections);
+                    getListaCompleta().add(xmlDbConnections);
                 } else if ("INCLUDE-FILE".equals(element2.getName())) {
                     String filename = element2.getAttributeValue("filename");
                     log.debug("filename "+filename);

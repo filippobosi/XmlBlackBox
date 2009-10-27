@@ -4,6 +4,7 @@ import org.xmlblackbox.test.infrastructure.exception.InvalidVariableAnnotation;
 import org.xmlblackbox.test.infrastructure.exception.RepositoryNotFound;
 import org.xmlblackbox.test.infrastructure.exception.VariableNotFound;
 
+import java.sql.Connection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class MemoryData {
 	
 	private final static Logger log = Logger.getLogger(MemoryData.class);
 	private Hashtable<String, Properties> memory=new Hashtable();
+	private Hashtable<String, Connection> memoryConnections=new Hashtable();
 	
 	public String get(String key) throws RepositoryNotFound, InvalidVariableAnnotation, VariableNotFound{
 		String repoName = getRepositoryName(key);
@@ -123,6 +125,14 @@ public class MemoryData {
 	public Map getMemory2Map(){
 		log.debug("- get memory : " + memory);
 		return memory;
+	}
+	
+	public Connection getConnectionByName(String nameConnection){
+		return memoryConnections.get(nameConnection);
+	}
+	
+	public void setConnection(String nameConnection, Connection conn){
+		memoryConnections.put(nameConnection, conn);
 	}
 	
 	public void debugMemory(){

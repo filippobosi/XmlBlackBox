@@ -54,11 +54,11 @@ public class DbCheck extends XmlElement{
 		
 		DbCheck dbCheck=this;
 		
-    	dbCheck.setNome((String)dbcheckElement.getAttributeValue("nome"));
-    	dbCheck.setMotivo((String)dbcheckElement.getAttributeValue("motivo"));    	
-    	dbCheck.setTipo((String)dbcheckElement.getAttributeValue("tipo"));
+    	dbCheck.setNome((String)dbcheckElement.getAttributeValue("name"));
+    	dbCheck.setMotivo((String)dbcheckElement.getAttributeValue("motif"));    	
+    	dbCheck.setTipo((String)dbcheckElement.getAttributeValue("type"));
     	dbCheck.setDatabase((String)dbcheckElement.getAttributeValue("database"));
-    	dbCheck.setAutomatico((String)dbcheckElement.getAttributeValue("automatico"));
+    	dbCheck.setAutomatico((String)dbcheckElement.getAttributeValue("automatic"));
 
         Element parametersElement = dbcheckElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
