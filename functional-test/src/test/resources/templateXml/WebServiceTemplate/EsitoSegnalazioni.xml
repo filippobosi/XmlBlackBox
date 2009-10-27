@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:invioEsiti xmlns:xsd="http://www.sgate.ancitel.it/xsd/">
+ <xsd:mittente>
+    <xsd:codiceDistributore>002</xsd:codiceDistributore>
+    <xsd:login>g</xsd:login>
+    <xsd:password>acea</xsd:password>
+ </xsd:mittente>
+ <xsd:listaEsiti>
+    <xsd:esito>
+       <xsd:esitoSegnalazione>
+          <xsd:protocolloSegnalazione>66666</xsd:protocolloSegnalazione>
+          <xsd:esito>OK</xsd:esito>
+       </xsd:esitoSegnalazione>
+    </xsd:esito>
+ </xsd:listaEsiti>
+</xsd:invioEsiti>
+

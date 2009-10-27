@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sgate:esitiDistributore xmlns:sgate="http://www.sgate.ancitel.it/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sgate.ancitel.it/xsd/ 02_SGATE_XSD_v8.xsd">
+<sgate:esitoMessaggio>
+    <sgate:esitoSegnalazione>
+      <sgate:protocolloSegnalazione>20081001000000000001</sgate:protocolloSegnalazione>
+      <sgate:esito>OK</sgate:esito>
+    </sgate:esitoSegnalazione>
+  </sgate:esitoMessaggio>
+</sgate:esitiDistributore>

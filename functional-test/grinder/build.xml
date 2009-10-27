@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This build file is used to manage Grinder with HttpTester.
+-->
+<project basedir="." default="help" name="GrinderHttpTester">
+
+    <!--
+    ======================================================================
+                                                                PROPERTIES
+    ======================================================================
+    -->
+
+    <property file="${basedir}/properties/GrinderHttpTester.properties"/>
+
+    <property name="lib.dir"        value="${basedir}/lib" />
+    <property name="properties.dir" value="${basedir}/properties" />
+
+
+    <!--
+    ======================================================================
+                                                        PATH and CLASSPATH
+    ======================================================================
+    -->
+
+    <path id="GrinderHttpTester.path"
+          description="Classpath to run all the features of Grinder with HttpTester.">
+
+        <pathelement location="${properties.dir}" />
+
+        <fileset dir="${lib.dir}/">
+
+        	<include name="grinder.jar" />
+		    <include name="HttpTester.jar"/>
+		    <include name="jdom.jar"/>
+
+		    <!-- integrazione con grinder 3 beta 30 -->
+		    <include name="picocontainer-1.2.jar"/>
+        </fileset>
+    </path>
+
+    <!--
+    ============================================= runGrinderProxy
+    -->
+    <target name="runGrinderProxy"
+            description="Run the proxy of Grinder.">
+        <echo>
+        ============================================== runGrinderProxy - begin
+
+        WARNING: remember to set up your browser!
+                    eg: proxy host:port = localhost:8001
+        </echo>
+
+        <!--
+        === Creating the output directory (if not exists)
+        -->
+        <mkdir dir="${xmlTargetDir}"/>
+
+        <copy file="${properties.dir}/config.properties"
+              todir="${xmlTargetDir}"/>
+
+        <java classname="net.grinder.TCPProxy"
+              fork="yes"
+              dir="${xmlTargetDir}">
+
+            <sysproperty key="DEBUG" value="true"/>
+
+            <!--
+            === Switch to inform Grinder to use HttpTester
+            -->
+            <arg line="-xmlHttptester"/>
+
+            <classpath>
+                <path refid="GrinderHttpTester.path" />
+            </classpath>
+        </java>
+
+
+        <echo>
+        ============================================== runGrinderProxy - end
+        </echo>
+    </target>
+
+
+
+
+    <!--
+    ============================================= help (default)
+    -->
+    <target name="help" description="Help (default)">
+        <echo>
+        ============================================== help - begin
+
+        This build file is used to manage Grinder with HttpTester.
+
+        Please ... type 'ant -p' to view all the targets
+
+        ============================================== help - end
+        </echo>
+    </target>
+
+</project>

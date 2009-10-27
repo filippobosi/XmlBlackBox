@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE httptest [
+ <!ELEMENT link (authentication?, parameter*, rule*, setVariable*, link*)> 
+ <!ATTLIST link 
+   requestType CDATA #REQUIRED 
+   url CDATA #REQUIRED 
+   name CDATA #REQUIRED 
+   ENCTYPE CDATA #IMPLIED > 
+ <!ELEMENT authentication EMPTY> 
+ <!ATTLIST authentication 
+   username CDATA #REQUIRED 
+    password CDATA #REQUIRED > 
+ <!ELEMENT rule (parameter*)> 
+ <!ATTLIST rule 
+    type CDATA #REQUIRED >
+  <!ELEMENT httptest (variable*, link*)> 
+ <!ATTLIST httptest 
+    nThread CDATA #REQUIRED 
+    multithreaded CDATA #REQUIRED > 
+ <!ELEMENT parameter EMPTY> 
+ <!ATTLIST parameter 
+    name CDATA #REQUIRED 
+   value CDATA #REQUIRED 
+   fileName CDATA #IMPLIED > 
+ <!ELEMENT setVariable EMPTY> 
+ <!ATTLIST setVariable 
+    name CDATA #REQUIRED 
+    previousString CDATA #REQUIRED 
+   occurrence CDATA #REQUIRED 
+    endCharacters CDATA #IMPLIED >
+ <!ELEMENT variable EMPTY> 
+<!ATTLIST variable 
+  name CDATA #REQUIRED 
+  value CDATA #REQUIRED > 
+]>
+
+<httptest multithreaded="false" nThread="1">
+  <link requestType="GET" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_1_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_2_">
+    <parameter name="tipologiaDisagioBean.codTipoDisagio" value="ECO" />
+
+    <!--<parameter name="idProtocolloComunale" value="${protocollo_comunale}" />
+    
+    <parameter name="giornoProtocolloComunale" value="17" />
+    <parameter name="meseProtocolloComunale" value="08" />
+    <parameter name="annoProtocolloComunale" value="2009" />-->
+    <parameter name="_page" value="0" />
+    <parameter name="_target1" value="Avanti" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_3_">
+    <parameter name="clienteDomesticoBean.checkControlloCfCliente" value="true" />
+    <parameter name="_clienteDomesticoBean.checkControlloCfCliente" value="on" />
+    <parameter name="clienteDomesticoBean.codiceFiscale" value="${codice_fiscale}" />
+    <parameter name="clienteDomesticoBean.giornoNascita" value="23" />
+    <parameter name="clienteDomesticoBean.meseNascita" value="05" />
+    <parameter name="clienteDomesticoBean.annoNascita" value="1976" />
+    <parameter name="clienteDomesticoBean.descrNazNascita" value="ITALIA" />
+    <parameter name="clienteDomesticoBean.sesso" value="M" />
+    <parameter name="clienteDomesticoBean.documentoIdentita" value="CI445645645" />
+    <parameter name="clienteDomesticoBean.cognome" value="${cognome}" />
+    <parameter name="clienteDomesticoBean.codProvNascita" value="54" />
+    <parameter name="clienteDomesticoBean.cellulare" value="" />
+    <parameter name="clienteDomesticoBean.telefono" value="" />
+    <parameter name="clienteDomesticoBean.nome" value="MARIO" />
+    <parameter name="clienteDomesticoBean.codIstatComuneNascita" value="3605" />
+    <parameter name="clienteDomesticoBean.email" value="" />
+    <parameter name="clienteDomesticoBean.numeroFax" value="" />
+    <parameter name="privacy" value="true" />
+    <parameter name="_privacy" value="on" />
+    <parameter name="_delega" value="on" />
+    <parameter name="_page" value="1" />
+    <parameter name="_target2" value="Avanti" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_4_">
+    <parameter name="podAttivo" value="true" />
+    <parameter name="_podAttivo" value="on" />
+    <parameter name="numPod" value="${codice_pod}" />
+    <parameter name="codProvDaAgevolare" value="${codice_provincia_comune}" />
+    <parameter name="indirizzoDaAgevolare" value="${via}" />
+    <parameter name="numPresa" value=""/>
+    <parameter name="codComuneDaAgevolare" value="${codice_comune}" />
+    <parameter name="civDaAgevolare" value="100" />
+    <parameter name="potenzaImpegnata" value="${potenza_impegnata}" />
+    <parameter name="capDaAgevolare" value="00012" />
+    <parameter name="usoDomesticoresidente" value="true" />
+    <parameter name="_usoDomesticoresidente" value="on" />
+    <parameter name="numCompFamAnag" value="1" />
+    <parameter name="_target3" value="Avanti" />
+    <parameter name="_page" value="2" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_5_">
+    <parameter name="attestazioneIseeBean.numCompNucleoFamigl" value="1" />
+    <parameter name="_famNumerosa" value="on" />
+    <parameter name="attestazioneIseeBean.codAttIsee" value="${codice_isee}" />
+    <parameter name="attestazioneIseeBean.giornoRilascioAtt" value="20" />
+    <parameter name="attestazioneIseeBean.meseRilascioAtt" value="07" />
+    <parameter name="attestazioneIseeBean.annoRilascioAtt" value="2009" />
+    <parameter name="attestazioneIseeBean.valIsee" value="5000,00" />
+    <parameter name="attestazioneIseeBean.giornoScadenzaAtt" value="20" />
+    <parameter name="attestazioneIseeBean.meseScadenzaAtt" value="07" />
+    <parameter name="attestazioneIseeBean.annoScadenzaAtt" value="2010" />
+    <parameter name="clienteDomesticoBean.codProvResidenza" value="${codice_provincia_comune}" />
+    <parameter name="clienteDomesticoBean.indirizzoResidenza" value="" />
+    <parameter name="clienteDomesticoBean.codIstatComuneResidenza" value="${codice_comune}" />
+    <parameter name="clienteDomesticoBean.numCivResidenza" value="" />
+    <parameter name="clienteDomesticoBean.capResidenza" value="" />
+    <parameter name="attestazioneIseeBean.codFiscale" value="${codice_fiscale}" />
+    <parameter name="_page" value="3" />
+    <parameter name="_target6" value="Avanti" />
+    <rule type="contains">
+      <parameter name="containedText" value="Domanda salvata con ID domanda" />
+    </rule>
+    <setVariable name="idDomanda" previousString="Domanda salvata con ID domanda: " occurrence="1"/>
+  </link>
+  <link requestType="POST" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_6_">
+    <parameter name="_segnalaWarning" value="on" />
+    <parameter name="noteUtente" value="" />
+    <parameter name="confermaStampa" value="true" />
+    <parameter name="_finish_presenta" value="Avanti" />
+    <parameter name="_page" value="6" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="${SGATE_WEB_URL}/security-area/comune/domandaWizard.htm" name="NuovaDomanda_7_">
+    <parameter name="_segnalaWarning" value="on" />
+    <parameter name="noteUtente" value="" />
+    <parameter name="_finish_presenta" value="Presenta" />
+    <parameter name="_page" value="7" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+</httptest>
+

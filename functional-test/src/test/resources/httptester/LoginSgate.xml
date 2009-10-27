@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE httptest [
+ <!ELEMENT link (authentication?, parameter*, rule*, setVariable*, link*)> 
+ <!ATTLIST link 
+   requestType CDATA #REQUIRED 
+   url CDATA #REQUIRED 
+   name CDATA #REQUIRED 
+   ENCTYPE CDATA #IMPLIED > 
+ <!ELEMENT authentication EMPTY> 
+ <!ATTLIST authentication 
+   username CDATA #REQUIRED 
+    password CDATA #REQUIRED > 
+ <!ELEMENT rule (parameter*)> 
+ <!ATTLIST rule 
+    type CDATA #REQUIRED >
+  <!ELEMENT httptest (variable*, link*)> 
+ <!ATTLIST httptest 
+    nThread CDATA #REQUIRED 
+    multithreaded CDATA #REQUIRED > 
+ <!ELEMENT parameter EMPTY> 
+ <!ATTLIST parameter 
+    name CDATA #REQUIRED 
+   value CDATA #REQUIRED 
+   fileName CDATA #IMPLIED > 
+ <!ELEMENT setVariable EMPTY> 
+ <!ATTLIST setVariable 
+    name CDATA #REQUIRED 
+    previousString CDATA #REQUIRED 
+   occurrence CDATA #REQUIRED 
+    endCharacters CDATA #IMPLIED >
+ <!ELEMENT variable EMPTY> 
+<!ATTLIST variable 
+  name CDATA #REQUIRED 
+  value CDATA #REQUIRED > 
+]>
+
+<httptest multithreaded="false" nThread="1">
+  <link requestType="POST" url="${SGATE_WEB_URL}/login.htm" name="Login_1_">
+    <parameter name="userId" value="${username}"/>
+    <parameter name="password" value="${password}"/>
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="${SGATE_WEB_URL}/security-area/home.htm" name="Login_2_">
+    <rule type="contains">
+      <parameter name="containedText" value="Benvenuto" />
+    </rule>
+  </link>
+</httptest>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:invioSegnalazioni xmlns:xsd="http://www.sgate.ancitel.it/xsd/">
+    <xsd:mittente>
+        <xsd:codiceDistributore>002</xsd:codiceDistributore>
+        <xsd:login>khdkajd</xsd:login>
+        <xsd:password>acea</xsd:password>
+    </xsd:mittente>
+    <xsd:listaSegnalazioni>
+        <xsd:segnalazioneDistributore>
+            <xsd:protocolloDistributore>iii</xsd:protocolloDistributore>
+            <xsd:segnalazioneCessazione>
+                <xsd:protocolloRichiestaAgevolazione>yyyyy</xsd:protocolloRichiestaAgevolazione>
+                <xsd:pod>002</xsd:pod>
+                <xsd:dataCessazione>2009-08-01</xsd:dataCessazione>
+                <xsd:motivoCessazione>
+                    <xsd:codice>201</xsd:codice>
+                    <xsd:dettaglio>Dettaglio motivazione</xsd:dettaglio>
+                </xsd:motivoCessazione>
+            </xsd:segnalazioneCessazione>
+        </xsd:segnalazioneDistributore>
+    </xsd:listaSegnalazioni>
+</xsd:invioSegnalazioni>
+

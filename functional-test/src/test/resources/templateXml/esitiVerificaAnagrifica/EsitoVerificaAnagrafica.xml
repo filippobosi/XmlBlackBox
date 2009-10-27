@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sgate:esitiAnagraficheComunali xmlns:sgate="http://www.sgate.ancitel.it/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+ 
+  
+<sgate:esitoCittadino> 
+    <sgate:protocolloSGATE>7791126</sgate:protocolloSGATE>
+    <sgate:comuneResidenza>
+      <sgate:esito>true</sgate:esito>
+      <sgate:valoreRiscontrato>montelibbretti</sgate:valoreRiscontrato>
+    </sgate:comuneResidenza>
+    <sgate:indirizzoResidenza>
+      <sgate:esito>true</sgate:esito>
+      <sgate:valoreRiscontrato>Via gatti</sgate:valoreRiscontrato>
+    </sgate:indirizzoResidenza>
+    <sgate:civicoResidenza>
+      <sgate:esito>false</sgate:esito>
+      <sgate:valoreRiscontrato>23</sgate:valoreRiscontrato>
+    </sgate:civicoResidenza>
+    <sgate:numerositaAnagrafica>
+      <sgate:esito>true</sgate:esito>
+      <sgate:valoreRiscontrato>1</sgate:valoreRiscontrato>
+    </sgate:numerositaAnagrafica>
+  </sgate:esitoCittadino>
+</sgate:esitiAnagraficheComunali>

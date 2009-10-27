@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sgate:invioSegnalazioniDistributore xmlns:sgate="http://www.sgate.ancitel.it/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sgate.ancitel.it/xsd/ 02_SGATE_XSD_v8.2.xsd">
+
+<sgate:segnalazioneDistributore>
+	<sgate:protocolloDistributore>00018BAB0052009</sgate:protocolloDistributore>
+	<sgate:segnalazioneCessazione>
+		<sgate:protocolloRichiestaAgevolazione>329358</sgate:protocolloRichiestaAgevolazione>
+		<sgate:pod>002</sgate:pod>
+		<sgate:dataCessazione>2009-04-25</sgate:dataCessazione>
+		<sgate:motivoCessazione>
+			<sgate:codice>202</sgate:codice>
+			<sgate:dettaglio>Note eventuali di dettaglio</sgate:dettaglio>
+		</sgate:motivoCessazione>
+	</sgate:segnalazioneCessazione>
+</sgate:segnalazioneDistributore>
+
+</sgate:invioSegnalazioniDistributore>
+

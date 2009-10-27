@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE httptest [
+ <!ELEMENT link (authentication?, parameter*, rule*, setVariable*, link*)> 
+ <!ATTLIST link 
+   requestType CDATA #REQUIRED 
+   url CDATA #REQUIRED 
+   name CDATA #REQUIRED 
+   ENCTYPE CDATA #IMPLIED > 
+ <!ELEMENT authentication EMPTY> 
+ <!ATTLIST authentication 
+   username CDATA #REQUIRED 
+    password CDATA #REQUIRED > 
+ <!ELEMENT rule (parameter*)> 
+ <!ATTLIST rule 
+    type CDATA #REQUIRED >
+  <!ELEMENT httptest (variable*, link*)> 
+ <!ATTLIST httptest 
+    nThread CDATA #REQUIRED 
+    multithreaded CDATA #REQUIRED > 
+ <!ELEMENT parameter EMPTY> 
+ <!ATTLIST parameter 
+    name CDATA #REQUIRED 
+   value CDATA #REQUIRED 
+   fileName CDATA #IMPLIED > 
+ <!ELEMENT setVariable EMPTY> 
+ <!ATTLIST setVariable 
+    name CDATA #REQUIRED 
+    previousString CDATA #REQUIRED 
+   occurrence CDATA #REQUIRED 
+    endCharacters CDATA #IMPLIED >
+ <!ELEMENT variable EMPTY> 
+<!ATTLIST variable 
+  name CDATA #REQUIRED 
+  value CDATA #REQUIRED > 
+]>
+
+<httptest multithreaded="false" nThread="1">
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web" name="TestExamples_1_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/" name="TestExamples_2_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/login.htm" name="TestExamples_3_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/login.htm" name="TestExamples_4_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/home.htm" name="TestExamples_5_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/ricercaDomande.htm" name="TestExamples_6_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/ricercaDomande.htm" name="TestExamples_7_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm?idDomanda=18891710&amp;action=resume" name="TestExamples_8_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_9_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_10_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_11_">
+    <parameter name="clienteDomesticoBean.codiceFiscale" value="FNDMRA76E23G478F" />
+    <parameter name="clienteDomesticoBean.giornoNascita" value="23" />
+    <parameter name="clienteDomesticoBean.meseNascita" value="05" />
+    <parameter name="clienteDomesticoBean.annoNascita" value="1976" />
+    <parameter name="clienteDomesticoBean.descrNazNascita" value="ITALIA" />
+    <parameter name="clienteDomesticoBean.sesso" value="M" />
+    <parameter name="clienteDomesticoBean.documentoIdentita" value="CI445645645" />
+    <parameter name="clienteDomesticoBean.cognome" value="FNDROSSI" />
+    <parameter name="clienteDomesticoBean.codProvNascita" value="54" />
+    <parameter name="clienteDomesticoBean.cellulare" value="" />
+    <parameter name="clienteDomesticoBean.telefono" value="" />
+    <parameter name="clienteDomesticoBean.nome" value="MARIO" />
+    <parameter name="clienteDomesticoBean.codIstatComuneNascita" value="3605" />
+    <parameter name="clienteDomesticoBean.email" value="" />
+    <parameter name="clienteDomesticoBean.numeroFax" value="" />
+    <parameter name="privacy" value="true" />
+    <parameter name="_privacy" value="on" />
+    <parameter name="_delega" value="on" />
+    <parameter name="_page" value="1" />
+    <parameter name="_target2" value="Avanti" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_12_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_13_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_14_">
+    <parameter name="attestazioneIseeBean.numCompNucleoFamigl" value="1" />
+    <parameter name="_famNumerosa" value="on" />
+    <parameter name="attestazioneIseeBean.codAttIsee" value="ISEETEST56920" />
+    <parameter name="attestazioneIseeBean.giornoRilascioAtt" value="20" />
+    <parameter name="attestazioneIseeBean.meseRilascioAtt" value="07" />
+    <parameter name="attestazioneIseeBean.annoRilascioAtt" value="2009" />
+    <parameter name="attestazioneIseeBean.valIsee" value="5000,00" />
+    <parameter name="attestazioneIseeBean.giornoScadenzaAtt" value="20" />
+    <parameter name="attestazioneIseeBean.meseScadenzaAtt" value="07" />
+    <parameter name="attestazioneIseeBean.annoScadenzaAtt" value="2010" />
+    <parameter name="attestazioneIseeBean.codFiscale" value="" />
+    <parameter name="attestazioneIseeBean.codFiscaliList[0].codiceFiscale" value="FNDMRA76E23G478F" />
+    <parameter name="_page" value="3" />
+    <parameter name="_target6" value="Avanti" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_15_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="GET" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_16_">
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+  <link requestType="POST" url="http://172.18.13.199:8080/sgate-web/security-area/comune/domandaWizard.htm" name="TestExamples_17_">
+    <parameter name="segnalaWarning" value="true" />
+    <parameter name="_segnalaWarning" value="on" />
+    <parameter name="noteUtente" value="etret" />
+    <parameter name="_finish_presenta" value="Presenta" />
+    <parameter name="_page" value="7" />
+    <rule type="contains">
+      <parameter name="containedText" value="" />
+    </rule>
+  </link>
+</httptest>
+

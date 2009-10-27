@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invioEsiti xmlns="http://www.sgate.ancitel.it/xsd/">
+ <mittente>
+    <codiceDistributore>888</codiceDistributore>
+    <login>ghgg</login>
+    <password>acea</password>
+ </mittente>
+ <listaEsiti>
+    <esito>
+       <esitoAgevolazione>
+          <protocolloRichiestaAgevolazione>7777</protocolloRichiestaAgevolazione>
+          <esito>KO</esito>
+          <dataInizioRetroattivita></dataInizioRetroattivita>
+          <dataFineRetroattivita></dataFineRetroattivita>
+          <motivazioneKo>
+              <codice></codice>
+              <dettaglio></dettaglio>
+          </motivazioneKo>
+       </esitoAgevolazione>
+    </esito>
+ </listaEsiti>
+</invioEsiti>
