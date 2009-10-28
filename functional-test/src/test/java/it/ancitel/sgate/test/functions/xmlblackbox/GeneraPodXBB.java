@@ -23,7 +23,7 @@ import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
 
 public class GeneraPodXBB extends GenericRunnableFunction {
 
-    private final static Logger log = Logger.getLogger(GeneraPod.class);
+    private final static Logger log = Logger.getLogger(GeneraPodXBB.class);
     
 	@Override
 	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {

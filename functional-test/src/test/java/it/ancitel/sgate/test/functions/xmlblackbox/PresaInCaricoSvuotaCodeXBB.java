@@ -86,7 +86,7 @@ public class PresaInCaricoSvuotaCodeXBB extends GenericRunnableFunction {
 
         log.debug("executeWebServiceClient ");
         try {
-            Class stubClass=Class.forName("it.ancitel.sgate.test.webservice.client.SgateWebServiceStub");
+            Class stubClass=Class.forName("org.xmlblackbox.test.webservice.client.SgateWebServiceStub");
 
         	Class[] parametri=new Class[1];
         	parametri[0]=String.class;

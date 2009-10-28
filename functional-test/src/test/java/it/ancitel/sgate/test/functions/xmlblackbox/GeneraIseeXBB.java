@@ -22,7 +22,7 @@ import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
 
 public class GeneraIseeXBB extends GenericRunnableFunction {
 
-    private final static Logger log = Logger.getLogger(GeneraIsee.class);
+    private final static Logger log = Logger.getLogger(GeneraIseeXBB.class);
 
 	@Override
 	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {

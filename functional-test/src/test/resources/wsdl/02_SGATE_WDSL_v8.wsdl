@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+	<!-- Ancitel S.p.A. sgate.wsdl v. 8.0 25-05-2009 -->
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.sgate.ancitel.it/ws/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="sgateWSDLFile" targetNamespace="http://www.sgate.ancitel.it/ws/" xmlns:base="http://www.sgate.ancitel.it/xsd/">
+
+	<wsdl:import namespace="http://www.sgate.ancitel.it/xsd/" location="02_SGATE_XSD_v8.2.xsd"></wsdl:import>
+
+	<!--wsdl:types>
+  </wsdl:types-->
+
+	<wsdl:message name="RichiestaPresaInCaricoLotto">
+		<wsdl:part name="PresaInCaricoRequest" element="base:richiestaPresaInCaricoLotto">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="RispostaPresaInCaricoLotto">
+		<wsdl:part name="PresaInCaricoResponse" element="base:rispostaPresaInCaricoLotto">
+		</wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="InvioEsiti">
+		<wsdl:part name="InvioEsitiRequest" element="base:invioEsiti">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="InvioEsitiResponse">
+		<wsdl:part name="InvioEsitiResponse" element="base:ricezioneEsiti">
+		</wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="InvioSegnalazioni">
+		<wsdl:part name="InvioSegnalazioniRequest" element="base:invioSegnalazioni">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="InvioSegnalazioniResponse">
+		<wsdl:part name="InvioSegnalazioniResponse" element="base:esitiInvioSegnalazioni">
+		</wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="Sgate">
+		<wsdl:operation name="PresaInCaricoLotto">
+			<wsdl:input message="tns:RichiestaPresaInCaricoLotto" />
+			<wsdl:output message="tns:RispostaPresaInCaricoLotto" />
+		</wsdl:operation>
+		<wsdl:operation name="InvioEsiti">
+			<wsdl:input message="tns:InvioEsiti"></wsdl:input>
+			<wsdl:output message="tns:InvioEsitiResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="InvioSegnalazioni">
+			<wsdl:input message="tns:InvioSegnalazioni"></wsdl:input>
+			<wsdl:output message="tns:InvioSegnalazioniResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="SgateWebServiceSoapBinding" type="tns:Sgate">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="PresaInCaricoLotto">
+			<soap:operation soapAction="https://www.sgate.anci.it/sgate-web-services/PresaInCaricoLotto" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="InvioEsiti">
+			<soap:operation soapAction="https://www.sgate.anci.it/sgate-web-services/InvioEsiti" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="InvioSegnalazioni">
+			<soap:operation soapAction="https://www.sgate.anci.it/sgate-web-services/InvioSegnalazioni" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="SgateWebService">
+		<wsdl:port binding="tns:SgateWebServiceSoapBinding" name="SgateWebServiceBinding">
+			<soap:address location="https://www.sgate.anci.it/" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

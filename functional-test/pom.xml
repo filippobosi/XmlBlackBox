@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>it.ancitel.sgate.test</groupId>
-    <artifactId>sgate-functional-test</artifactId>
+    <groupId>org.xmlblackbox.test</groupId>
+    <artifactId>functional-test</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
-    <name>Test SGATE</name>
+    <name>Test XmlBlackBox</name>
     <build>
         <filters>
             <filter>${user.name}.properties</filter>
@@ -59,32 +59,6 @@
 
 		</configuration>
 	  </plugin>
-       
-        <!--plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>jaxws-maven-plugin</artifactId>
-			<version>1.6</version>
-            <executions>
-                <execution>
-                    <id>sgate-web-service</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                        <goal>wsimport</goal>
-                    </goals>
-                    <configuration>
-                        <wsdlDirectory>${basedir}/src/test/resources/wsdl/</wsdlDirectory>
-                        <packageName>it.ancitel.sgate.test.webservice.client</packageName>
-                        <extension>true</extension>
-                        <keep>true</keep>
-                        <verbose>true</verbose>
-                        <xdebug>true</xdebug>
-                        <staleFile>
-							target/jaxws/stale/.sgate-web-service
-                        </staleFile>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin-->
 		<plugin>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
@@ -99,7 +73,7 @@
 			<configuration>
 				<databindingName>xmlbeans</databindingName>
                 <wsdlFile>${basedir}/src/test/resources/wsdl/02_SGATE_WDSL_v8.wsdl</wsdlFile>
-                <packageName>it.ancitel.sgate.test.webservice.client</packageName>
+                <packageName>org.xmlblackbox.test.webservice.client</packageName>
 			</configuration>
 		</plugin>
 
@@ -124,33 +98,6 @@
 				  </execution>
 				</executions>
 			</plugin>
-
-            <!--plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>arApertura</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlDirectory>${basedir}/src/wsdl/aperturaMandato</wsdlDirectory>
-                            <packageName>
-                                va.ior.ar.test.mandati.apertura.client
-                            </packageName>
-                            <extension>true</extension>
-                            <keep>true</keep>
-                            <verbose>true</verbose>
-                            <xdebug>true</xdebug>
-                            <staleFile>
-                                target/jaxws/stale/.arAperturaStale
-                            </staleFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -271,16 +218,6 @@
 			<artifactId>xmlblackbox</artifactId>
 		  	<version>1.0</version>
 	   </dependency>
-		<!--dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-codegen</artifactId>
-			<version>1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-adb</artifactId>
-			<version>1.2</version>
-		</dependency-->
 		<dependency>
 			<groupId>org.apache.ws.commons.axiom</groupId>
 			<artifactId>axiom-api</artifactId>

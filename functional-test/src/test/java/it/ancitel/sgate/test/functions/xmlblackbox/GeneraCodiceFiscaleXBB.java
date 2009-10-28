@@ -21,7 +21,7 @@ import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
 
 public class GeneraCodiceFiscaleXBB extends GenericRunnableFunction {
 
-    private final static Logger log = Logger.getLogger(GeneraCodiceFiscale.class);
+    private final static Logger log = Logger.getLogger(GeneraCodiceFiscaleXBB.class);
     
 	@Override
 	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {

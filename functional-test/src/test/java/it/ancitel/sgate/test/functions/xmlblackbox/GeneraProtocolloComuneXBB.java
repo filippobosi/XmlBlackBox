@@ -23,7 +23,7 @@ import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
 
 public class GeneraProtocolloComuneXBB extends GenericRunnableFunction {
 
-    private final static Logger log = Logger.getLogger(GeneraProtocolloComune.class);
+    private final static Logger log = Logger.getLogger(GeneraProtocolloComuneXBB.class);
     
 	@Override
 	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
