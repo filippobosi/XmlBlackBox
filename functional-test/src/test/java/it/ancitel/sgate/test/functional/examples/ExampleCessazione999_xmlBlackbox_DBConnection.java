@@ -6,6 +6,7 @@
 package it.ancitel.sgate.test.functional.examples;
 
 import it.ancitel.sgate.test.util.Configurator;
+import java.sql.Connection;
 import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -59,9 +60,11 @@ public class ExampleCessazione999_xmlBlackbox_DBConnection extends MainTestCase{
 			DBConnection.setConfig(DBConnection.params.USERNAME, fileProperties.getProperty("db.user"));
 			DBConnection.setConfig(DBConnection.params.PASSWORD, fileProperties.getProperty("db.pw"));
         
-            log.error("Esegue l'execute");
-			execute(this.getClass(),Configurator.getProperties(), DBConnection.getConnection().getConnection());
-            log.error("fine execute");
+            log.info("Esegue l'execute");
+            Connection conn = null;
+			execute(this.getClass(),Configurator.getProperties(), conn);
+            //execute(this.getClass(),Configurator.getProperties(), DBConnection.getConnection().getConnection());
+            log.info("fine execute");
    		} catch (TestException e) {
    			log.error("Eccezione", e.getContainedException());
    			fail("Eccezione "+e);

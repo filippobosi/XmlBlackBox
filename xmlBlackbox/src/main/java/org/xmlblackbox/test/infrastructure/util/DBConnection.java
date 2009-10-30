@@ -33,7 +33,7 @@ public class DBConnection {
 		if ((conn==null) || (conn.getConnection().isClosed())){
 			conn = new DatabaseConnection(connect());
 		}
-		log.info("-- Connected to db... " + conn);
+		log.info("-- Connected to db.... " + conn);
 		return conn;
 	}
 	

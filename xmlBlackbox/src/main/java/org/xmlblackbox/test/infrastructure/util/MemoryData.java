@@ -21,7 +21,7 @@ public class MemoryData {
 	
 	private final static Logger log = Logger.getLogger(MemoryData.class);
 	private Hashtable<String, Properties> memory=new Hashtable();
-	private Hashtable<String, Connection> memoryConnections=new Hashtable();
+	private Hashtable<String, Object> memoryObject=new Hashtable();
 	
 	public String get(String key) throws RepositoryNotFound, InvalidVariableAnnotation, VariableNotFound{
 		String repoName = getRepositoryName(key);
@@ -103,7 +103,11 @@ public class MemoryData {
 		log.debug("- get repository : " + repoName + " = " + repo);
 		return repo;
 	}
-	
+
+    public Hashtable<String, Object> getAllObject() throws RepositoryNotFound{
+		return memoryObject;
+	}
+
 	public Properties getOrCreateRepository(String repoName){
 		Properties repo;
 		try {
@@ -128,13 +132,21 @@ public class MemoryData {
 	}
 	
 	public Connection getConnectionByName(String nameConnection){
-		return memoryConnections.get(nameConnection);
+		return (Connection)memoryObject.get(nameConnection);
 	}
-	
+
+    public Object getObjectByName(String nameObject){
+		return memoryObject.get(nameObject);
+	}
+
 	public void setConnection(String nameConnection, Connection conn){
-		memoryConnections.put(nameConnection, conn);
+		memoryObject.put(nameConnection, conn);
 	}
-	
+
+    public void setObject(String nameObject, Connection object){
+		memoryObject.put(nameObject, object);
+	}
+
 	public void debugMemory(){
 		log.warn("---------------------------------------");
 		log.warn("------------- DEBUG MEMORY ------------");

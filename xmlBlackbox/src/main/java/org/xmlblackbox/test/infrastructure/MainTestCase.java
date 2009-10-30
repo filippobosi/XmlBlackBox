@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Properties;
@@ -80,7 +81,7 @@ public class MainTestCase extends DatabaseTestCase {
 	
 	private HttpTestCaseSimple httpTestCase = null;
 
-	private IDatabaseConnection conn = null;
+	//private IDatabaseConnection conn = null;
 	private String nomeTestCase = null;
 
 	public MainTestCase(String msg) {
@@ -173,40 +174,33 @@ public class MainTestCase extends DatabaseTestCase {
 	}
 
     
-    public void execute(Class testClass, Properties prop, Connection genericConn)	throws TestException, Exception {
+    public void execute(Class testClass, Properties prop)	throws TestException, Exception {
 
+        log.info("execute testClass, prop, genericConnection");
     	String fileConfigTest = "." + testClass.getCanonicalName();
     	fileConfigTest = fileConfigTest.replaceAll("\\.", "/");
     	fileConfigTest = fileConfigTest + ".xml";
 
-        execute(fileConfigTest, prop, genericConn);
+        execute(fileConfigTest, prop);
 
     }
 
 
 
-	public void execute(String fileConfigTest, Properties prop, Connection genericConn) throws TestException, Exception {    	
+	public void execute(String fileConfigTest, Properties prop) throws TestException, Exception {    	
 		try{
+            log.info("execute fileConfigTest, prop, genericConnection");
 			log.info("[ START TEST CASE : " + fileConfigTest.substring(0, fileConfigTest.indexOf(".")) + " ]");
             Properties xmlBlackboxProp = Configurator.getProperties("xmlBlackbox.properties");
+            log.info("xmlBlackbox.properties " + xmlBlackboxProp);
 
 			log.debug("[Starting Memory & File Properties]");
 			memory.overrideRepository(Repository.FILE_PROPERTIES, xmlBlackboxProp);
+
             memory.addToRepository(Repository.FILE_PROPERTIES, prop);
 			log.debug("[Starting Memory & File Properties][OK]");
 
-
-			
-//			log.debug("[DB Connection]");
-//			// Connessione al DB...
-//			DBConnection.setConfig(DBConnection.params.DRIVER, memory.get("db.driver@@"+Repository.FILE_PROPERTIES));
-//			DBConnection.setConfig(DBConnection.params.URL, memory.get("db.url@"+Repository.FILE_PROPERTIES));
-//			DBConnection.setConfig(DBConnection.params.USERNAME, memory.get("db.user@"+Repository.FILE_PROPERTIES));
-//			DBConnection.setConfig(DBConnection.params.PASSWORD, memory.get("db.pw@"+Repository.FILE_PROPERTIES));
-//			conn = DBConnection.getConnection();
-//			log.debug("[DB Connection][OK]");
-			
-			conn = new DatabaseConnection(genericConn);
+			//conn = new DatabaseConnection(genericConn);
 			
 			InputStream iS = this.getClass().getResourceAsStream(fileConfigTest);
 
@@ -255,14 +249,22 @@ public class MainTestCase extends DatabaseTestCase {
 			log.error("Exception in MainTestCase.execute() ", e);
 			throw e;
 		}finally{
-			try {
-				if (conn!=null){
-					conn.close();
-					conn = null;
-				}
-			} catch (Exception e) {
-				log.error("Exception during database connection close", e );
-			}
+            Hashtable hashObject = memory.getAllObject();
+            Enumeration elements = hashObject.elements();
+            while(elements.hasMoreElements()){
+                Object obj = elements.nextElement();
+                if (obj instanceof Connection){
+                    Connection conn = (Connection)obj;
+                    try {
+                        if (conn!=null){
+                            conn.close();
+                            conn = null;
+                        }
+                    } catch (Exception e) {
+                        log.error("Exception during database connection close", e );
+                    }
+                }
+            }
 		}
 	}
 	
@@ -279,7 +281,11 @@ public class MainTestCase extends DatabaseTestCase {
         try {
             if (obj instanceof DbCheck) {
                 DbCheck dbCheck = (DbCheck) obj;
-                dbCheck.checkDB(memory, conn, step);
+
+                log.info("checkDB connection "+dbCheck.getConnection());
+                Connection connDbCheck = memory.getConnectionByName(dbCheck.getConnection());
+
+                dbCheck.checkDB(memory, new DatabaseConnection(connDbCheck), step);
             } else if (obj instanceof HTTPClient) {
                 httpClient = (HTTPClient) obj;
                 //httpClient.reload(memory);
@@ -324,6 +330,7 @@ public class MainTestCase extends DatabaseTestCase {
 							connection.getUsername(),
 							connection.getPassword()
 							);
+                    log.info("Connection hhhhh "+connection.getName());
 					memory.setConnection(connection.getName(), conn);
 					
 				}

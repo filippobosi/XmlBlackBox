@@ -7,6 +7,7 @@ import org.xmlblackbox.test.infrastructure.replacement.ReplaceFromXML;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ExecuteQuery extends XmlElement{
 	private final static Logger log = Logger.getLogger(ExecuteQuery.class);
     private Map<String, String> parameters = new HashMap<String, String>();
 
+    private String connection;
 
     private List queryList = new Vector();
 
@@ -46,6 +48,7 @@ public class ExecuteQuery extends XmlElement{
 		log.info("executeQueryElement.getAttributeValue(nome) "+executeQueryElement.getAttributeValue("nome"));
 		log.info("executeQueryElement.getChildren(\"QUERY\").size() "+executeQueryElement.getChildren("QUERY").size());
 		queryList = new Vector();
+        connection = executeQueryElement.getAttributeValue("CONNECTION");
 
         Element parametersElement = executeQueryElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
@@ -95,6 +98,13 @@ public class ExecuteQuery extends XmlElement{
      */
     public void setQueryList(List queryList) {
         this.queryList = queryList;
+    }
+
+    /**
+     * @return the connection
+     */
+    public String getConnection() {
+        return connection;
     }
 
 }

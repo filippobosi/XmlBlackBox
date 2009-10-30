@@ -7,6 +7,15 @@
             db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
             username="sgate_tugurio" password="sgate_tugurio"/>
     </DB-CONNECTIONS>
+    <EXECUTE-QUERY nome="EliminazioneUtente">
+        <QUERY name="EliminaUtente" query="DELETE FROM UTENTE WHERE USERID='${USERNAME_ACQUNICO@testProp}'" type="DELETE"/>
+    </EXECUTE-QUERY>
+    <DATASETS_DBUNIT nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium " connection="SGATE-CONNECTION2">
+        <dataset>
+            <RICHIESTA_VARIAZ ID_DOMANDA_AGEV="11111" STATO_RICHIESTA="presaInCarico"/>
+            <SEGNALAZIONE_SGATE ID_DOMANDA_AGEV="11111" STATO_SEGNALAZIONE="presaInCarico" DTYPE="SC" />
+        </dataset>
+    </DATASETS_DBUNIT>
     <!--RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.PresaInCaricoSvuotaCodeXBB" >
             <PARAMETERS>
     			<PARAMETER name="SGATE_WEB_SERVICE_URL" value="${SGATE_WEB_SERVICE_URL@fileProperties}" />

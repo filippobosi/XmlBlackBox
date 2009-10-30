@@ -44,6 +44,7 @@ public class DbCheck extends XmlElement{
 	private String motivo;
 	private List listaInsert = new Vector();
 	private Map<String, String> parameters = new HashMap<String, String>();
+    private String connection;
 
 	public DbCheck(Element el) throws Exception {
 		super(el);
@@ -59,6 +60,8 @@ public class DbCheck extends XmlElement{
     	dbCheck.setTipo((String)dbcheckElement.getAttributeValue("type"));
     	dbCheck.setDatabase((String)dbcheckElement.getAttributeValue("database"));
     	dbCheck.setAutomatico((String)dbcheckElement.getAttributeValue("automatic"));
+
+        connection = dbcheckElement.getAttributeValue("connection");
 
         Element parametersElement = dbcheckElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
@@ -257,6 +260,13 @@ public class DbCheck extends XmlElement{
 			logger.debug("Tables name"+ tableNames[k]);
 		}
 	}
+
+    /**
+     * @return the connection
+     */
+    public String getConnection() {
+        return connection;
+    }
 
 	
 }
