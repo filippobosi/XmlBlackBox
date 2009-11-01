@@ -137,7 +137,7 @@ public class SetVariable extends XmlElement{
     public static void setVariableFromDb(Set currentSet, MemoryData memory) throws TestException {
         try {
 
-            Properties prop = memory.getOrCreateRepository(SetVariable.getRepositoryName());
+            Properties prop = memory.getOrCreateRepository(Repository.SET_VARIABLE);
             IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(currentSet.getConnection()));
 
             log.info("query: " + currentSet.getQuery());

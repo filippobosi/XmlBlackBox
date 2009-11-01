@@ -362,6 +362,8 @@ public class MainTestCase extends DatabaseTestCase {
                 ExecuteQuery executeQuery = (ExecuteQuery) obj;
                 Iterator<Query> iter = executeQuery.getQueryList().iterator();
                 log.info("ExecuteQuery");
+                IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(executeQuery.getConnection()));
+
                 while(iter.hasNext()){
                     Query query = iter.next();
                     log.info("Run query "+query.getQuery()+" about xml object "+query.getNome());
