@@ -294,10 +294,10 @@ public class MainTestCase extends DatabaseTestCase {
                 webNavigationProp.putAll(httpClient.getParameters());
 
                 if (httpClient.getType().equals(HTTPClient.WEB_HTTPTESTER)){
-                    httpTestCase = httpClient.executeHttpClient(conn, memory.getOrCreateRepository(Repository.FILE_PROPERTIES), httpClient, httpTestCase);
+                    httpTestCase = httpClient.executeHttpClient(httpClient, httpTestCase, memory);
                     webNavigationProp.putAll(httpTestCase.getResultVariables());
                 }else if (httpClient.getType().equals(HTTPClient.WEB_SELENIUM)){
-                    selenium = httpClient.executeSelenium(conn, memory, selenium);
+                    selenium = httpClient.executeSelenium(memory, selenium);
                 }else if (httpClient.getType().equals(HTTPClient.UPLOAD_FILE)){
 
                     memory.getOrCreateRepository(Repository.WEB_NAVIGATION).putAll(memory.getRepository(Repository.FILE_PROPERTIES));
@@ -351,7 +351,7 @@ public class MainTestCase extends DatabaseTestCase {
                         }else if(currentSet.getType().equals(Set.XML_TYPE)){
                             SetVariable.setVariableFromXml(currentSet, memory.getOrCreateRepository(setVariable.getRepositoryName()));
                         }else if(currentSet.getType().equals(Set.DB_TYPE)) {
-                            SetVariable.setVariableFromDb(currentSet, memory.getOrCreateRepository(setVariable.getRepositoryName()), conn);
+                            SetVariable.setVariableFromDb(currentSet, memory);
                         }
                     }else{
                         throw new TestException("The type in SET tag ("+currentSet.getNome()+") is not correctly set");

@@ -23,6 +23,7 @@ public class Set {
     private String namespace;
     private String xPath;
     private String query;
+    private String connection;
 
 
     public Set(){
@@ -124,6 +125,20 @@ public class Set {
      */
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    /**
+     * @return the connection
+     */
+    public String getConnection() {
+        return connection;
+    }
+
+    /**
+     * @param connection the connection to set
+     */
+    public void setConnection(String connection) {
+        this.connection = connection;
     }
 
 

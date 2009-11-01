@@ -17,6 +17,7 @@ import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Iterator;
@@ -24,7 +25,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 import org.apache.xmlbeans.XmlObject;
+import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.ITable;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 /**
  * Es. definisce una variabile (da usare nei passi successivi del test) prendendo
@@ -73,6 +76,7 @@ public class SetVariable extends XmlElement{
                 set.setNamespace(setVariable.getAttributeValue("namespace"));
                 set.setXPath(setVariable.getAttributeValue("xpath"));
                 set.setQuery(setVariable.getAttributeValue("query"));
+                set.setConnection(setVariable.getAttributeValue("connection"));
 
 
                 getSetList().add(set);
@@ -130,8 +134,12 @@ public class SetVariable extends XmlElement{
 
     }
 
-    public static void setVariableFromDb(Set currentSet, Properties prop, IDatabaseConnection conn) throws TestException {
+    public static void setVariableFromDb(Set currentSet, MemoryData memory) throws TestException {
         try {
+
+            Properties prop = memory.getOrCreateRepository(SetVariable.getRepositoryName());
+            IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(currentSet.getConnection()));
+
             log.info("query: " + currentSet.getQuery());
             PreparedStatement prepareStatement = conn.getConnection().prepareStatement(currentSet.getQuery());
             ResultSet resultSet= prepareStatement.executeQuery();

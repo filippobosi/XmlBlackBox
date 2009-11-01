@@ -53,6 +53,8 @@ import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import com.tapsterrock.jiffie.JiffieException;
 import com.thoughtworks.selenium.Selenium;
+import java.sql.Connection;
+import org.dbunit.database.DatabaseConnection;
 /**
  * Es.
  *  Login fatta con Selenium all'indirizzo WEB_URL@testProp trovato nel
@@ -106,6 +108,7 @@ public class HTTPClient extends Runnable  {
 	private boolean waitingTerminated=false;
 	private String waitingQuery = null;
 	private String waitingTimeout= "100";
+	private String waitingConnection = null;
 	private String type;
 	
 	int timeout = -1;
@@ -186,7 +189,8 @@ public class HTTPClient extends Runnable  {
         	if (waitTerminated.getAttributeValue("timeout")!=null){
     			httpClient.setWaitingTimeout(waitTerminated.getAttributeValue("timeout"));
     		}
-    		
+            httpClient.setWaitingConnection(waitTerminated.getAttributeValue("connection"));
+
     	}
     	
 //    	if (waitTerminated!=null){
@@ -448,7 +452,7 @@ public class HTTPClient extends Runnable  {
 		}
 	}
 	
-    public Selenium executeSelenium(IDatabaseConnection conn, MemoryData memory, Selenium selenium) throws TestException, Exception{
+    public Selenium executeSelenium(MemoryData memory, Selenium selenium) throws TestException, Exception{
 
         selenium.setSpeed(memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("SELENIUM_SPEED"));
     	Class seleniumClass=Class.forName(getFileNavigation());
@@ -486,16 +490,17 @@ public class HTTPClient extends Runnable  {
            throw e;
         }
         
-        waitTask(conn);
+        waitTask(memory);
         
         return seleniumImpl.getSelenium();
     }
     
-	private void waitTask(IDatabaseConnection conn) throws TestException{
+	private void waitTask(MemoryData memory) throws TestException{
 		if (isWaitingTerminated()){
 	    	boolean waitExit = false;
 	    	int index = 0;
 	    	int timeout = new Integer(getWaitingTimeout());
+            IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(getWaitingConnection()));
 	    	while(!waitExit && (index<timeout)){
 	    		String query = getWaitingQuery();
 	    		logger.info("query "+query);
@@ -531,7 +536,7 @@ public class HTTPClient extends Runnable  {
 		}
 	}
 	
-	public HttpTestCaseSimple runHttpTester(IDatabaseConnection conn, WebNavigationSession conversation, Map resultVaribles, Properties prop, HTTPClient httpClient) throws TestException{
+	public HttpTestCaseSimple runHttpTester(WebNavigationSession conversation, Map resultVaribles, Properties prop, HTTPClient httpClient, MemoryData memory) throws TestException{
 		
         HttpTestCaseSimple httpTestCase= 
             new HttpTestCaseSimple();   
@@ -575,21 +580,22 @@ public class HTTPClient extends Runnable  {
 		}       
 		
 		
-		waitTask(conn);
+		waitTask(memory);
 
         return httpTestCase; 
 
 	}
 
 
-	public HttpTestCaseSimple executeHttpClient(IDatabaseConnection conn, Properties prop, HTTPClient httpClient, HttpTestCaseSimple httpTestCase) throws Exception {
+	public HttpTestCaseSimple executeHttpClient(HTTPClient httpClient, HttpTestCaseSimple httpTestCase, MemoryData memory) throws Exception {
         try{
+            Properties prop = memory.getOrCreateRepository(Repository.FILE_PROPERTIES);
            logger.info("Eseguito HTTP-CLIENT di tipo HTTPClient.WEB_HTTPTESTER");
            if (httpTestCase !=null){
-           	return runHttpTester(conn, httpTestCase.getWebConversation(), 
-           	httpTestCase.getResultVariables(), prop, httpClient);
+           	return runHttpTester(httpTestCase.getWebConversation(), 
+           	httpTestCase.getResultVariables(), prop, httpClient, memory);
            }else{
-        	   return runHttpTester(conn, null, null, prop, httpClient);
+        	   return runHttpTester(null, null, prop, httpClient,memory);
            }
         } catch(Exception e) {
               logger.error(e.getMessage(), e);
@@ -597,5 +603,19 @@ public class HTTPClient extends Runnable  {
           }
           
 	}
+
+    /**
+     * @return the waitingConnection
+     */
+    public String getWaitingConnection() {
+        return waitingConnection;
+    }
+
+    /**
+     * @param waitingConnection the waitingConnection to set
+     */
+    public void setWaitingConnection(String waitingConnection) {
+        this.waitingConnection = waitingConnection;
+    }
 
 }
