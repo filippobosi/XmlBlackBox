@@ -1,6 +1,7 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class GenerateInteger extends GenericRunnableFunction {
 	}
 
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination{
 		
 	}
 

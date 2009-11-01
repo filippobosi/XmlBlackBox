@@ -86,7 +86,7 @@ public class RunFunction extends XmlElement {
     	// Eseguo la funzione
     	runFunctionImpl.checkPrametersName(prop, runFunctionImpl.getParametersName());
     	// DBConnection deve essere stato gia avviato...
-    	runFunctionImpl.execute(prop,DBConnection.getConnection().getConnection()); 	
+    	runFunctionImpl.execute(prop,memory); 	
     }
 
 

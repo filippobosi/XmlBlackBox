@@ -1,6 +1,7 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -13,7 +14,7 @@ import java.util.Properties;
 public abstract class GenericRunnableFunction implements Serializable {
 
 	public abstract List<String> getParametersName();
-	public abstract void execute(Properties prop,Connection conn) throws RunFunctionAbnormalTermination ;
+	public abstract void execute(Properties prop,MemoryData memory) throws RunFunctionAbnormalTermination ;
 	
 	public void checkPrametersName(Properties prop,List parametersRequired) throws RunFunctionAbnormalTermination{
 		

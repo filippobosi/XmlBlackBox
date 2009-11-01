@@ -1,6 +1,7 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +23,7 @@ public class ExtractZipFromFile extends GenericRunnableFunction{
 	
 	
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination{
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination{
 
 		 
 		String zipFile = prop.getProperty("zipFilePath");

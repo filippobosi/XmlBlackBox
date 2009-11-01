@@ -1,6 +1,7 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ public class GenerateDate extends GenericRunnableFunction {
 	 */
 	
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(prop.getProperty("pattern"));
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH,Integer.parseInt(prop.getProperty("addOrSubDays")));
