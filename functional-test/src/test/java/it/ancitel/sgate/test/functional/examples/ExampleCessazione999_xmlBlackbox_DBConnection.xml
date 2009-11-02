@@ -7,7 +7,7 @@
             db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
             username="sgate_tugurio" password="sgate_tugurio"/>
     </DB-CONNECTIONS>
-    <EXECUTE-QUERY nome="EliminazioneUtente">
+    <EXECUTE-QUERY nome="EliminazioneUtente" connection="SGATE-CONNECTION2">
         <QUERY name="EliminaUtente" query="DELETE FROM UTENTE WHERE USERID='${USERNAME_ACQUNICO@testProp}'" type="DELETE"/>
     </EXECUTE-QUERY>
     <DATASETS_DBUNIT nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium " connection="SGATE-CONNECTION2">
