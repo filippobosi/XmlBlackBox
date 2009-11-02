@@ -62,7 +62,7 @@ public class ExampleCessazione999_xmlBlackbox_DBConnection extends MainTestCase{
         
             log.info("Esegue l'execute");
             Connection conn = null;
-			execute(this.getClass(),Configurator.getProperties(), conn);
+			execute(this.getClass(),Configurator.getProperties());
             //execute(this.getClass(),Configurator.getProperties(), DBConnection.getConnection().getConnection());
             log.info("fine execute");
    		} catch (TestException e) {

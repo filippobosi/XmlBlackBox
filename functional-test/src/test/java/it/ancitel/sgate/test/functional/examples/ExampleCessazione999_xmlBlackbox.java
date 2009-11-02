@@ -58,7 +58,7 @@ public class ExampleCessazione999_xmlBlackbox extends MainTestCase{
 			DBConnection.setConfig(DBConnection.params.URL, fileProperties.getProperty("db.url"));
 			DBConnection.setConfig(DBConnection.params.USERNAME, fileProperties.getProperty("db.user"));
 			DBConnection.setConfig(DBConnection.params.PASSWORD, fileProperties.getProperty("db.pw"));
-			execute(this.getClass(),Configurator.getProperties(), DBConnection.getConnection().getConnection());
+			execute(this.getClass(),Configurator.getProperties());
    		} catch (TestException e) {
    			log.error("Eccezione", e.getContainedException());
    			fail("Eccezione "+e);

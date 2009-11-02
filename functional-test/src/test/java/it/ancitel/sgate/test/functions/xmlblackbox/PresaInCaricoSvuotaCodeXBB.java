@@ -19,6 +19,8 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
+import org.xmlblackbox.test.infrastructure.interfaces.Repository;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 public class PresaInCaricoSvuotaCodeXBB extends GenericRunnableFunction {
 
@@ -26,8 +28,10 @@ public class PresaInCaricoSvuotaCodeXBB extends GenericRunnableFunction {
     XmlObject richiestaPIC = null;
 
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
         try {
+            Connection conn = (Connection)memory.getObjectByName(Repository.RUN_FUNCTION);
+
             String filePath = "src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebService.xml";
             RichiestaPresaInCaricoLottoDocument richiestaTmp = RichiestaPresaInCaricoLottoDocument.Factory.parse(new File(filePath));
             richiestaTmp.getRichiestaPresaInCaricoLotto().setNumeroMessaggi(50);

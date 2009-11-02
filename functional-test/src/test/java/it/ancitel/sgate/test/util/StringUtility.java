@@ -1,8 +1,8 @@
 package it.ancitel.sgate.test.util;
 
-import it.ancitel.test.infrastruttura.exception.TestException;
 
 import org.apache.log4j.Logger;
+import org.xmlblackbox.test.infrastructure.exception.TestException;
 
 
 /**

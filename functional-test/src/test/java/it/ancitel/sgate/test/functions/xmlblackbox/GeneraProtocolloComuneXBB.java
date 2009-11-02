@@ -1,18 +1,12 @@
 package it.ancitel.sgate.test.functions.xmlblackbox;
 
-import it.ancitel.sgate.test.functions.*;
-import it.ancitel.sgate.test.util.CodiceFiscale;
 import it.ancitel.sgate.test.util.StringUtility;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import java.sql.Connection;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
@@ -20,13 +14,17 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
+import org.xmlblackbox.test.infrastructure.interfaces.Repository;
+import org.xmlblackbox.test.infrastructure.util.ITableUtil;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 public class GeneraProtocolloComuneXBB extends GenericRunnableFunction {
 
     private final static Logger log = Logger.getLogger(GeneraProtocolloComuneXBB.class);
     
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
+        Connection conn = (Connection)memory.getObjectByName(Repository.RUN_FUNCTION);
 
 
         IDatabaseConnection databaseConnection = new DatabaseConnection(conn);
@@ -39,7 +37,7 @@ public class GeneraProtocolloComuneXBB extends GenericRunnableFunction {
                 log.info("protocolloComunale temp = " + protocolloComunale);
                 String query = "SELECT * FROM DOMANDA_AGEV WHERE ID_PROT_COMUNALE = '" + protocolloComunale + "'";
                 log.info("query " + query);
-                ITable protocItable = it.ancitel.test.infrastruttura.util.ITableUtil.getITable(databaseConnection, "PROTOCOLLOCOMUNALE", query);
+                ITable protocItable = ITableUtil.getITable(databaseConnection, "PROTOCOLLOCOMUNALE", query);
                 log.info("protocItable.getRowCount() " + protocItable.getRowCount());
                 if (protocItable.getRowCount() == 0) {
                     protocolloOK = true;

@@ -1,18 +1,12 @@
 package it.ancitel.sgate.test.functions.xmlblackbox;
 
 import it.ancitel.sgate.test.functions.*;
-import it.ancitel.sgate.test.util.CodiceFiscale;
-import it.ancitel.sgate.test.util.StringUtility;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
 import java.sql.Connection;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
@@ -20,13 +14,18 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
+import org.xmlblackbox.test.infrastructure.interfaces.Repository;
+import org.xmlblackbox.test.infrastructure.util.ITableUtil;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 public class GeneraPodXBB extends GenericRunnableFunction {
 
     private final static Logger log = Logger.getLogger(GeneraPodXBB.class);
     
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
+
+        Connection conn = (Connection)memory.getObjectByName(Repository.RUN_FUNCTION);
 
         IDatabaseConnection databaseConnection = new DatabaseConnection(conn);
     	// init del codice fiscale
@@ -50,7 +49,7 @@ public class GeneraPodXBB extends GenericRunnableFunction {
                 log.info("codicePODStr temp = " + codice_pod);
                 String query = "SELECT * FROM DOMANDA_AGEV WHERE NUM_POD= '" + codice_pod + "'";
                 log.info("query " + query);
-                ITable codicePODItable = it.ancitel.test.infrastruttura.util.ITableUtil.getITable(databaseConnection, "CODICEPOD", query);
+                ITable codicePODItable = ITableUtil.getITable(databaseConnection, "CODICEPOD", query);
                 log.info("codicePODItable.getRowCount() " + codicePODItable.getRowCount());
                 if (codicePODItable.getRowCount() == 0) {
                     protocolloOK = true;

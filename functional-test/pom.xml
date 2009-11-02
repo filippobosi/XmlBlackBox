@@ -209,11 +209,6 @@
 		  <version>2.2.0</version>
 	   </dependency>
 	   <dependency>
-      		<groupId>it.ancitel.test</groupId>
-			<artifactId>infrastruttura-test</artifactId>
-		  	<version>1.0</version>
-	   </dependency>
-	   <dependency>
       		<groupId>org.xmlblackbox.test</groupId>
 			<artifactId>xmlblackbox</artifactId>
 		  	<version>1.0</version>

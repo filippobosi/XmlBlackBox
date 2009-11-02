@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  * @author kewell
  */
 public class GeneraRichiesteXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
-    private final static Logger logger = Logger.getLogger(CessazioneDomandaConMotivazioni.class);
+    private final static Logger logger = Logger.getLogger(GeneraRichiesteXBB.class);
 
     @Override
 	public Selenium executeNavigation(MemoryData memory) throws Exception {

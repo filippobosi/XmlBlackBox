@@ -18,13 +18,18 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
+import org.xmlblackbox.test.infrastructure.interfaces.Repository;
+import org.xmlblackbox.test.infrastructure.util.ITableUtil;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 public class GeneraCodiceFiscaleXBB extends GenericRunnableFunction {
 
     private final static Logger log = Logger.getLogger(GeneraCodiceFiscaleXBB.class);
     
 	@Override
-	public void execute(Properties prop, Connection conn) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
+
+        Connection conn = (Connection)memory.getObjectByName(Repository.RUN_FUNCTION);
 
         IDatabaseConnection databaseConnection = new DatabaseConnection(conn);
         // init del codice fiscale
@@ -57,7 +62,7 @@ public class GeneraCodiceFiscaleXBB extends GenericRunnableFunction {
                 log.info("codiceFiscale temp = " + codiceFiscale);
                 String query = "SELECT * FROM PERSONA WHERE COD_FIS= '" + codiceFiscale + "'";
                 log.info("query " + query);
-                ITable codiceFiscaleItable = it.ancitel.test.infrastruttura.util.ITableUtil.getITable(databaseConnection, "CODICEFISCALE", query);
+                ITable codiceFiscaleItable = ITableUtil.getITable(databaseConnection, "CODICEFISCALE", query);
                 log.info("codiceFiscaleItable.getRowCount() " + codiceFiscaleItable.getRowCount());
                 if (codiceFiscaleItable.getRowCount() == 0) {
                     codiceFiscaleOK = true;
@@ -106,6 +111,7 @@ public class GeneraCodiceFiscaleXBB extends GenericRunnableFunction {
 
     	return prefixStr;
 	}
+
 
 
 }
