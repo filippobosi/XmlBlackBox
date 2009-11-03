@@ -1,0 +1,235 @@
+<TEST  nome="ExampleCessazione">
+    <RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.PresaInCaricoSvuotaCodeXBB" >
+            <PARAMETERS>
+    			<PARAMETER name="SGATE_WEB_SERVICE_URL" value="${SGATE_WEB_SERVICE_URL@fileProperties}" />
+                <PARAMETER name="username" value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+                <PARAMETER name="password" value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+                <PARAMETER name="codice_distributore" value="${CODICE_DISTRIBUTORE@fileProperties}"/>
+            </PARAMETERS>
+    </RUN-FUNCTION>
+    <RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.GeneraIseeXBB" />
+    <RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.GeneraCodiceFiscaleXBB" />
+    <RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.GeneraProtocolloComuneXBB" />
+    <RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.GeneraPodXBB">
+            <PARAMETERS>
+                    <PARAMETER  name="codice_distributore" value="${CODICE_DISTRIBUTORE@fileProperties}" />
+            </PARAMETERS>
+    </RUN-FUNCTION>
+    <XML-CONTENT
+            fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebService.xml"
+            fileoutput="target/RichiestaPresaInCaricoWebService_1_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
+	        <XML-INSERT-ROW NAME="insertCodiceDistributore"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
+                    value="${CODICE_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertLogin"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
+                    value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertPassword"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
+                    value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+	</XML-CONTENT>
+    <!--WEB-SERVICE-CLIENT nome="webservice.presaInCarico svuota coda">
+        <FILE_INPUT>target/ExampleCessazione999_1_in.xml</FILE_INPUT>
+        <FILE_OUTPUT>target/ExampleCessazione999_1_out.xml</FILE_OUTPUT>
+        <FILE_TEMPLATE>target/RichiestaPresaInCaricoWebService_1_out.xml</FILE_TEMPLATE>
+        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>it.ancitel.sgate.test.webservice.client.SgateWebServiceStub</STUB>
+        <OPERATION>PresaInCaricoLotto</OPERATION>
+        <PARAMETERS>
+            <PARAMETER name="SVUOTA_CODA_LOTTI" value="true"/>
+        </PARAMETERS>
+    </WEB-SERVICE-CLIENT-->
+    <HTTP-CLIENT nome="EsportaAnagrafica001 Login con SELENIUM">
+		<TYPE name="WEB_SELENIUM"/>
+		<FILE-NAVIGATION>it.ancitel.sgate.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
+		<PARAMETERS>
+			<PARAMETER name="SGATE_WEB_URL" value="${SGATE_WEB_URL@fileProperties}" />
+			<PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
+			<PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
+		</PARAMETERS>
+	</HTTP-CLIENT>
+    <HTTP-CLIENT nome="EsportaAnagrafica001 Crea domanda economica PRESA IN CARICO">
+		<TYPE name="WEB_SELENIUM"/>
+		<FILE-NAVIGATION>it.ancitel.sgate.test.selenium.xmlblackbox.CreaDomandaEconomicaXBB</FILE-NAVIGATION>
+		<PARAMETERS>
+			<PARAMETER name="click_button_finale" value="_finish_presenta"/>
+			<PARAMETER name="potenza_impegnata" value="3"/>
+            <PARAMETER name="codice_provincia_comune" value="${CODICE_PROVINCIA_COMUNE@fileProperties}"/>
+			<PARAMETER name="codice_comune" value="${CODICE_COMUNE@fileProperties}"/>
+			<PARAMETER name="codice_fiscale" value="${codice_fiscale@runFunction}"/>
+			<PARAMETER name="cognome" value="${cognome@runFunction}"/>
+			<PARAMETER name="nome" value="${nome@runFunction}"/>
+			<PARAMETER name="data_nascita_giorno" value="${data_nascita_giorno@runFunction}"/>
+			<PARAMETER name="data_nascita_mese" value="${data_nascita_mese@runFunction}"/>
+			<PARAMETER name="data_nascita_anno" value="${data_nascita_anno@runFunction}"/>
+			<PARAMETER name="codice_pod" value="${codice_pod@runFunction}"/>
+			<PARAMETER name="codice_isee" value="${codice_isee@runFunction}"/>
+		</PARAMETERS>
+	</HTTP-CLIENT>
+    <DATASETS_DBUNIT nome="ExampleCessazione999 verifica stato della domanda dopo creazione">
+		<dataset>
+			<DOMANDA_AGEV ID="${idDomanda@webNavigation}" STATO_DOMANDA="ammessa"/>
+			<RICHIESTA_VARIAZ ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_RICHIESTA="disponibile"/>
+		</dataset>
+		<PARAMETERS>
+			<PARAMETER name="idDomanda" value="${idDomanda@webNavigation}"/>
+		</PARAMETERS>
+	</DATASETS_DBUNIT>
+    <HTTP-CLIENT nome="ExampleCessazione999 Login come impresa con SELENIUM">
+		<TYPE name="WEB_SELENIUM"/>
+		<FILE-NAVIGATION>it.ancitel.sgate.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
+		<PARAMETERS>
+			<PARAMETER name="username" value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+			<PARAMETER name="password" value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+		</PARAMETERS>
+	</HTTP-CLIENT>
+    <HTTP-CLIENT nome="ExampleCessazione999 genera il lotto di richieste con SELENIUM">
+		<TYPE name="WEB_SELENIUM"/>
+		<FILE-NAVIGATION>it.ancitel.sgate.test.selenium.xmlblackbox.GeneraRichiesteXBB</FILE-NAVIGATION>
+	</HTTP-CLIENT>
+    <RUN-FUNCTION class="it.ancitel.sgate.test.functions.xmlblackbox.CaricaIdRichiestaSegnalazioneLottoDaIdDomandaXBB" >
+        <PARAMETERS>
+                <PARAMETER  name="idDomanda" value="${idDomanda@webNavigation}" />
+        </PARAMETERS>
+    </RUN-FUNCTION>
+
+    <SET-VARIABLE>
+        <SET name="idLottoGenerazioneRich" value="${idLotto@runFunction}" type="VALUE_TYPE"/>
+        <SET name="idRichiesta" value="${idRichiesta@runFunction}" type="VALUE_TYPE"/>
+    </SET-VARIABLE>
+    <DATASETS_DBUNIT nome="ExampleCessazione999 verifica stato dopo la generazione del lotto">
+		<dataset>
+            <RICHIESTA_COMUNICAZIONE CODICE="${idLottoGenerazioneRich@setVariable}" ID_STATO="0" />
+            <MOVIMENTI ID_RICHIESTA="${idRichiesta@setVariable}" Id_COMUNIC="${idLottoGenerazioneRich@setVariable}" TIPO_MOV="MOV_RICH"/>
+		</dataset>
+	</DATASETS_DBUNIT>
+    <HTTP-CLIENT nome="ExampleCessazione999 Login come comune con SELENIUM">
+		<TYPE name="WEB_SELENIUM"/>
+		<FILE-NAVIGATION>it.ancitel.sgate.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
+        <PARAMETERS>
+			<PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
+			<PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
+		</PARAMETERS>
+	</HTTP-CLIENT>
+    <HTTP-CLIENT nome="ExampleCessazione999 Cessazione domanda con SELENIUM">
+		<TYPE name="WEB_SELENIUM"/>
+		<FILE-NAVIGATION>it.ancitel.sgate.test.selenium.xmlblackbox.CessazioneDomandaConMotivazioniXBB</FILE-NAVIGATION>
+         <PARAMETERS>
+                <PARAMETER  name="idDomanda" value="${idDomanda@webNavigation}" />
+        </PARAMETERS>
+	</HTTP-CLIENT>
+    <DATASETS_DBUNIT nome="ExampleCessazione999 verifica stato della domanda dopo la generazione del lotto">
+		<dataset>
+			<DOMANDA_AGEV ID="${idDomanda@webNavigation}" STATO_DOMANDA="cessata"/>
+			<RICHIESTA_VARIAZ ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_RICHIESTA="disponibile"/>
+            <SEGNALAZIONE_SGATE ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_SEGNALAZIONE="disponibile" DTYPE="SC" />
+		</dataset>
+	</DATASETS_DBUNIT>
+
+    <WEB-SERVICE-CLIENT nome="webservice.richiestaPresaInCarico">
+        <FILE_INPUT>target/ExampleCessazione999_2_in.xml</FILE_INPUT>
+        <FILE_OUTPUT>target/ExampleCessazione999_2_out.xml</FILE_OUTPUT>
+        <FILE_TEMPLATE>target/RichiestaPresaInCaricoWebService_1_out.xml</FILE_TEMPLATE>
+        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>it.ancitel.sgate.test.webservice.client.SgateWebServiceStub</STUB>
+        <OPERATION>PresaInCaricoLotto</OPERATION>
+    </WEB-SERVICE-CLIENT>
+    <VALIDATE-XML 
+        xml="target/ExampleCessazione999_2_out.xml"
+        xsd="${XSD_SGATE@fileProperties}" />
+
+    <SET-VARIABLE>
+        <SET name="idLotto" filename="target/ExampleCessazione999_2_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';"
+            xpath="$this//xsd:rispostaPresaInCaricoLotto/xsd:lottoMessaggi/xsd:idLotto"
+            type="XML_TYPE"/>
+    </SET-VARIABLE>
+    <XML-CONTENT
+            fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebServiceConIdUltimoLottoRicevuto.xml"
+            fileoutput="target/RichiestaPresaInCaricoWebServiceConLotto_1_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
+	        <XML-INSERT-ROW NAME="insertCodiceDistributore"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
+                    value="${CODICE_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertLogin"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
+                    value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertPassword"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
+                    value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertPassword"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:idUltimoLottoRicevutoCorrettamente"
+                    value="${idLotto@setVariable}"/>
+	</XML-CONTENT>
+    <WEB-SERVICE-CLIENT nome="webservice.effettivaPresaInCarico">
+        <FILE_INPUT>target/ExampleCessazione999_3_in.xml</FILE_INPUT>
+        <FILE_OUTPUT>target/ExampleCessazione999_3_out.xml</FILE_OUTPUT>
+        <FILE_TEMPLATE>target/RichiestaPresaInCaricoWebServiceConLotto_1_out.xml</FILE_TEMPLATE>
+        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>it.ancitel.sgate.test.webservice.client.SgateWebServiceStub</STUB>
+        <OPERATION>PresaInCaricoLotto</OPERATION>
+    </WEB-SERVICE-CLIENT>
+    <WEB-SERVICE-CLIENT nome="webservice.richiestaPresaInCarico">
+        <FILE_INPUT>target/ExampleCessazione999_4_in.xml</FILE_INPUT>
+        <FILE_OUTPUT>target/ExampleCessazione999_4_out.xml</FILE_OUTPUT>
+        <FILE_TEMPLATE>target/RichiestaPresaInCaricoWebService_1_out.xml</FILE_TEMPLATE>
+        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>it.ancitel.sgate.test.webservice.client.SgateWebServiceStub</STUB>
+        <OPERATION>PresaInCaricoLotto</OPERATION>
+    </WEB-SERVICE-CLIENT>
+    <SET-VARIABLE>
+        <SET name="idLotto" filename="target/ExampleCessazione999_4_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';"
+            xpath="$this//xsd:rispostaPresaInCaricoLotto/xsd:lottoMessaggi/xsd:idLotto"
+            type="XML_TYPE"/>
+    </SET-VARIABLE>
+    <XML-CONTENT
+            fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebServiceConIdUltimoLottoRicevuto.xml"
+            fileoutput="target/RichiestaPresaInCaricoWebServiceSenzaLotto_2_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
+	        <XML-INSERT-ROW NAME="insertCodiceDistributore"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
+                    value="${CODICE_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertLogin"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
+                    value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertPassword"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
+                    value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertidUltimoLottoRicevutoCorrettamente"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:idUltimoLottoRicevutoCorrettamente"
+                    value="${idLotto@setVariable}"/>
+	</XML-CONTENT>
+    <WEB-SERVICE-CLIENT nome="webservice.presaInCarico">
+		<FILE_INPUT>target/ExampleCessazione999_5_in.xml</FILE_INPUT>
+		<FILE_OUTPUT>target/ExampleCessazione999_5_out.xml</FILE_OUTPUT>
+		<FILE_TEMPLATE>target/RichiestaPresaInCaricoWebServiceSenzaLotto_2_out.xml</FILE_TEMPLATE>
+		<URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+		<STUB>it.ancitel.sgate.test.webservice.client.SgateWebServiceStub</STUB>
+		<OPERATION>PresaInCaricoLotto</OPERATION>
+	</WEB-SERVICE-CLIENT>
+    <DATASETS_DBUNIT nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
+        <dataset>
+            <RICHIESTA_VARIAZ ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_RICHIESTA="presaInCarico"/>
+            <SEGNALAZIONE_SGATE ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_SEGNALAZIONE="presaInCarico" DTYPE="SC" />
+        </dataset>
+    </DATASETS_DBUNIT>
+    <CHECK-XML-CONTENT name="CHECK-XML-CONTENT"
+            fileinput="target/ExampleCessazione999_2_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
+        <XML-CHECK-ROW name="VerificaRispostaPresaInCarico"
+            xpath="$this//xsd:rispostaPresaInCaricoLotto/xsd:lottoMessaggi/xsd:listaMessaggi/xsd:messaggio/xsd:protocollo"
+            value="${idRichiesta@setVariable}"/>
+	</CHECK-XML-CONTENT>
+</TEST>
+
+<!--
+/*
+ * $Id: $
+ * $Log: $
+ *
+ */
+
+
+-->
