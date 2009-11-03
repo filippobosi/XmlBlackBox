@@ -1,6 +1,5 @@
 package org.xmlblackbox.test.functions.xmlblackbox;
 
-import it.ancitel.sgate.test.functions.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import org.xmlblackbox.test.infrastructure.util.MemoryData;
 public class GeneraPodXBB extends GenericRunnableFunction {
 
     private final static Logger log = Logger.getLogger(GeneraPodXBB.class);
-    
+
 	@Override
 	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
 
@@ -33,7 +32,7 @@ public class GeneraPodXBB extends GenericRunnableFunction {
 		Double codicePOD =new Double((Math.random()*100000000));
 
         String codice_distributore = prop.getProperty("codice_distributore");
-        
+
 		log.info("codice_distributore = ("+codice_distributore+")");
     	String codice_pod= "IT"+codice_distributore+"E"+codicePOD.intValue();
     	String codicePODRandom = ""+codicePOD.intValue();

@@ -1,6 +1,5 @@
 package org.xmlblackbox.test.functions.xmlblackbox;
 
-import it.ancitel.sgate.test.functions.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class GeneraIseeXBB extends GenericRunnableFunction {
     	log.info("codice_isee finale = "+codice_isee);
     	prop.put("codice_isee", codice_isee);
     }
-    
+
 	@Override
 	public List<String> getParametersName() {
 		ArrayList<String> ret = new ArrayList();

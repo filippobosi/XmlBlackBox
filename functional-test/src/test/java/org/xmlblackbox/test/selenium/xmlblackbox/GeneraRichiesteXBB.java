@@ -5,7 +5,6 @@
 
 package org.xmlblackbox.test.selenium.xmlblackbox;
 
-import it.ancitel.sgate.test.selenium.*;
 import com.thoughtworks.selenium.Selenium;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;

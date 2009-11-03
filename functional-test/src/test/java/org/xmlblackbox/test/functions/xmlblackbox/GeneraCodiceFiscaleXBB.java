@@ -1,6 +1,5 @@
 package org.xmlblackbox.test.functions.xmlblackbox;
 
-import it.ancitel.sgate.test.functions.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ import org.xmlblackbox.test.util.StringUtility;
 public class GeneraCodiceFiscaleXBB extends GenericRunnableFunction {
 
     private final static Logger log = Logger.getLogger(GeneraCodiceFiscaleXBB.class);
-    
+
 	@Override
 	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
 
