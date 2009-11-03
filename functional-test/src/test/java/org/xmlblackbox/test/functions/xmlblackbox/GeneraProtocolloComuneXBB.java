@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.functions.xmlblackbox;
+package org.xmlblackbox.test.functions.xmlblackbox;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.ITableUtil;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xxmlblackbox.test.util.StringUtility;
+import org.xmlblackbox.test.util.StringUtility;
 
 public class GeneraProtocolloComuneXBB extends GenericRunnableFunction {
 

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.xxmlblackbox.test.selenium.xmlblackbox;
+package org.xmlblackbox.test.selenium.xmlblackbox;
 
 import com.thoughtworks.selenium.Selenium;
 import java.util.Properties;
@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xxmlblackbox.test.util.SgateSeleneseTestCase;
+import org.xmlblackbox.test.util.SgateSeleneseTestCase;
 
 /**
  *

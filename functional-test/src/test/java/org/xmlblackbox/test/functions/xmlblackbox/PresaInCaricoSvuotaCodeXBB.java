@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.functions.xmlblackbox;
+package org.xmlblackbox.test.functions.xmlblackbox;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 
-import org.ancitel.sgate.www.xsd.RichiestaPresaInCaricoLottoDocument;
-import org.ancitel.sgate.www.xsd.RispostaPresaInCaricoLottoDocument;
+import it.ancitel.sgate.www.xsd.RichiestaPresaInCaricoLottoDocument;
+import it.ancitel.sgate.www.xsd.RispostaPresaInCaricoLottoDocument;
 import org.apache.axis2.client.Stub;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;

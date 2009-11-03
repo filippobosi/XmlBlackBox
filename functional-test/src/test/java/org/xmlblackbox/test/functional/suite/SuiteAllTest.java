@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.functional.suite;
+package org.xmlblackbox.test.functional.suite;
 
 
 import junit.framework.Test;

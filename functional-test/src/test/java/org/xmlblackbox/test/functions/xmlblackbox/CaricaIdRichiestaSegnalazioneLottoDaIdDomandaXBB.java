@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.functions.xmlblackbox;
+package org.xmlblackbox.test.functions.xmlblackbox;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -20,8 +20,8 @@ import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTerminat
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xxmlblackbox.test.util.CodiceFiscale;
-import org.xxmlblackbox.test.util.StringUtility;
+import org.xmlblackbox.test.util.CodiceFiscale;
+import org.xmlblackbox.test.util.StringUtility;
 
 public class CaricaIdRichiestaSegnalazioneLottoDaIdDomandaXBB extends GenericRunnableFunction {
 

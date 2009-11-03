@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.util;
+package org.xmlblackbox.test.util;
 
 
 import java.io.IOException;

@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.MainTestCase;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
 import org.xmlblackbox.test.infrastructure.util.DBConnection;
-import org.xxmlblackbox.test.util.Configurator;
+import org.xmlblackbox.test.util.Configurator;
 
 /**
  *

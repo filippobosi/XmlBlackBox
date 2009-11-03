@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.functions.xmlblackbox;
+package org.xmlblackbox.test.functions.xmlblackbox;
 
 import it.ancitel.sgate.test.functions.*;
 import java.sql.SQLException;

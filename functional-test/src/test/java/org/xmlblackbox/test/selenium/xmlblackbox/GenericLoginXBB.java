@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.selenium.xmlblackbox;
+package org.xmlblackbox.test.selenium.xmlblackbox;
 
 import com.thoughtworks.selenium.*;
 import java.util.Properties;
@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xxmlblackbox.test.util.SgateSeleneseTestCase;
+import org.xmlblackbox.test.util.SgateSeleneseTestCase;
 
 
 public class GenericLoginXBB extends SgateSeleneseTestCase implements SeleniumNavigation{

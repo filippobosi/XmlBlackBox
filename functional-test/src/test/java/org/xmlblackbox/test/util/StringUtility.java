@@ -1,4 +1,4 @@
-package org.xxmlblackbox.test.util;
+package org.xmlblackbox.test.util;
 
 
 import org.apache.log4j.Logger;
