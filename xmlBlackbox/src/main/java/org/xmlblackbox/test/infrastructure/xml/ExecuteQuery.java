@@ -48,7 +48,6 @@ public class ExecuteQuery extends XmlElement{
 		log.info("executeQueryElement.getAttributeValue(nome) "+executeQueryElement.getAttributeValue("nome"));
 		log.info("executeQueryElement.getChildren(\"QUERY\").size() "+executeQueryElement.getChildren("QUERY").size());
 		queryList = new Vector();
-        connection = executeQueryElement.getAttributeValue("CONNECTION");
 
         Element parametersElement = executeQueryElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
@@ -68,12 +67,14 @@ public class ExecuteQuery extends XmlElement{
 			log.info("executeQueryElement.getAttributeValue(nome) "+executeQuery.getAttributeValue("nome"));
     		log.info("executeQueryElement.getAttributeValue(query) "+executeQuery.getAttributeValue("query"));
             log.info("executeQueryElement.getAttributeValue(type) "+executeQuery.getAttributeValue("type"));
+            log.info("executeQueryElement.getAttributeValue(connection) "+executeQuery.getAttributeValue("connection"));
 
             if (executeQuery!=null){
                 Query query = new Query();
                 query.setNome(executeQuery.getAttributeValue("name"));
                 query.setQuery(executeQuery.getAttributeValue("query"));
                 query.setType(executeQuery.getAttributeValue("type"));
+                query.setConnection(executeQuery.getAttributeValue("connection"));
 
 
                 getQueryList().add(query);

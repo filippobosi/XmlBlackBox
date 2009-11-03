@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.xxmlblackbox.test.functional.examples;
+package org.xmlblackbox.test.functional.examples;
 
 import java.sql.Connection;
 import java.util.Properties;

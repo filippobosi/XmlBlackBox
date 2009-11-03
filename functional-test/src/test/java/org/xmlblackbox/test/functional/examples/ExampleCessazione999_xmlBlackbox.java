@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.xxmlblackbox.test.functional.examples;
+package org.xmlblackbox.test.functional.examples;
 
 import java.util.Properties;
 import junit.framework.Test;

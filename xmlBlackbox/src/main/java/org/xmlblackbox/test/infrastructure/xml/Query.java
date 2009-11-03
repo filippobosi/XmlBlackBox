@@ -18,6 +18,7 @@ public class Query {
     private String nome;
 	private String query;
     private String type;
+    private String connection;
 
 
 
@@ -64,6 +65,20 @@ public class Query {
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * @return the connection
+     */
+    public String getConnection() {
+        return connection;
+    }
+
+    /**
+     * @param connection the connection to set
+     */
+    public void setConnection(String connection) {
+        this.connection = connection;
     }
 
 

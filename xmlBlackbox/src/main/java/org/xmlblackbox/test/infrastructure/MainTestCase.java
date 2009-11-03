@@ -362,10 +362,11 @@ public class MainTestCase extends DatabaseTestCase {
                 ExecuteQuery executeQuery = (ExecuteQuery) obj;
                 Iterator<Query> iter = executeQuery.getQueryList().iterator();
                 log.info("ExecuteQuery");
-                IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(executeQuery.getConnection()));
+                log.info("executeQuery.getConnection() "+executeQuery.getConnection());
 
                 while(iter.hasNext()){
                     Query query = iter.next();
+                    IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(query.getConnection()));
                     log.info("Run query "+query.getQuery()+" about xml object "+query.getNome());
                     if (query.getType().equals(Query.UPDATE) || query.getType().equals(Query.INSERT)){
                         int result = conn.getConnection().createStatement().executeUpdate(query.getQuery());
