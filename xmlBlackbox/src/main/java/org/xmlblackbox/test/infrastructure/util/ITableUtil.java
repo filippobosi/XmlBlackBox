@@ -118,9 +118,25 @@ public class ITableUtil{
 		
 		log.debug("isSetITable(expectedTable,SQL.WHERE) "+isSetITable(expectedTable,"SQL.WHERE"));
 		log.debug("isSetITable(expectedTable,SQL.ISPRESENT) "+isSetITable(expectedTable,"SQL.ISPRESENT"));
-		
+
+        String columnNames = "";
+        Column[] column = expectedTable.getTableMetaData().getColumns();
+        //Index replace i that could be not correct if a field is filled with SQL.PRESENT or SQL.WHERE
+        int index = 0;
+        for (int i = 0; i < column.length; i++) {
+            if (!column[index].getColumnName().equals(SQL_ISPRESENT) && !column[index].getColumnName().equals(SQL_WHERE)){
+                if (i==0){
+                    columnNames += column[index].getColumnName();
+                }else{
+                    columnNames += ", "+column[index].getColumnName();
+                }
+                index++;
+            }
+        }
+        log.debug("columnNames "+columnNames);
+
 		if (isSetITable(expectedTable,"SQL.WHERE")){
-			sql="SELECT * FROM "+expectedTable.getTableMetaData().getTableName()
+			sql="SELECT "+columnNames+" FROM "+expectedTable.getTableMetaData().getTableName()
 				+" WHERE " + expectedTable.getValue(0,"SQL.WHERE");
 			log.debug("SQL.WHERE sql "+sql);
 		}else{
@@ -129,19 +145,6 @@ public class ITableUtil{
 			/** 
 			 * In mancanza della opzione SQL.WHERE viene preso il primo campo come chiave
 			 */
-			String columnNames = "";
-			Column[] column = expectedTable.getTableMetaData().getColumns();
-			for (int i = 0; i < column.length; i++) {
-				if (!column[i].getColumnName().equals(SQL_ISPRESENT) && !column[i].getColumnName().equals(SQL_WHERE)){
-					if (i==0){
-						columnNames += column[i].getColumnName();
-					}else{
-						columnNames += ", "+column[i].getColumnName();
-	
-					}
-				}
-			}
-			log.debug("columnNames "+columnNames);
 			
 			sql="SELECT "+columnNames+" FROM "+expectedTable.getTableMetaData().getTableName()
 				+" WHERE " +expectedTable.getTableMetaData().getColumns()[0].getColumnName()
