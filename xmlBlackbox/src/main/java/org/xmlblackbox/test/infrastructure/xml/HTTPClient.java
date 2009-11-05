@@ -16,22 +16,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Vector;
 
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -48,7 +41,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
-import org.xmlblackbox.test.infrastructure.replacement.ReplaceFromXML;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import com.tapsterrock.jiffie.JiffieException;
@@ -94,8 +86,8 @@ public class HTTPClient extends Runnable  {
 	
 	private final static Logger logger = Logger.getLogger(HTTPClient.class);
 
-	public static String WEB_HTTPTESTER = "WEB_HTTPTESTER";
-	public static String WEB_SELENIUM = "WEB_SELENIUM";
+	public static String HTTPTESTER = "HTTPTESTER";
+	public static String SELENIUM = "SELENIUM";
 	public static String UPLOAD_FILE = "UPLOAD_FILE";
 	
 	private Map<String, String> parameters = new HashMap<String, String>();
@@ -114,9 +106,10 @@ public class HTTPClient extends Runnable  {
 	int timeout = -1;
 	
 	
-	public HTTPClient(Element el) throws Exception {
+	public HTTPClient(Element el, String type) throws Exception {
 		super(el);
-		build(el);
+        this.type = type;
+        build(el);
 	}
 	
 	public void build(Element clientElement) throws Exception {
@@ -142,9 +135,9 @@ public class HTTPClient extends Runnable  {
 		if(clientElement.getAttributeValue("start")!=null)
 			httpClient.setStartConversation(true);
     	
-    	Element timeout = clientElement.getChild("TIMEOUT");
-    	if (timeout!=null)
-    		httpClient.setTimeout(Integer.parseInt(timeout.getText()));
+//    	Element timeout = clientElement.getChild("TIMEOUT");
+//    	if (timeout!=null)
+////    		httpClient.setTimeout(Integer.parseInt(timeout.getText()));
 
     	Element fileNavigationXml= clientElement.getChild("FILE-NAVIGATION");
         logger.info("fileNavigationXml.getText() "+fileNavigationXml.getText());
@@ -152,27 +145,27 @@ public class HTTPClient extends Runnable  {
     		httpClient.setFileNavigation(fileNavigationXml.getText());
     	}
 
-    	Element fileInput= clientElement.getChild("FILE_INPUT");
-    	if (fileInput!=null){
-    		httpClient.setFileInput(fileInput.getText());
-    	}
+//    	Element fileInput= clientElement.getChild("FILE_INPUT");
+//    	if (fileInput!=null){
+//    		httpClient.setFileInput(fileInput.getText());
+//    	}
+//
+//    	Element fileOutput= clientElement.getChild("FILE_OUTPUT");
+//    	if (fileOutput!=null){
+//    		httpClient.setFileOutput(fileOutput.getText());
+//    	}
+//
+//    	Element application = clientElement.getChild("APPLICATION");
+//    	if (application!=null){
+//    		httpClient.setApplication(application.getAttributeValue("name"));
+////    	}
 
-    	Element fileOutput= clientElement.getChild("FILE_OUTPUT");
-    	if (fileOutput!=null){
-    		httpClient.setFileOutput(fileOutput.getText());
-    	}
-
-    	Element application = clientElement.getChild("APPLICATION");
-    	if (application!=null){
-    		httpClient.setApplication(application.getAttributeValue("name"));
-    	}
-
-    	Element urlApload = clientElement.getChild("URL_UPLOAD");
-		logger.info("urlApload "+urlApload);
-    	if (urlApload!=null){
-    		logger.info("urlApload.getText() "+urlApload.getText());
-    		httpClient.setUrlUpload(urlApload.getText());
-    	}
+//    	Element urlApload = clientElement.getChild("URL_UPLOAD");
+//		logger.info("urlApload "+urlApload);
+//    	if (urlApload!=null){
+//    		logger.info("urlApload.getText() "+urlApload.getText());
+//    		httpClient.setUrlUpload(urlApload.getText());
+//    	}
 
     	Element type = clientElement.getChild("TYPE");
     	if (type!=null){

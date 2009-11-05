@@ -1,7 +1,6 @@
 
 package org.xmlblackbox.test.infrastructure.xml;
 
-import org.xmlblackbox.test.infrastructure.replacement.ReplaceFromXML;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,9 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
-import org.dbunit.dataset.DataSetException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -73,10 +70,18 @@ public class ReadXmlDocument {
 		        	XmlValidate xmlValidate= new XmlValidate(element2);
 	            	listaHttpClient.add(xmlValidate);
 		            getListaCompleta().add(xmlValidate);
-		        } else if ("HTTP-CLIENT".equals(element2.getName())) {
-		        	HTTPClient httpClient= new HTTPClient(element2);
+		        } else if ("SELENIUM-CLIENT".equals(element2.getName())) {
+		        	HTTPClient httpClient= new HTTPClient(element2, HTTPClient.SELENIUM);
 	            	listaHttpClient.add(httpClient);
 		            getListaCompleta().add(httpClient);
+		        } else if ("HTTPTESTER-CLIENT".equals(element2.getName())) {
+		        	HTTPClient httpClient= new HTTPClient(element2, HTTPClient.HTTPTESTER);
+	            	listaHttpClient.add(httpClient);
+		            getListaCompleta().add(httpClient);
+		        } else if ("UPLOADER".equals(element2.getName())) {
+		        	HTTPUploader httpUploader= new HTTPUploader(element2);
+	            	listaHttpClient.add(httpUploader);
+		            getListaCompleta().add(httpUploader);
 		        } else if ("WEB-SERVICE-CLIENT".equals(element2.getName())) {
 		        	WebServiceClient wsClient = new WebServiceClient(element2);
 		        	listaWsClient.add(wsClient);

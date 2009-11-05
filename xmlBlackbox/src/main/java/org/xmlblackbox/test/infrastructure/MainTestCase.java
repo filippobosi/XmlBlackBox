@@ -3,8 +3,6 @@ package org.xmlblackbox.test.infrastructure;
 
 import com.thoughtworks.selenium.Selenium;
 
-import org.xmlblackbox.test.infrastructure.checks.CheckObject;
-import org.xmlblackbox.test.infrastructure.checks.CheckObjectImpl;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.DBConnection;
@@ -49,6 +47,7 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.xmlblackbox.test.infrastructure.util.Configurator;
+import org.xmlblackbox.test.infrastructure.xml.HTTPUploader;
 
 
 
@@ -77,6 +76,7 @@ public class MainTestCase extends DatabaseTestCase {
     private MemoryData memory = new MemoryData();
 	
 	private HTTPClient httpClient = null;
+	private HTTPUploader httpUploader = null;
 	private Selenium selenium = null;
 	
 	private HttpTestCaseSimple httpTestCase = null;
@@ -288,25 +288,28 @@ public class MainTestCase extends DatabaseTestCase {
                 dbCheck.checkDB(memory, new DatabaseConnection(connDbCheck), step);
             } else if (obj instanceof HTTPClient) {
                 httpClient = (HTTPClient) obj;
-                //httpClient.reload(memory);
 
                 Properties webNavigationProp = memory.getOrCreateRepository(Repository.WEB_NAVIGATION);
                 webNavigationProp.putAll(httpClient.getParameters());
 
-                if (httpClient.getType().equals(HTTPClient.WEB_HTTPTESTER)){
+                if (httpClient.getType().equals(HTTPClient.HTTPTESTER)){
                     httpTestCase = httpClient.executeHttpClient(httpClient, httpTestCase, memory);
                     webNavigationProp.putAll(httpTestCase.getResultVariables());
-                }else if (httpClient.getType().equals(HTTPClient.WEB_SELENIUM)){
+                }else if (httpClient.getType().equals(HTTPClient.SELENIUM)){
                     selenium = httpClient.executeSelenium(memory, selenium);
-                }else if (httpClient.getType().equals(HTTPClient.UPLOAD_FILE)){
-
-                    memory.getOrCreateRepository(Repository.WEB_NAVIGATION).putAll(memory.getRepository(Repository.FILE_PROPERTIES));
-                    memory.getOrCreateRepository(Repository.WEB_NAVIGATION).putAll(httpClient.getParameters());
-
-                    httpClient.uploadFile(memory, httpClient);
                 }else{
-                    throw new TestException("HTTP-CLIENT di tipo "+httpClient.getType() +" non esiste!!!");
+                    throw new TestException("HTTP-CLIENT type "+httpClient.getType() +" not exist!!!");
                 }
+            } else if (obj instanceof HTTPUploader) {
+                httpUploader = (HTTPUploader) obj;
+
+                Properties webNavigationProp = memory.getOrCreateRepository(Repository.WEB_NAVIGATION);
+                webNavigationProp.putAll(httpClient.getParameters());
+
+                memory.getOrCreateRepository(Repository.WEB_NAVIGATION).putAll(memory.getRepository(Repository.FILE_PROPERTIES));
+                memory.getOrCreateRepository(Repository.WEB_NAVIGATION).putAll(httpUploader.getParameters());
+
+                httpUploader.uploadFile(memory, httpUploader);
 
             } else if (obj instanceof WebServiceClient) {
                 WebServiceClient webServiceClient= (WebServiceClient) obj;
