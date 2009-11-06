@@ -72,22 +72,6 @@ public class WebServiceClient extends Runnable {
     	Element fileOutput = clientElement.getChild("FILE_OUTPUT");
     	wsClient.setFileOutput(fileOutput.getText());
 
-        Iterator templateIterator = clientElement.getChildren("FILE_TEMPLATE").iterator();
-        List templateList = new Vector();
-        
-        while (templateIterator.hasNext()){
-        	
-        	Element el=(Element) templateIterator.next();
-        	
-        	Template tm=new Template();
-        	
-        	tm.setName(el.getAttributeValue("name"));
-        	tm.setPath(el.getText());
-        	
-        	templateList.add(tm);
-        }
-        wsClient.setFileTemplate(templateList);
-
         parameters = new HashMap();
 
         Element parametersElement = clientElement.getChild("PARAMETERS");
@@ -104,26 +88,6 @@ public class WebServiceClient extends Runnable {
 
 	}
 
-	public class Template {
-		String name, path;
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getPath() {
-			return path;
-		}
-
-		public void setPath(String path) {
-			this.path = path;
-		}
-	}
-	
 	public void setUrl(String urlServizio) {
 		this.url = urlServizio;
 	}
@@ -147,14 +111,6 @@ public class WebServiceClient extends Runnable {
 	public String getOperation(){
 		return operation;
 	}
-	
-	public List getFileTemplate() {
-		return fileTemplate;
-	}
-
-	public void setFileTemplate(List fileTemplate) {
-		this.fileTemplate = fileTemplate;
-	}
 
     public HashMap<String, String> getParameters() {
         return parameters;
@@ -170,13 +126,13 @@ public class WebServiceClient extends Runnable {
 	}
 	
     public void eseguiWebService(MemoryData memory, int step) throws Exception{
-        WebServiceClient.Template template = ((WebServiceClient.Template)getFileTemplate().get(0));
+        String fileInput = getFileInput();
         XmlObject richiesta = null;
 
         WebServiceClientManager webServiceClientManager =
             new WebServiceClientManager(this, memory.getOrCreateRepository(getRepositoryName()), getNome(), step);
 
-            XmlObject richiestaTmp = XmlObject.Factory.parse(new File(template.getPath()));
+            XmlObject richiestaTmp = XmlObject.Factory.parse(new File(fileInput));
 
 //            doInsertCheck(webServiceClient, richiestaTmp, null);
             richiesta = richiestaTmp;

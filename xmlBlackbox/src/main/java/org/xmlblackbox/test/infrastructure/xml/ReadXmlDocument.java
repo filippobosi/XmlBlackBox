@@ -71,11 +71,11 @@ public class ReadXmlDocument {
 		        	XmlValidate xmlValidate= new XmlValidate(element2);
 	            	listaHttpClient.add(xmlValidate);
 		            getListaCompleta().add(xmlValidate);
-		        } else if ("SELENIUM-CLIENT".equals(element2.getName())) {
+		        } else if ("SELENIUM".equals(element2.getName())) {
 		        	HTTPClient httpClient= new HTTPClient(element2, HTTPClient.SELENIUM);
 	            	listaHttpClient.add(httpClient);
 		            getListaCompleta().add(httpClient);
-		        } else if ("HTTPTESTER-CLIENT".equals(element2.getName())) {
+		        } else if ("HTTPTESTER".equals(element2.getName())) {
 		        	HTTPClient httpClient= new HTTPClient(element2, HTTPClient.HTTPTESTER);
 	            	listaHttpClient.add(httpClient);
 		            getListaCompleta().add(httpClient);
@@ -121,6 +121,8 @@ public class ReadXmlDocument {
                     InputStream includeFile = this.getClass().getResourceAsStream(filename);
                     log.debug("includeFile "+includeFile);
                     this.loadFile(includeFile);
+                }else{
+            		log.error("Exception. The element " + element2+" does not correct");
                 }
         	} catch (Exception e) {
         		log.fatal("[!] Errore durante il build dell'oggetto " + element2);

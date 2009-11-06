@@ -37,8 +37,8 @@ public class WebServiceClientManager{
 		this.prop = prop;
 		this.nomeTestCase = nomeTestCase;		
 		this.step = step;
-		log.info("webServiceClient.getFileTemplate().size() "+webServiceClient.getFileTemplate().size());
-		richiesta=new XmlObject[webServiceClient.getFileTemplate().size()];
+		log.info("webServiceClient.getFileInput() "+webServiceClient.getFileInput());
+		richiesta=new XmlObject[1];
 	}
 
 	
@@ -57,7 +57,6 @@ public class WebServiceClientManager{
 		log.info("URL: " + webServiceClient.getUrl());
 		log.info("OPERAZIONE: " + webServiceClient.getOperation());
 		log.info("STUB: " + webServiceClient.getStub());
-		log.info("TEMPLATE: " + ((WebServiceClient.Template)webServiceClient.getFileTemplate().get(0)).getPath());
 		log.info("FILEINPUT: " + fileInput);
 		log.info("################ ");
 		
