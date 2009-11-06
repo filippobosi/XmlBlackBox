@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-public class GenerateDate extends GenericRunnableFunction {
+public class GenerateDate extends GenericRunnablePlugin {
 
 	/**
 	 * @author lele

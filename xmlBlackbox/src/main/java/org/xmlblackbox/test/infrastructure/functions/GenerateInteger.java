@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class GenerateInteger extends GenericRunnableFunction {
+public class GenerateInteger extends GenericRunnablePlugin {
 
 
 

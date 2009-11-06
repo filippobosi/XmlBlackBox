@@ -16,7 +16,7 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 
-public class ExtractZipFromFile extends GenericRunnableFunction{
+public class ExtractZipFromFile extends GenericRunnablePlugin{
 
 	 private final static Logger log = Logger.getLogger(ExtractZipFromFile.class);
 	    

@@ -14,7 +14,7 @@ import org.xmlblackbox.test.infrastructure.xml.ExecuteQuery;
 import org.xmlblackbox.test.infrastructure.xml.HTTPClient;
 import org.xmlblackbox.test.infrastructure.xml.Query;
 import org.xmlblackbox.test.infrastructure.xml.ReadXmlDocument;
-import org.xmlblackbox.test.infrastructure.xml.RunFunction;
+import org.xmlblackbox.test.infrastructure.xml.RunPlugin;
 import org.xmlblackbox.test.infrastructure.xml.Set;
 import org.xmlblackbox.test.infrastructure.xml.SetVariable;
 import org.xmlblackbox.test.infrastructure.xml.WebServiceClient;
@@ -315,10 +315,10 @@ public class MainTestCase extends DatabaseTestCase {
                 WebServiceClient webServiceClient= (WebServiceClient) obj;
                 //log.info("Eseguito il wsc "+webServiceClient.getNome());
                 webServiceClient.eseguiWebService(memory, step);
-            } else if (obj instanceof RunFunction) {
-                RunFunction runFunction= (RunFunction) obj;
+            } else if (obj instanceof RunPlugin) {
+                RunPlugin runFunction= (RunPlugin) obj;
                 //log.info("Eseguito la funzione: "+runFunction.getTemplateClass());
-                runFunction.executeFunction(memory);
+                runFunction.executePlugin(memory);
             } else if (obj instanceof XmlValidate) {
                 XmlValidate xmlValidate= (XmlValidate) obj;
                 xmlValidate.executeValidazioneXml();

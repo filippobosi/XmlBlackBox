@@ -28,6 +28,7 @@ public class ReadXmlDocument {
 	private List listaExecuteQuery = new Vector();
 	private List listaCheckXmlContent = new Vector();
 	private List listaDbConnection= new Vector();
+	private List listaPlugin = new Vector();
 	
 	private String nomeTest = null;
 	
@@ -62,7 +63,7 @@ public class ReadXmlDocument {
 	    	Element element2 = (Element) elementList.next();
 	    	log.info("[Element : " + element2 + " Name : " + element2.getName());
         	try {
-		    	if ("DATASETS_DBUNIT".equals(element2.getName())) {
+		    	if ("DATASETS-DBUNIT".equals(element2.getName())) {
 	            	DbCheck dbCheck = new DbCheck(element2);
 		            listaDBCheck.add(dbCheck);
 		            getListaCompleta().add(dbCheck);
@@ -90,10 +91,10 @@ public class ReadXmlDocument {
 		        	SetVariable setVariable = new SetVariable(element2);
 		        	listaSetVariable.add(setVariable);
 		        	getListaCompleta().add(setVariable);
-		        } else if ("RUN-FUNCTION".equals(element2.getName())) {
-		        	RunFunction runFunction = new RunFunction(element2);
-		        	listaSetVariable.add(runFunction);
-		        	getListaCompleta().add(runFunction);	        	
+		        } else if ("RUN-PLUGIN".equals(element2.getName())) {
+		        	RunPlugin runPlugin = new RunPlugin(element2);
+		        	listaPlugin.add(runPlugin);
+		        	getListaCompleta().add(runPlugin);	        	
 		        } else if ("EXECUTE-QUERY".equals(element2.getName())) {
 		        	ExecuteQuery executeQuery = new ExecuteQuery(element2);
 		        	listaExecuteQuery.add(executeQuery);

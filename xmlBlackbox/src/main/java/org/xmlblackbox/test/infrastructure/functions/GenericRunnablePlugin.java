@@ -11,7 +11,7 @@ import java.util.Properties;
 
 
 
-public abstract class GenericRunnableFunction implements Serializable {
+public abstract class GenericRunnablePlugin implements Serializable {
 
 	public abstract List<String> getParametersName();
 	public abstract void execute(Properties prop,MemoryData memory) throws RunFunctionAbnormalTermination ;

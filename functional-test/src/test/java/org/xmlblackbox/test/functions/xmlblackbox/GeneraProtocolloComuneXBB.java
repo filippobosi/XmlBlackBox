@@ -12,19 +12,19 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
-import org.xmlblackbox.test.infrastructure.functions.GenericRunnableFunction;
+import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.ITableUtil;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import org.xmlblackbox.test.util.StringUtility;
 
-public class GeneraProtocolloComuneXBB extends GenericRunnableFunction {
+public class GeneraProtocolloComuneXBB extends GenericRunnablePlugin  {
 
     private final static Logger log = Logger.getLogger(GeneraProtocolloComuneXBB.class);
     
 	@Override
 	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
-        Connection conn = (Connection)memory.getObjectByName(Repository.RUN_FUNCTION);
+        Connection conn = (Connection)memory.getObjectByName(Repository.RUN_PLUGIN);
 
 
         IDatabaseConnection databaseConnection = new DatabaseConnection(conn);
