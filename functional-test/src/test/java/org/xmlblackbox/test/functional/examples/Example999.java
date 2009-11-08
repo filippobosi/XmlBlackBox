@@ -19,16 +19,16 @@ import org.xmlblackbox.test.util.Configurator;
  *
  * @author Crea
  */
-public class ExampleCessazione999_xmlBlackbox_DBConnection extends MainTestCase{
-    private final static Logger log = Logger.getLogger(ExampleCessazione999_xmlBlackbox_DBConnection.class);
+public class Example999 extends MainTestCase{
+    private final static Logger log = Logger.getLogger(Example999.class);
 
-    public ExampleCessazione999_xmlBlackbox_DBConnection(String msg) {
+    public Example999(String msg) {
         super(msg);
     }
 
     public static Test suite() {
     	log.info("Log del TestCase ExampleCessazione999_xmlBlackbox_DBConnection Example");
-        TestSuite suite= new TestSuite(ExampleCessazione999_xmlBlackbox_DBConnection.class);
+        TestSuite suite= new TestSuite(Example999.class);
         return suite;
     }
 

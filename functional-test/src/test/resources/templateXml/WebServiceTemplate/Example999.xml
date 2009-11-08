@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:spedizione xmlns:xsd="http://www.example.xmlblackbox.org/xsd/">
+ <xsd:mittente>
+    <xsd:codiceMittente>XXX</xsd:codiceMittente>
+    <xsd:login>login</xsd:login>
+    <xsd:password>password</xsd:password>
+ </xsd:mittente>
+</xsd:spedizione>
+

@@ -24,7 +24,7 @@ public class Configurator {
   
   private final static String pathLog4JProperties ="log4j.properties";
 
-  private final static String pathPropertiesFile ="sgateTest.properties";
+  private final static String pathPropertiesFile ="exampleTest.properties";
 
   private final static String DRIVER = "DRIVER";
   private final static String URL = "URL";

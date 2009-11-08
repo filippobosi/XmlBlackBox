@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="lib" path="grinder/lib/grinder-j2se5.jar"/>
+	<classpathentry kind="lib" path="grinder/lib/grinder.jar"/>
+	<classpathentry kind="lib" path="grinder/lib/HttpTester.jar"/>
+	<classpathentry kind="lib" path="grinder/lib/jdom.jar"/>
+	<classpathentry kind="lib" path="grinder/lib/jython.jar"/>
+	<classpathentry kind="lib" path="grinder/lib/picocontainer-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/htmlparser.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/httptester-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/httpunit.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/jacob.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/jaxen-core.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/jiffie.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/saxpath.jar"/>
+	<classpathentry kind="lib" path="lib/httptester/Tidy.jar"/>
+	<classpathentry kind="lib" path="lib/ojdbc14-10.2.0.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
