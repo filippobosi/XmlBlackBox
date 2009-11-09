@@ -41,6 +41,16 @@
                     xpath="$this//xsd:spedizione/xsd:mittente/xsd:password"
                     value="gdgd!6yhfy"/>
 	</XML-CONTENT>
+    <XML-CONTENT name="XML-CONTENT Check"
+    		fileinput="target/Example999_1.xml"
+            namespace="declare namespace xsd='http://www.example.xmlblackbox.it/xsd/';">
+        <XML-CHECK-ROW name="verifica login"
+            xpath="$this//xsd:spedizione/xsd:mittente/xsd:login"
+            value="${codice_pod@setVariable}"/>
+        <XML-CHECK-ROW name="verifica password"
+            xpath="$this//xsd:spedizione/xsd:mittente/xsd:password"
+            value="gdgd!6yhfy"/>
+	</XML-CONTENT>
 <!--
     <RUN-PLUGIN class="org.xmlblackbox.test.functions.xmlblackbox.PresaInCaricoSvuotaCodeXBB" >
             <PARAMETERS>
@@ -58,7 +68,6 @@
                     <PARAMETER  name="codice_distributore" value="${CODICE_DISTRIBUTORE@fileProperties}" />
             </PARAMETERS>
     </RUN-PLUGIN>
--->
     <XML-CONTENT
             fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebService.xml"
             fileoutput="target/RichiestaPresaInCaricoWebService_1_out.xml"
@@ -248,5 +257,6 @@
             xpath="$this//xsd:rispostaPresaInCaricoLotto/xsd:lottoMessaggi/xsd:listaMessaggi/xsd:messaggio/xsd:protocollo"
             value="${idRichiesta@setVariable}"/>
 	</CHECK-XML-CONTENT>
+-->
 </TEST>
 
