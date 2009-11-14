@@ -2,6 +2,7 @@ package org.xmlblackbox.test.infrastructure.util;
 
 
 import java.io.File;
+import java.util.Properties;
 
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
@@ -45,13 +46,21 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
 		}
 	}
 
-	public void setUp(String url) {
-        logger.info("url  "+url);
+	public void setUp(String url, Properties prop) {
 
+        logger.debug("url  "+url);
+        logger.debug("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
+        logger.debug("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
+
+        
+        String server_ip = prop.getProperty("SELENIUM_HOST_SERVER");
+        Integer server_port = new Integer(prop.getProperty("SELENIUM_PORT_SERVER"));
+        
+        
         logger.info("firstSelenium "+firstSelenium);
 		if (firstSelenium == null) {
-			startServer();
-			selenium = new DefaultSelenium("localhost", 4545, "*chrome", url);
+			startServer(prop);
+			selenium = new DefaultSelenium(server_ip, server_port, "*chrome", url);
 	        logger.info("selenium "+selenium);
 			try{
 				selenium.start();
@@ -65,9 +74,12 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
 		}
 	}
 
-	private void startServer() {
-		RemoteControlConfiguration remote = new RemoteControlConfiguration();
-		remote.setPort(4545); 
+	private void startServer(Properties prop) {
+        logger.info("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
+        logger.info("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
+        
+        RemoteControlConfiguration remote = new RemoteControlConfiguration();
+		remote.setPort(new Integer(prop.getProperty("SELENIUM_PORT_SERVER"))); 
         remote.setProfilesLocation(new File("src/test/resources/firefox/"));
         remote.setFirefoxProfileTemplate(new File("src/test/resources/firefox/"));
 
