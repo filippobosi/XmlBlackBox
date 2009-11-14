@@ -75,8 +75,6 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
 	}
 
 	private void startServer(Properties prop) {
-        logger.info("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
-        logger.info("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
         
         RemoteControlConfiguration remote = new RemoteControlConfiguration();
 		remote.setPort(new Integer(prop.getProperty("SELENIUM_PORT_SERVER"))); 
