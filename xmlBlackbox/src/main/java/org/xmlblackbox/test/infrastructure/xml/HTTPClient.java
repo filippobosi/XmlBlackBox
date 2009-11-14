@@ -105,7 +105,6 @@ public class HTTPClient extends Runnable  {
 	
 	int timeout = -1;
 	
-	
 	public HTTPClient(Element el, String type) throws Exception {
 		super(el);
         this.type = type;
@@ -447,13 +446,12 @@ public class HTTPClient extends Runnable  {
 	
     public Selenium executeSelenium(MemoryData memory, Selenium selenium) throws TestException, Exception{
 
-        selenium.setSpeed(memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("SELENIUM_SPEED"));
     	Class seleniumClass=Class.forName(getFileNavigation());
 
-
-		SeleniumNavigation seleniumImpl = null;
+    	SeleniumNavigation seleniumImpl = null;
             seleniumImpl = (SeleniumNavigation)	seleniumClass.getConstructor().newInstance();
         if (selenium!=null){
+//            selenium.setSpeed(memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("SELENIUM_SPEED"));
             seleniumImpl.setSelenium(selenium);
         }
         try{

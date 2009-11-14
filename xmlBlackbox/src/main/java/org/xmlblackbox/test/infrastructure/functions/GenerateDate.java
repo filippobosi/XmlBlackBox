@@ -1,7 +1,9 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
+import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
+import org.xmlblackbox.test.infrastructure.xml.RunPlugin;
 
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
@@ -27,13 +29,16 @@ public class GenerateDate extends GenericRunnablePlugin {
 	 * @return String generateDate
 	 * 
 	 */
+	private final static Logger log = Logger.getLogger(RunPlugin.class);
+
 	
 	@Override
 	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(prop.getProperty("pattern"));
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH,Integer.parseInt(prop.getProperty("addOrSubDays")));
-		prop.put("generateDate", dateFormat.format(cal.getTime()));
+		prop.put("generatedDate", dateFormat.format(cal.getTime()));
+		log.info("generatedDate "+dateFormat.format(cal.getTime()));
 	}
 
 	@Override

@@ -1,0 +1,9 @@
+<TEST  nome="Example999">
+    <SELENIUM nome="Example999 Login con SELENIUM">
+		<FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.CorriereXBB</FILE-NAVIGATION>
+		<PARAMETERS>
+			<PARAMETER name="EXAMPLE_WEB_URL" value="www.corriere.it" />
+		</PARAMETERS>
+	</SELENIUM>
+</TEST>
+

@@ -18,7 +18,7 @@
                 <filtering>true</filtering>
             </testResource>
             <testResource>
-                <directory>src/test/java</directory>
+                <directory>src/test/java/</directory>
             </testResource>
             <testResource>
                 <directory>target/generated-sources/axis2/wsdl2code/resources/</directory>

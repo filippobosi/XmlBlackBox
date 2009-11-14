@@ -63,7 +63,7 @@ public class ReadXmlDocument {
 	    	Element element2 = (Element) elementList.next();
 	    	log.info("[Element : " + element2 + " Name : " + element2.getName());
         	try {
-		    	if ("DATASETS-DBUNIT".equals(element2.getName())) {
+		    	if ("CHECK-DB".equals(element2.getName())) {
 	            	DbCheck dbCheck = new DbCheck(element2);
 		            listaDBCheck.add(dbCheck);
 		            getListaCompleta().add(dbCheck);
@@ -99,14 +99,6 @@ public class ReadXmlDocument {
 		        	ExecuteQuery executeQuery = new ExecuteQuery(element2);
 		        	listaExecuteQuery.add(executeQuery);
 		        	getListaCompleta().add(executeQuery);
-		        } else if ("CHECK-XML-CONTENT".equals(element2.getName())) {
-		        	CheckInsertXmlContent checkXmlContent = new CheckInsertXmlContent(element2);
-		        	listaCheckXmlContent.add(checkXmlContent);
-		        	getListaCompleta().add(checkXmlContent);
-		        } else if ("INSERT-XML-CONTENT".equals(element2.getName())) {
-		        	CheckInsertXmlContent checkXmlContent = new CheckInsertXmlContent(element2);
-		        	listaCheckXmlContent.add(checkXmlContent);
-		        	getListaCompleta().add(checkXmlContent);
 		        } else if ("XML-CONTENT".equals(element2.getName())) {
                     CheckInsertXmlContent checkXmlContent = new CheckInsertXmlContent(element2);
                     listaCheckXmlContent.add(checkXmlContent);
@@ -122,7 +114,7 @@ public class ReadXmlDocument {
                     log.debug("includeFile "+includeFile);
                     this.loadFile(includeFile);
                 }else{
-            		log.error("Exception. The element " + element2+" does not correct");
+            		log.error("Exception. The element " + element2.getName()+" does not exist");
                 }
         	} catch (Exception e) {
         		log.fatal("[!] Errore durante il build dell'oggetto " + element2);

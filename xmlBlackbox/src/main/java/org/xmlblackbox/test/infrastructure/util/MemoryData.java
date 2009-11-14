@@ -153,33 +153,35 @@ public class MemoryData {
 		log.warn("---------------------------------------");
 		
 		log.warn("***************************************");
+		log.warn("memory "+memory);
 		
-		Iterator itRepo=memory.keySet().iterator();
-		while (itRepo.hasNext()){
-			String repo = (String) itRepo.next();
-			log.warn("REPOSITORY : " + repo);
-			log.warn("---------------------------------------");
-			
-			Set variables = memory.get(repo).keySet();
-			TreeSet<String> variablesOrdered=new TreeSet<String>();
-			variablesOrdered.addAll(variables);
-			
-			Iterator itVar = variablesOrdered.iterator();
-			while (itVar.hasNext()){
-				String var = (String) itVar.next();
-				try {
-					log.warn(var + " = " + get(var + "@" + repo));
-				} catch (RepositoryNotFound e) {
-					log.fatal(e);
-				} catch (InvalidVariableAnnotation e) {
-					log.fatal(e);
-				} catch (VariableNotFound e) {
-					log.fatal(e);
-				}
-			}
-			
-			log.warn("---------------------------------------");
-		}
+//		Iterator itRepo=memory.keySet().iterator();
+//		while (itRepo.hasNext()){
+//			String repo = (String) itRepo.next();
+//			log.warn("REPOSITORY : " + repo);
+//			log.warn("---------------------------------------");
+//			
+//			log.warn("memory.get("+repo+") "+memory.get(repo));
+//			Set variables = memory.get(repo).keySet();
+//			TreeSet<String> variablesOrdered=new TreeSet<String>();
+//			variablesOrdered.addAll(variables);
+//			
+//			Iterator itVar = variablesOrdered.iterator();
+//			while (itVar.hasNext()){
+//				String var = (String) itVar.next();
+//				try {
+//					log.warn(var + " = " + get(var + "@" + repo));
+//				} catch (RepositoryNotFound e) {
+//					log.fatal(e);
+//				} catch (InvalidVariableAnnotation e) {
+//					log.fatal(e);
+//				} catch (VariableNotFound e) {
+//					log.fatal(e);
+//				}
+//			}
+//			
+//			log.warn("---------------------------------------");
+//		}
 
 		log.warn("***************************************");
 	}

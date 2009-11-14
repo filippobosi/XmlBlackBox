@@ -69,9 +69,9 @@ import org.xmlblackbox.test.infrastructure.xml.HTTPUploader;
  *
  */
 
-public class MainTestCase extends DatabaseTestCase {
+public class FlowControl extends DatabaseTestCase {
 
-    private final static Logger log = Logger.getLogger(MainTestCase.class);
+    private final static Logger log = Logger.getLogger(FlowControl.class);
 
     private MemoryData memory = new MemoryData();
 	
@@ -84,13 +84,13 @@ public class MainTestCase extends DatabaseTestCase {
 	//private IDatabaseConnection conn = null;
 	private String nomeTestCase = null;
 
-	public MainTestCase(String msg) {
+	public FlowControl(String msg) {
 		super(msg);
 	}
 
 	public static Test suite() {
 		log.debug("Log di MainTestCase");
-		TestSuite suite = new TestSuite(MainTestCase.class);
+		TestSuite suite = new TestSuite(FlowControl.class);
 		return suite;
 	}
 
@@ -168,6 +168,7 @@ public class MainTestCase extends DatabaseTestCase {
 				*/
 			}
 		} catch (Exception e) {
+			log.debug("DEBUG ");
 			log.fatal("[!] Reloading variables failed",e);
 			throw e;
 		}
@@ -316,9 +317,10 @@ public class MainTestCase extends DatabaseTestCase {
                 //log.info("Eseguito il wsc "+webServiceClient.getNome());
                 webServiceClient.eseguiWebService(memory, step);
             } else if (obj instanceof RunPlugin) {
-                RunPlugin runFunction= (RunPlugin) obj;
-                //log.info("Eseguito la funzione: "+runFunction.getTemplateClass());
-                runFunction.executePlugin(memory);
+                RunPlugin runPlugin= (RunPlugin) obj;
+                log.info("Eseguito il plugin: "+runPlugin.getTemplateClass());
+                runPlugin.executePlugin(memory);
+                log.info("memory: "+memory.getRepository(Repository.RUN_PLUGIN));
             } else if (obj instanceof XmlValidate) {
                 XmlValidate xmlValidate= (XmlValidate) obj;
                 xmlValidate.executeValidazioneXml();

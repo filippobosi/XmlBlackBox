@@ -16,9 +16,9 @@ public class GenericLoginXBB extends SgateSeleneseTestCase implements SeleniumNa
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
-        super.setUp(prop.getProperty("SGATE_WEB_URL"));
+        super.setUp(prop.getProperty("EXAMPLE_WEB_URL"));
 
-        selenium.open(prop.getProperty("SGATE_WEB_URL")+"/login.htm");
+        selenium.open(prop.getProperty("EXAMPLE_WEB_URL")+"/login.htm");
         selenium.type("userId", prop.getProperty("username"));
         selenium.type("password", prop.getProperty("password"));
         selenium.click("//input[@value='Accedi']");

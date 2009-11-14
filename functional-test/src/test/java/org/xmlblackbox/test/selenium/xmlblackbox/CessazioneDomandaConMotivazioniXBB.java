@@ -25,7 +25,7 @@ public class CessazioneDomandaConMotivazioniXBB extends SgateSeleneseTestCase im
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
-        super.setUp(prop.getProperty("SGATE_WEB_URL"));
+        super.setUp(prop.getProperty("EXAMPLE_WEB_URL"));
 
         selenium.open("/sgate-web/security-area/home.htm");
 		selenium.click("link=Ricerca ed Estrai");

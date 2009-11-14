@@ -1,39 +1,63 @@
 <TEST  nome="Example999">
-    <!--DB-CONNECTIONS>
+	<!-- Connection initialize -->
+	<!--INCLUDE-FILE filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE-->
+    <!--  DB-CONNECTIONS>
         <CONNECTION name="SGATE-CONNECTION199" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.199:1521:SVILSGATE"
             username="sgate_1" password="sgate_1"/>
         <CONNECTION name="SGATE-CONNECTION82" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
             username="sgate_tugurio" password="sgate_tugurio"/>
-    </DB-CONNECTIONS>
+    </DB-CONNECTIONS-->
+    <!-- setVariable example getting value from db chosing-->
     <SET-VARIABLE>
         <SET connection="SGATE-CONNECTION199" name="codice_pod" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" type="DB_TYPE" />
     </SET-VARIABLE>
+    
+    <!-- execute query example updating STATO_DOMANDA to 'sospesa' in db-->
+    <EXECUTE-QUERY nome="CambioStatoDomanda">
+        <QUERY connection="SGATE-CONNECTION199" name="CambioDataAgevolazione" query="UPDATE DOMANDA_AGEV SET STATO_DOMANDA='sospesa' WHERE ID=45111" type="UPDATE"/>
+    </EXECUTE-QUERY>
+    <!-- Checkdb example verify STATO_DOMANDA is sospesa-->
+	<CHECK-DB connection="SGATE-CONNECTION199" nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
+        <dataset>
+            <DOMANDA_AGEV ID="45111" STATO_DOMANDA="sospesa"/>
+        </dataset>
+    </CHECK-DB>
+    <!-- execute query example updating STATO_DOMANDA to 'ammessa' in db-->
     <EXECUTE-QUERY nome="CambioStatoDomanda">
         <QUERY connection="SGATE-CONNECTION199" name="CambioDataAgevolazione" query="UPDATE DOMANDA_AGEV SET STATO_DOMANDA='ammessa' WHERE ID=45111" type="UPDATE"/>
     </EXECUTE-QUERY>
-    <DATASETS_DBUNIT connection="SGATE-CONNECTION199" nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
+    <!-- Checkdb example verify STATO_DOMANDA is 'ammessa' chosing the connection-->
+    <CHECK-DB connection="SGATE-CONNECTION199" nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
         <dataset>
-            <RICHIESTA_VARIAZ ID_DOMANDA_AGEV="45111" STATO_RICHIESTA="disponibile"/>
+            <DOMANDA_AGEV ID="45111" STATO_DOMANDA="ammessa"/>
         </dataset>
-    </DATASETS_DBUNIT>
+    </CHECK-DB>
+    <!-- Execute a Plugin to create a date (-30 days from today) with a certain pattern -->
     <RUN-PLUGIN class="org.xmlblackbox.test.infrastructure.functions.GenerateDate" >
             <PARAMETERS>
     			<PARAMETER name="pattern" value="yyyyMMdd" />
                 <PARAMETER name="addOrSubDays" value="-30"/>
             </PARAMETERS>
-    </RUN-PLUGIN-->
+    </RUN-PLUGIN>
+    <!-- Example setVariable with VALUE_TYPE -->
     <SET-VARIABLE>
-        <SET name="codice_pod" value='codicePOD'" type="VALUE_TYPE" />
+        <SET name="codice_pid" value="codicePID" type="VALUE_TYPE" />
     </SET-VARIABLE>
+    <!-- Example setVariable with VALUE_TYPE fromn another variable (the one craeted with Plugin execution)-->
+    <SET-VARIABLE>
+        <SET name="generatedDate" value="${generatedDate@runPlugin}" type="VALUE_TYPE" />
+    </SET-VARIABLE>
+    
+    <!-- Example for creating an Xml file with modified value -->
     <XML-CONTENT
             fileinput="src/test/resources/templateXml/WebServiceTemplate/Example999.xml"
             fileoutput="target/Example999_1_out.xml"
             namespace="declare namespace xsd='http://www.example.xmlblackbox.org/xsd/';">
 	        <XML-INSERT-ROW NAME="insertMittente"
                     xpath="$this//xsd:spedizione/xsd:mittente/xsd:codiceMittente"
-                    value="${codice_pod@setVariable}"/>
+                    value="${codice_pid@setVariable}"/>
 	        <XML-INSERT-ROW NAME="insertLogin"
                     xpath="$this//xsd:spedizione/xsd:mittente/xsd:login"
                     value="${USERNAME@fileProperties}"/>
@@ -41,20 +65,65 @@
                     xpath="$this//xsd:spedizione/xsd:mittente/xsd:password"
                     value="gdgd!6yhfy"/>
 	</XML-CONTENT>
+	<!-- Example to verify values in xml file -->
     <XML-CONTENT name="XML-CONTENT Check"
-    		fileinput="target/Example999_1.xml"
-            namespace="declare namespace xsd='http://www.example.xmlblackbox.it/xsd/';">
+    		fileinput="target/Example999_1_out.xml"
+            namespace="declare namespace xsd='http://www.example.xmlblackbox.org/xsd/';">
         <XML-CHECK-ROW name="verifica login"
             xpath="$this//xsd:spedizione/xsd:mittente/xsd:login"
-            value="${codice_pod@setVariable}"/>
+            value="${USERNAME@fileProperties}"/>
         <XML-CHECK-ROW name="verifica password"
             xpath="$this//xsd:spedizione/xsd:mittente/xsd:password"
             value="gdgd!6yhfy"/>
 	</XML-CONTENT>
+	
+	<!-- Example to create xml file for the following web-service-client -->
+    <XML-CONTENT
+            fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebService.xml"
+            fileoutput="target/Example999_RichiestaPresaInCaricoWebService_1_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
+	        <XML-INSERT-ROW NAME="insertCodiceDistributore"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
+                    value="${CODICE_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertLogin"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
+                    value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+	        <XML-INSERT-ROW NAME="insertPassword"
+                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
+                    value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+	</XML-CONTENT>
+	
+    <WEB-SERVICE-CLIENT nome="webservice.richiestaPresaInCarico">
+        <FILE_INPUT>target/Example999_RichiestaPresaInCaricoWebService_1_out.xml</FILE_INPUT>
+        <FILE_OUTPUT>target/Example999_RispostaPresaIncarico_out.xml</FILE_OUTPUT>
+        <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
+        <OPERATION>PresaInCaricoLotto</OPERATION>
+    </WEB-SERVICE-CLIENT>
+    
+    <VALIDATE-XML 
+        xml="target/Example999_RispostaPresaIncarico_out.xml"
+        xsd="${XSD_EXAMPLE@fileProperties}" />
+
+    <SET-VARIABLE>
+        <SET name="idLotto" filename="target/Example999_RispostaPresaIncarico_out.xml"
+            namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';"
+            xpath="$this//xsd:rispostaPresaInCaricoLotto/xsd:lottoMessaggi/xsd:idLotto"
+            type="XML_TYPE"/>
+    </SET-VARIABLE>
+    <SELENIUM nome="Example999 Login con SELENIUM">
+		<FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
+		<PARAMETERS>
+			<PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />
+			<PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
+			<PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
+		</PARAMETERS>
+	</SELENIUM>
+    
 <!--
     <RUN-PLUGIN class="org.xmlblackbox.test.functions.xmlblackbox.PresaInCaricoSvuotaCodeXBB" >
             <PARAMETERS>
-    			<PARAMETER name="SGATE_WEB_SERVICE_URL" value="${SGATE_WEB_SERVICE_URL@fileProperties}" />
+    			<PARAMETER name="EXAMPLE_WEB_SERVICE_URL" value="${EXAMPLE_WEB_SERVICE_URL@fileProperties}" />
                 <PARAMETER name="username" value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
                 <PARAMETER name="password" value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
                 <PARAMETER name="codice_distributore" value="${CODICE_DISTRIBUTORE@fileProperties}"/>
@@ -108,7 +177,7 @@
 			<PARAMETER name="codice_isee" value="${codice_isee@runFunction}"/>
 		</PARAMETERS>
 	</SELENIUM>
-    <DATASETS_DBUNIT nome="Example999 verifica stato della domanda dopo creazione">
+    <CHECK-DB nome="Example999 verifica stato della domanda dopo creazione">
 		<dataset>
 			<DOMANDA_AGEV ID="${idDomanda@webNavigation}" STATO_DOMANDA="ammessa"/>
 			<RICHIESTA_VARIAZ ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_RICHIESTA="disponibile"/>
@@ -116,7 +185,7 @@
 		<PARAMETERS>
 			<PARAMETER name="idDomanda" value="${idDomanda@webNavigation}"/>
 		</PARAMETERS>
-	</DATASETS_DBUNIT>
+	</CHECK-DB>
     <SELENIUM nome="Example999 Login come impresa con SELENIUM">
 		<TYPE name="WEB_SELENIUM"/>
 		<FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
@@ -139,12 +208,12 @@
         <SET name="idLottoGenerazioneRich" value="${idLotto@runFunction}" type="VALUE_TYPE"/>
         <SET name="idRichiesta" value="${idRichiesta@runFunction}" type="VALUE_TYPE"/>
     </SET-VARIABLE>
-    <DATASETS_DBUNIT nome="Example999 verifica stato dopo la generazione del lotto">
+    <CHECK-DB nome="Example999 verifica stato dopo la generazione del lotto">
 		<dataset>
             <RICHIESTA_COMUNICAZIONE CODICE="${idLottoGenerazioneRich@setVariable}" ID_STATO="0" />
             <MOVIMENTI ID_RICHIESTA="${idRichiesta@setVariable}" Id_COMUNIC="${idLottoGenerazioneRich@setVariable}" TIPO_MOV="MOV_RICH"/>
 		</dataset>
-	</DATASETS_DBUNIT>
+	</CHECK-DB>
     <SELENIUM nome="Example999 Login come comune con SELENIUM">
 		<FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
         <PARAMETERS>
@@ -158,24 +227,24 @@
                 <PARAMETER  name="idDomanda" value="${idDomanda@webNavigation}" />
         </PARAMETERS>
 	</SELENIUM>
-    <DATASETS_DBUNIT nome="Example999 verifica stato della domanda dopo la generazione del lotto">
+    <CHECK-DB nome="Example999 verifica stato della domanda dopo la generazione del lotto">
 		<dataset>
 			<DOMANDA_AGEV ID="${idDomanda@webNavigation}" STATO_DOMANDA="cessata"/>
 			<RICHIESTA_VARIAZ ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_RICHIESTA="disponibile"/>
             <SEGNALAZIONE_SGATE ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_SEGNALAZIONE="disponibile" DTYPE="SC" />
 		</dataset>
-	</DATASETS_DBUNIT>
+	</CHECK-DB>
 
     <WEB-SERVICE-CLIENT nome="webservice.richiestaPresaInCarico">
         <FILE_INPUT>target/RichiestaPresaInCaricoWebService_1_out.xml</FILE_INPUT>
         <FILE_OUTPUT>target/Example999_2_out.xml</FILE_OUTPUT>
-        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
         <STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
         <OPERATION>PresaInCaricoLotto</OPERATION>
     </WEB-SERVICE-CLIENT>
     <VALIDATE-XML 
         xml="target/Example999_2_out.xml"
-        xsd="${XSD_SGATE@fileProperties}" />
+        xsd="${XSD_EXAMPLE@fileProperties}" />
 
     <SET-VARIABLE>
         <SET name="idLotto" filename="target/Example999_2_out.xml"
@@ -203,14 +272,14 @@
     <WEB-SERVICE-CLIENT nome="webservice.effettivaPresaInCarico">
         <FILE_INPUT>target/RichiestaPresaInCaricoWebServiceConLotto_1_out.xml</FILE_INPUT>
         <FILE_OUTPUT>target/Example999_3_out.xml</FILE_OUTPUT>
-        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
         <STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
         <OPERATION>PresaInCaricoLotto</OPERATION>
     </WEB-SERVICE-CLIENT>
     <WEB-SERVICE-CLIENT nome="webservice.richiestaPresaInCarico">
         <FILE_INPUT>target/RichiestaPresaInCaricoWebService_1_out.xml</FILE_INPUT>
         <FILE_OUTPUT>target/Example999_4_out.xml</FILE_OUTPUT>
-        <URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+        <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
         <STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
         <OPERATION>PresaInCaricoLotto</OPERATION>
     </WEB-SERVICE-CLIENT>
@@ -240,16 +309,16 @@
     <WEB-SERVICE-CLIENT nome="webservice.presaInCarico">
 		<FILE_INPUT>target/RichiestaPresaInCaricoWebServiceSenzaLotto_2_out.xml</FILE_INPUT>
 		<FILE_OUTPUT>target/Example999_5_out.xml</FILE_OUTPUT>
-		<URL>${SGATE_WEB_SERVICE_URL@fileProperties}</URL>
+		<URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
 		<STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
 		<OPERATION>PresaInCaricoLotto</OPERATION>
 	</WEB-SERVICE-CLIENT>
-    <DATASETS_DBUNIT nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
+    <CHECK-DB nome="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
         <dataset>
             <RICHIESTA_VARIAZ ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_RICHIESTA="presaInCarico"/>
             <SEGNALAZIONE_SGATE ID_DOMANDA_AGEV="${idDomanda@webNavigation}" STATO_SEGNALAZIONE="presaInCarico" DTYPE="SC" />
         </dataset>
-    </DATASETS_DBUNIT>
+    </CHECK-DB>
     <CHECK-XML-CONTENT name="CHECK-XML-CONTENT"
             fileinput="target/Example999_2_out.xml"
             namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">

@@ -90,6 +90,7 @@ public class HTTPUploader extends Runnable  {
 	
 	private Map<String, String> parameters = new HashMap<String, String>();
 	private String fileNavigation= null;
+	private String urlLogin= null;
 	private String urlUpload= null;
 	private String fileToUpload = null;
 	
@@ -124,12 +125,20 @@ public class HTTPUploader extends Runnable  {
     		httpUploader.setFileToUpload(fileInput.getText());
     	}
 
-    	Element urlApload = uploaderElement.getChild("URL_UPLOAD");
+    	Element urlApload = uploaderElement.getChild("URL-UPLOAD");
 		logger.info("urlApload "+urlApload);
     	if (urlApload!=null){
     		logger.info("urlApload.getText() "+urlApload.getText());
     		httpUploader.setUrlUpload(urlApload.getText());
     	}
+    	
+    	Element urlLogin = uploaderElement.getChild("URL-LOGIN");
+		logger.info("urlLogin "+urlLogin);
+    	if (urlLogin!=null){
+    		logger.info("urlLogin.getText() "+urlLogin.getText());
+    		httpUploader.setUrlLogin(urlLogin.getText());
+    	}
+
 
 	}
 	
@@ -156,6 +165,30 @@ public class HTTPUploader extends Runnable  {
 	public String getUrlUpload() {
 		return urlUpload;
 	}
+	
+    /**
+     * @return the fileToUpload
+     */
+    public String getFileToUpload() {
+        return fileToUpload;
+    }
+
+    /**
+     * @param fileToUpload the fileToUpload to set
+     */
+    public void setFileToUpload(String fileToUpload) {
+        this.fileToUpload = fileToUpload;
+    }
+    
+	public String getUrlLogin() {
+		return urlLogin;
+	}
+
+	public void setUrlLogin(String urlLogin) {
+		this.urlLogin = urlLogin;
+	}
+
+
 
 	@Override
 	public String getRepositoryName() {
@@ -178,11 +211,8 @@ public class HTTPUploader extends Runnable  {
 
 		Properties fileProperties = memory.getOrCreateRepository(Repository.FILE_PROPERTIES);
 		
-		String httpApplicationRootUrl = fileProperties.getProperty("HTTP_APPLICATION_ROOT");
-		String loginWebUrl;
-		loginWebUrl = httpApplicationRootUrl+ fileProperties.getProperty("PATH_LOGIN");
-		logger.info("Login al "+loginWebUrl);
-		PostMethod postMethodLogin = new PostMethod(loginWebUrl);
+		logger.info("Login al "+urlLogin);
+		PostMethod postMethodLogin = new PostMethod(urlLogin);
 		NameValuePair username = new NameValuePair();
 		username.setName("userId");
 		username.setValue(usernameStr);
@@ -202,25 +232,24 @@ public class HTTPUploader extends Runnable  {
 		logger.debug("ris Login password "+passwordStr+" "+ris);
 
 		if (ris != HttpStatus.SC_MOVED_TEMPORARILY) {
-			throw new TestException("Errore alla login per fare l'upload del file");
+			throw new TestException("Error during login for uploading the file");
 		}
 		
 		XmlObject[] domandeXml = null;
-
-		
 		
 		File fileXML = new File(httpClient.getFileToUpload());
-		PostMethod postm = new PostMethod(httpApplicationRootUrl+"/"+urlUpload);
+		PostMethod postm = new PostMethod(urlUpload);
 		
 		logger.debug("fileXML.getName() "+fileXML.getName());
 		logger.debug("fileXML "+fileXML);
 		logger.debug("postm.getParams()  "+postm.getParams());
-		logger.debug("prop.getProperty(\"OPERATION_UPLOAD_NAME\") "+prop.getProperty("OPERATION_UPLOAD_NAME"));
-		logger.debug("prop.getProperty(\"OPERATION_UPLOAD_VALUE\") "+prop.getProperty("OPERATION_UPLOAD_VALUE"));
+		logger.debug("httpClient.getParameters().get(\"OPERATION_UPLOAD_NAME\") "+httpClient.getParameters().get("OPERATION_UPLOAD_NAME"));
+		logger.debug("httpClient.getParameters().get(\"OPERATION_UPLOAD_VALUE\") "+httpClient.getParameters().get("OPERATION_UPLOAD_VALUE"));
 
 		try {
                 Part[] parts = {
-					new StringPart(prop.getProperty("OPERATION_UPLOAD_NAME"), prop.getProperty("OPERATION_UPLOAD_VALUE")),
+					new StringPart(httpClient.getParameters().get("OPERATION_UPLOAD_NAME"), 
+							httpClient.getParameters().get("OPERATION_UPLOAD_VALUE")),
 					new FilePart("file", fileXML.getName(), fileXML
 							)};
 
@@ -276,21 +305,4 @@ public class HTTPUploader extends Runnable  {
 			postm.releaseConnection();
 		}
 	}
-	
-
-
-    /**
-     * @return the fileToUpload
-     */
-    public String getFileToUpload() {
-        return fileToUpload;
-    }
-
-    /**
-     * @param fileToUpload the fileToUpload to set
-     */
-    public void setFileToUpload(String fileToUpload) {
-        this.fileToUpload = fileToUpload;
-    }
-
 }

@@ -1,44 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.xmlblackbox.test.selenium.xmlblackbox;
 
-import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.*;
+import java.util.Properties;
+import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import org.xmlblackbox.test.util.SgateSeleneseTestCase;
 
-import java.util.Properties;
-import org.apache.log4j.Logger;
 
-/**
- *
- * @author kewell
- */
-public class GeneraRichiesteXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
-    private final static Logger logger = Logger.getLogger(GeneraRichiesteXBB.class);
+public class CorriereXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
+	private final static Logger logger = Logger.getLogger(CorriereXBB.class);
 
     @Override
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
+        super.setUp("http://www.corriere.it");
 
-        super.setUp(prop.getProperty("EXAMPLE_WEB_URL"));
-
-        selenium.open("/sgate-web/security-area/home.htm");
-		selenium.click("link=Richieste disponibili");
-		selenium.waitForPageToLoad("30000");
-		selenium.click("cmdGen");
-		selenium.waitForPageToLoad("90000");
-
-        //logger.info("Stop per 10 secondi");
-        //Thread.sleep(20000);
-
+        selenium.open(http://www.corriere.it);
+        selenium.waitForPageToLoad("30000");
+        
         return selenium;
-    }
+	}
 
     @Override
     public void testNew() throws Exception {

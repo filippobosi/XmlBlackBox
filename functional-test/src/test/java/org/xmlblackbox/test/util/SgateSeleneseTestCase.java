@@ -45,12 +45,18 @@ public abstract class SgateSeleneseTestCase extends SeleneseTestCase {
 	}
 
 	public void setUp(String url) {
+        logger.info("url  "+url);
 
         logger.info("firstSelenium "+firstSelenium);
 		if (firstSelenium == null) {
 			startServer();
 			selenium = new DefaultSelenium("localhost", 4545, "*chrome", url);
-			selenium.start();
+	        logger.info("selenium "+selenium);
+			try{
+				selenium.start();
+			}catch(Exception e){
+				logger.error("Exception ", e);
+			}
 			firstSelenium = selenium;
 		}
 		else {

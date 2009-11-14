@@ -1,0 +1,12 @@
+<TEST  nome="Example999">
+	<!-- Connection initialize -->
+    <DB-CONNECTIONS>
+        <CONNECTION name="SGATE-CONNECTION199" driver="oracle.jdbc.driver.OracleDriver"
+            db-url="jdbc:oracle:thin:@172.18.13.199:1521:SVILSGATE"
+            username="sgate_1" password="sgate_1"/>
+        <!--  CONNECTION name="SGATE-CONNECTION82" driver="oracle.jdbc.driver.OracleDriver"
+            db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
+            username="sgate_tugurio" password="sgate_tugurio"/-->
+    </DB-CONNECTIONS>
+</TEST>
+

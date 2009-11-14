@@ -103,7 +103,7 @@ public class Configurator {
   public static void configureLog4J() {
 
     System.out.println("File di configurazione del log "+pathLog4JProperties);
-    if (!isConfigureLog) { //Controllo se non � stato ancora configurato
+    if (!isConfigureLog) {
       System.out.println("File di configurazione del log "+pathLog4JProperties);
       InputStream is = null;
       try {

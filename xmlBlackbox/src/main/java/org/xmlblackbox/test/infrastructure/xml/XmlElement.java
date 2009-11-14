@@ -46,10 +46,13 @@ public abstract class XmlElement {
 		log.info("[Reload variables]");
 		ReplaceFromXML replacer= new ReplaceFromXML(memoryData,"${","}");
 		log.debug("- PRIMA -------------------------------------------");
+		log.debug("- xmlElement "+xmlElement);
+		
 		log.debug(new XMLOutputter().outputString(xmlElement));
 		String sReplaced=replacer.replace(new XMLOutputter().outputString(xmlElement));
 		Element replaced=new SAXBuilder(false).build(new StringReader(sReplaced)).getRootElement();
 		log.debug("- DOPO --------------------------------------------");
+		log.debug("- replaced "+replaced);
 		log.debug(new XMLOutputter().outputString(replaced));
 	    build(replaced);
 	    log.info("[Reload variables][OK]");
