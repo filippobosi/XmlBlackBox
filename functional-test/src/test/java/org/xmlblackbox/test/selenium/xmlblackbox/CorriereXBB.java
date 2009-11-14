@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.util.SgateSeleneseTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
 
 
-public class CorriereXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
+public class CorriereXBB extends SeleniumTestCase implements SeleniumNavigation{
 	private final static Logger logger = Logger.getLogger(CorriereXBB.class);
 
     @Override
@@ -18,7 +18,7 @@ public class CorriereXBB extends SgateSeleneseTestCase implements SeleniumNaviga
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
         super.setUp("http://www.corriere.it");
 
-        selenium.open(http://www.corriere.it);
+        selenium.open("http://www.corriere.it");
         selenium.waitForPageToLoad("30000");
         
         return selenium;

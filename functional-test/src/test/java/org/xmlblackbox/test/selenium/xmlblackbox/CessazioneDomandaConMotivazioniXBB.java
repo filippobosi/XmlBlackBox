@@ -11,13 +11,13 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.util.SgateSeleneseTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
 
 /**
  *
  * @author kewell
  */
-public class CessazioneDomandaConMotivazioniXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
+public class CessazioneDomandaConMotivazioniXBB extends SeleniumTestCase implements SeleniumNavigation{
 
     private final static Logger logger = Logger.getLogger(CessazioneDomandaConMotivazioniXBB.class);
 

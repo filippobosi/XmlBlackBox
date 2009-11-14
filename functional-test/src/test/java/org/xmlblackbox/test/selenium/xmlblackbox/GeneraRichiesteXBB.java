@@ -9,7 +9,7 @@ import com.thoughtworks.selenium.Selenium;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.util.SgateSeleneseTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
 
 import java.util.Properties;
 import org.apache.log4j.Logger;
@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  *
  * @author kewell
  */
-public class GeneraRichiesteXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
+public class GeneraRichiesteXBB extends SeleniumTestCase implements SeleniumNavigation{
     private final static Logger logger = Logger.getLogger(GeneraRichiesteXBB.class);
 
     @Override

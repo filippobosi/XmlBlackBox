@@ -1,4 +1,5 @@
-package org.xmlblackbox.test.util;
+package org.xmlblackbox.test.infrastructure.util;
+
 
 import java.io.File;
 
@@ -10,9 +11,9 @@ import com.thoughtworks.selenium.SeleneseTestCase;
 import com.thoughtworks.selenium.Selenium;
 import org.apache.log4j.Logger;
 
-public abstract class SgateSeleneseTestCase extends SeleneseTestCase {
+public abstract class SeleniumTestCase extends SeleneseTestCase {
 
-    private final static Logger logger = Logger.getLogger(SgateSeleneseTestCase.class);
+    private final static Logger logger = Logger.getLogger(SeleniumTestCase.class);
 
 	public abstract void testNew() throws Exception;
 
@@ -72,7 +73,8 @@ public abstract class SgateSeleneseTestCase extends SeleneseTestCase {
 
 		try {
 
-			server = new SeleniumServer(remote);
+			server = new SeleniumServer(true, remote);
+			
 
 		}
 		catch (Exception e) {

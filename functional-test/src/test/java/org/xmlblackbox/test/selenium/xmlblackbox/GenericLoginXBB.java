@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.util.SgateSeleneseTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
 
 
-public class GenericLoginXBB extends SgateSeleneseTestCase implements SeleniumNavigation{
+public class GenericLoginXBB extends SeleniumTestCase implements SeleniumNavigation{
 	private final static Logger logger = Logger.getLogger(GenericLoginXBB.class);
 
     @Override
