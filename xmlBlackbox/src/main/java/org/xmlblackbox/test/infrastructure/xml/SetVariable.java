@@ -141,6 +141,9 @@ public class SetVariable extends XmlElement{
             IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(currentSet.getConnection()));
 
             log.info("query: " + currentSet.getQuery());
+            log.info("conn: " + conn);
+            log.info("currentSet: " + currentSet);
+            log.info("conn.getConnection(): " + conn.getConnection());
             PreparedStatement prepareStatement = conn.getConnection().prepareStatement(currentSet.getQuery());
             ResultSet resultSet= prepareStatement.executeQuery();
             if (resultSet.next()){

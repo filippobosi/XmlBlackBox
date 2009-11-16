@@ -78,8 +78,8 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
         
         RemoteControlConfiguration remote = new RemoteControlConfiguration();
 		remote.setPort(new Integer(prop.getProperty("SELENIUM_PORT_SERVER"))); 
-        remote.setProfilesLocation(new File("src/test/resources/firefox/"));
-        remote.setFirefoxProfileTemplate(new File("src/test/resources/firefox/"));
+        remote.setProfilesLocation(new File(prop.getProperty("SELENIUM_BROWSER_PROFILE_LOCATION")));
+        remote.setFirefoxProfileTemplate(new File(prop.getProperty("SELENIUM_BROWSER_PROFILE_LOCATION")));
 
 		try {
 
