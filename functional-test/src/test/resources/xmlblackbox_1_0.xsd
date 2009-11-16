@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xmlblackbox="http://www.xmlblackbox.org/xsd/" elementFormDefault="qualified" targetNamespace="http://www.xmlblackbox.org/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+<xs:complexType name="TEST">
+	<xs:sequence>
+		<xs:element name="DB-CONNECTION" type="xmlblackbox:DB-CONNECTION"/>
+		<xs:element name="SET-VARIABLE" type="xmlblackbox:SET-VARIABLE"/>
+		<xs:element name="EXECUTE-QUERY" type="xmlblackbox:EXECUTE-QUERY"/>
+		<xs:element name="CHECK-DB" type="xmlblackbox:CHECK-DB"/>
+		<xs:element name="RUN-PLUGIN" type="xmlblackbox:RUN-PLUGIN"/>
+		<xs:element name="XML-CONTENT" type="xmlblackbox:XML-CONTENT"/>
+		<xs:element name="WEB-SERVICE-CLIENT" type="xmlblackbox:WEB-SERVICE-CLIENT"/>
+		<xs:element name="SELENIUM" type="xmlblackbox:SELENIUM"/>
+		<xs:element name="VALIDATE-XML" type="xmlblackbox:VALIDATE-XML"/>
+	</xs:sequence>
+	<xs:attribute name="nome" type="xs:string" use="required"/>
+</xs:complexType>
+    
+<xs:complexType name="DB-CONNECTION">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a database connection
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="CONNECTION" type="xmlblackbox:CONNECTION"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="CONNECTION">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="driver" type="xs:string" use="required"/>
+	<xs:attribute name="db-url" type="xs:string" use="required"/>
+	<xs:attribute name="username" type="xs:string" use="required"/>
+	<xs:attribute name="password" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:simpleType name="setVariableType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="XML_TYPE|VALUE_TYPE|DB_TYPE" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="SET-VARIABLE">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for setting variable
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="SET" type="xmlblackbox:SET"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="SET">
+	<xs:attribute name="connection" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" />
+	<xs:attribute name="query" type="xs:string" />
+	<xs:attribute name="filename" type="xs:string" />
+	<xs:attribute name="namespace" type="xs:string" />
+	<xs:attribute name="xpath" type="xs:string" />
+	<xs:attribute name="type" type="xmlblackbox:setVariableType"/>
+</xs:complexType>
+
+<xs:complexType name="EXECUTE-QUERY">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for executing query
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="QUERY" type="xmlblackbox:QUERY"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="QUERY">
+	<xs:attribute name="connection" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="query" type="xs:string" use="required"/>
+	<xs:attribute name="type" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="dataset">
+	<xs:attribute name="connection" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="CHECK-DB">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for db check
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="dataset" type="xmlblackbox:dataset"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="connection" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="RUN-PLUGIN">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for run a plugin
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="PARAMETERS" type="xmlblackbox:PARAMETERS"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="class" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="PARAMETERS">
+	<xs:sequence>
+		<xs:element name="PARAMETER" type="xmlblackbox:PARAMETER"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="class" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="PARAMETER">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="XML-CONTENT">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for checking xml file content
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="XML-INSERT-ROW" type="xmlblackbox:XML-ROW"/>
+		<xs:element name="XML-CHECK-ROW" type="xmlblackbox:XML-ROW"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="fileinput" type="xs:string" use="required"/>
+	<xs:attribute name="fileoutput" type="xs:string" use="required"/>
+	<xs:attribute name="namespace" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="XML-ROW">
+	<xs:attribute name="NAME" type="xs:string" use="required"/>
+	<xs:attribute name="xpath" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="WEB-SERVICE-CLIENT">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for executing a web service call
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="FILE-INPUT" type="xs:string"/>
+		<xs:element name="FILE-OUTPUT" type="xs:string"/>
+		<xs:element name="URL" type="xs:string"/>
+		<xs:element name="STUB" type="xs:string"/>
+		<xs:element name="OPERATION" type="xs:string"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="SELENIUM">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for executing a web navigation
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="FILE-NAVIGATION" type="xs:string"/>
+		<xs:element name="PARAMETERS" type="xmlblackbox:PARAMETERS"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="VALIDATE-XML">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for validating an xml file
+		</xs:documentation>
+	</xs:annotation>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="xml" type="xs:string" use="required"/>
+	<xs:attribute name="xsd" type="xs:string" use="required"/>
+</xs:complexType>
+
+
+</xs:schema>
