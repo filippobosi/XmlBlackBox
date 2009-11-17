@@ -128,8 +128,8 @@ public class HTTPClient extends Runnable  {
     	
 		HTTPClient httpClient=this;
 		logger.info("clientElement "+clientElement);
-		logger.info("clientElement.getAttributeValue(nome) "+clientElement.getAttributeValue("nome"));
-		httpClient.setNome(clientElement.getAttributeValue("nome"));
+		logger.info("clientElement.getAttributeValue(nome) "+clientElement.getAttributeValue("name"));
+		httpClient.setNome(clientElement.getAttributeValue("name"));
 		
 		if(clientElement.getAttributeValue("start")!=null)
 			httpClient.setStartConversation(true);

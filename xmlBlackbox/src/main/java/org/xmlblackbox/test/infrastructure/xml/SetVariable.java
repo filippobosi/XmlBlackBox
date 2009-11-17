@@ -62,7 +62,7 @@ public class SetVariable extends XmlElement{
 	
 	public void build(Element setVarElement) throws Exception {
 		log.info("setVarElement "+setVarElement);
-		log.info("setVarElement.getAttributeValue(nome) "+setVarElement.getAttributeValue("nome"));
+		log.info("setVarElement.getAttributeValue(nome) "+setVarElement.getAttributeValue("name"));
 		setList = new Vector();
     	Iterator<Element> setIterator = setVarElement.getChildren("SET").iterator();
     	while(setIterator.hasNext()){

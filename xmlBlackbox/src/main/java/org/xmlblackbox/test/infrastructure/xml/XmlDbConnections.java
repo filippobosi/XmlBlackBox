@@ -30,7 +30,7 @@ public class XmlDbConnections extends XmlElement{
 	
 	public void build(Element dbConnectionElement) throws Exception {
 		log.info("dbConnectionElement "+dbConnectionElement);
-		log.info("dbConnectionElement.getAttributeValue(nome) "+dbConnectionElement.getAttributeValue("nome"));
+		log.info("dbConnectionElement.getAttributeValue(nome) "+dbConnectionElement.getAttributeValue("name"));
 		setDbConnection = new Vector();
     	Iterator<Element> setIterator = dbConnectionElement.getChildren("CONNECTION").iterator();
     	while(setIterator.hasNext()){

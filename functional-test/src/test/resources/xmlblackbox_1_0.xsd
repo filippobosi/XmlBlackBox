@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xs:schema xmlns:xmlblackbox="http://www.xmlblackbox.org/xsd/" elementFormDefault="qualified" targetNamespace="http://www.xmlblackbox.org/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    
+
 <xs:complexType name="TEST">
+	<xs:annotation>
+		<xs:documentation>
+			Identify the main tag
+		</xs:documentation>
+	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="DB-CONNECTION" type="xmlblackbox:DB-CONNECTION"/>
-		<xs:element name="SET-VARIABLE" type="xmlblackbox:SET-VARIABLE"/>
-		<xs:element name="EXECUTE-QUERY" type="xmlblackbox:EXECUTE-QUERY"/>
-		<xs:element name="CHECK-DB" type="xmlblackbox:CHECK-DB"/>
-		<xs:element name="RUN-PLUGIN" type="xmlblackbox:RUN-PLUGIN"/>
-		<xs:element name="XML-CONTENT" type="xmlblackbox:XML-CONTENT"/>
-		<xs:element name="WEB-SERVICE-CLIENT" type="xmlblackbox:WEB-SERVICE-CLIENT"/>
-		<xs:element name="SELENIUM" type="xmlblackbox:SELENIUM"/>
-		<xs:element name="VALIDATE-XML" type="xmlblackbox:VALIDATE-XML"/>
+		<xs:element name="VALIDATE-XML" type="xmlblackbox:VALIDATE-XML" minOccurs="0"/>
+		<xs:element name="DB-CONNECTION" type="xmlblackbox:DB-CONNECTION" minOccurs="0"/>
+		<xs:element name="SET-VARIABLE" type="xmlblackbox:SET-VARIABLE" minOccurs="0"/>
+		<xs:element name="EXECUTE-QUERY" type="xmlblackbox:EXECUTE-QUERY" minOccurs="0"/>
+		<xs:element name="CHECK-DB" type="xmlblackbox:CHECK-DB" minOccurs="0"/>
+		<xs:element name="RUN-PLUGIN" type="xmlblackbox:RUN-PLUGIN" minOccurs="0"/>
+		<xs:element name="XML-CONTENT" type="xmlblackbox:XML-CONTENT" minOccurs="0"/>
+		<xs:element name="WEB-SERVICE-CLIENT" type="xmlblackbox:WEB-SERVICE-CLIENT" minOccurs="0"/>
+		<xs:element name="SELENIUM" type="xmlblackbox:SELENIUM" minOccurs="0"/>
 	</xs:sequence>
-	<xs:attribute name="nome" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>
     
 <xs:complexType name="DB-CONNECTION">
 	<xs:annotation>
 		<xs:documentation>
 			Identify a database connection
-	</xs:documentation>
+		</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
 		<xs:element name="CONNECTION" type="xmlblackbox:CONNECTION"/>
@@ -85,8 +90,7 @@
 </xs:complexType>
 
 <xs:complexType name="dataset">
-	<xs:attribute name="connection" type="xs:string" use="required"/>
-	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:element type="xs:string"/>
 </xs:complexType>
 
 <xs:complexType name="CHECK-DB">
@@ -111,7 +115,6 @@
 	<xs:sequence>
 		<xs:element name="PARAMETERS" type="xmlblackbox:PARAMETERS"/>
 	</xs:sequence>
-	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="class" type="xs:string" use="required"/>
 </xs:complexType>
 
@@ -140,7 +143,7 @@
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="fileinput" type="xs:string" use="required"/>
-	<xs:attribute name="fileoutput" type="xs:string" use="required"/>
+	<xs:attribute name="fileoutput" type="xs:string" use="optional"/>
 	<xs:attribute name="namespace" type="xs:string" use="required"/>
 </xs:complexType>
 
@@ -189,6 +192,8 @@
 	<xs:attribute name="xml" type="xs:string" use="required"/>
 	<xs:attribute name="xsd" type="xs:string" use="required"/>
 </xs:complexType>
+
+<xs:element name="TEST" type="xmlblackbox:TEST"/>
 
 
 </xs:schema>

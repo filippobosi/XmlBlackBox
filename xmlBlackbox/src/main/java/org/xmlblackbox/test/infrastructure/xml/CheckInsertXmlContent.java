@@ -69,7 +69,7 @@ public class CheckInsertXmlContent extends Runnable {
 	
 	public void build(Element checkInsertXmlElement) throws Exception {
 		log.info("checkInsertXmlElement "+checkInsertXmlElement);
-		log.info("checkInsertXmlElement.getAttributeValue(nome) "+checkInsertXmlElement.getAttributeValue("nome"));
+		log.info("checkInsertXmlElement.getAttributeValue(nome) "+checkInsertXmlElement.getAttributeValue("name"));
 		xmlList = new Vector();
 
         Element parametersElement = checkInsertXmlElement.getChild("PARAMETERS");

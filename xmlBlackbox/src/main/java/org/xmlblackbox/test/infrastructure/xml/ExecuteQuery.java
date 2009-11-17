@@ -45,7 +45,7 @@ public class ExecuteQuery extends XmlElement{
 	
 	public void build(Element executeQueryElement) throws DataSetException, IOException{
 		log.info("executeQueryElement "+executeQueryElement);
-		log.info("executeQueryElement.getAttributeValue(nome) "+executeQueryElement.getAttributeValue("nome"));
+		log.info("executeQueryElement.getAttributeValue(nome) "+executeQueryElement.getAttributeValue("name"));
 		log.info("executeQueryElement.getChildren(\"QUERY\").size() "+executeQueryElement.getChildren("QUERY").size());
 		queryList = new Vector();
 

@@ -117,8 +117,8 @@ public class HTTPUploader extends Runnable  {
     	
 		HTTPUploader httpUploader=this;
 		logger.info("uploaderElement "+uploaderElement);
-		logger.info("uploaderElement.getAttributeValue(nome) "+uploaderElement.getAttributeValue("nome"));
-		httpUploader.setNome(uploaderElement.getAttributeValue("nome"));
+		logger.info("uploaderElement.getAttributeValue(nome) "+uploaderElement.getAttributeValue("name"));
+		httpUploader.setNome(uploaderElement.getAttributeValue("name"));
 		
     	Element fileInput= uploaderElement.getChild("FILE-TO-UPLOAD");
     	if (fileInput!=null){

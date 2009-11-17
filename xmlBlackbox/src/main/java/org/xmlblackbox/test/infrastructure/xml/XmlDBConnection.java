@@ -29,7 +29,7 @@ public class XmlDBConnection extends XmlElement{
 		
 		XmlDBConnection dbCconnection = this;
 		
-		dbCconnection.setNome((String)dbcheckElement.getAttributeValue("nome"));
+		dbCconnection.setNome((String)dbcheckElement.getAttributeValue("name"));
 
         Element parametersElement = dbcheckElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {

@@ -56,7 +56,7 @@ user_pref("network.proxy.gopher", "172.18.0.241");
 user_pref("network.proxy.gopher_port", 5100);
 user_pref("network.proxy.http", "172.18.0.241");
 user_pref("network.proxy.http_port", 5100);
-user_pref("network.proxy.no_proxies_on", "localhost, 127.0.0.1, 172.18.13.199, 172.18.13.82, www.corriere.it");
+user_pref("network.proxy.no_proxies_on", "localhost, 127.0.0.1, 172.18.13.199, 172.18.13.82, www.corriere.it,css.corriereobjects.it,js.corriereobjects.it");
 user_pref("network.proxy.share_proxy_settings", true);
 user_pref("network.proxy.socks", "172.18.0.241");
 user_pref("network.proxy.socks_port", 5100);

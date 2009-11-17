@@ -56,7 +56,7 @@ public class ReadXmlDocument {
 	    Element element = documentJdom.getRootElement();	    
 	    Iterator elementList = element.getChildren().iterator();
 	
-	    setNomeTest(element.getAttributeValue("nome"));
+	    setNomeTest(element.getAttributeValue("name"));
     
 	    log.info("[Parsing xml elements]");
 	    while (elementList.hasNext()){

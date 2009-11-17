@@ -48,7 +48,7 @@ public class WebServiceClient extends Runnable {
 	
 	public void build(Element clientElement) throws Exception {
 		WebServiceClient wsClient=this;
-		wsClient.setNome(clientElement.getAttributeValue("nome"));
+		wsClient.setNome(clientElement.getAttributeValue("name"));
 		
 
     	Element urlServizioElement = clientElement.getChild("URL");
