@@ -90,6 +90,8 @@ public class ValidateXML {
 		ret = true;
 		}
 		catch (SAXException e) { 
+			e.printStackTrace();
+			log.error("Validazione fallita : ", e);
 			log.warn("Validazione fallita : " + e.getMessage());
 			throw new XmlValidationFault(e.getMessage());
 		} catch (IOException e) {

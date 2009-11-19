@@ -33,7 +33,7 @@ public class XmlEdit extends XmlElement implements InsertCheckList {
 	public class InsertNode {
 		
 		public InsertNode(Element elemento) {
-	    	this.setName(elemento.getAttributeValue("NAME"));
+	    	this.setName(elemento.getAttributeValue("name"));
 	    	this.setNamespace(elemento.getAttributeValue("namespace"));
 		}
 		
@@ -57,7 +57,7 @@ public class XmlEdit extends XmlElement implements InsertCheckList {
 	public class RemoveNode {
 		
 		public RemoveNode(Element elemento) {
-	    	this.setName(elemento.getAttributeValue("NAME"));
+	    	this.setName(elemento.getAttributeValue("name"));
 	    	this.setNamespace(elemento.getAttributeValue("namespace"));
 		}
 		
@@ -82,8 +82,8 @@ public class XmlEdit extends XmlElement implements InsertCheckList {
 	public class InsertField {
 		
 		public InsertField(Element elemento) {
-	    	this.setName(elemento.getAttributeValue("NAME"));
-    		this.setValue(elemento.getAttributeValue("VALUE"));
+	    	this.setName(elemento.getAttributeValue("name"));
+    		this.setValue(elemento.getAttributeValue("value"));
     		this.setNamespace(elemento.getAttributeValue("namespace"));
 		}
 		

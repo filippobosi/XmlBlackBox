@@ -1,37 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<xs:schema xmlns:xmlblackbox="http://www.xmlblackbox.org/xsd/" elementFormDefault="qualified" targetNamespace="http://www.xmlblackbox.org/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xbb="http://www.xmlblackbox.org/xsd/" elementFormDefault="qualified" targetNamespace="http://www.xmlblackbox.org/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-<xs:complexType name="TEST">
-	<xs:annotation>
-		<xs:documentation>
-			Identify the main tag
-		</xs:documentation>
-	</xs:annotation>
-	<xs:sequence>
-		<xs:element name="VALIDATE-XML" type="xmlblackbox:VALIDATE-XML" minOccurs="0"/>
-		<xs:element name="DB-CONNECTION" type="xmlblackbox:DB-CONNECTION" minOccurs="0"/>
-		<xs:element name="SET-VARIABLE" type="xmlblackbox:SET-VARIABLE" minOccurs="0"/>
-		<xs:element name="EXECUTE-QUERY" type="xmlblackbox:EXECUTE-QUERY" minOccurs="0"/>
-		<xs:element name="CHECK-DB" type="xmlblackbox:CHECK-DB" minOccurs="0"/>
-		<xs:element name="RUN-PLUGIN" type="xmlblackbox:RUN-PLUGIN" minOccurs="0"/>
-		<xs:element name="XML-CONTENT" type="xmlblackbox:XML-CONTENT" minOccurs="0"/>
-		<xs:element name="WEB-SERVICE-CLIENT" type="xmlblackbox:WEB-SERVICE-CLIENT" minOccurs="0"/>
-		<xs:element name="SELENIUM" type="xmlblackbox:SELENIUM" minOccurs="0"/>
-	</xs:sequence>
-	<xs:attribute name="name" type="xs:string" use="required"/>
-</xs:complexType>
     
-<xs:complexType name="DB-CONNECTION">
+<xs:complexType name="DB-CONNECTIONS">
 	<xs:annotation>
 		<xs:documentation>
 			Identify a database connection
 		</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="CONNECTION" type="xmlblackbox:CONNECTION"/>
+		<xs:element name="CONNECTION" type="xbb:CONNECTION" maxOccurs="unbounded"/>
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>
+
 
 <xs:complexType name="CONNECTION">
 	<xs:attribute name="name" type="xs:string" use="required"/>
@@ -51,23 +33,23 @@
 	<xs:annotation>
 		<xs:documentation>
 			Identify a step for setting variable
-	</xs:documentation>
+		</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="SET" type="xmlblackbox:SET"/>
+		<xs:element name="SET" type="xbb:SET" minOccurs="1"/>
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>
 
 <xs:complexType name="SET">
-	<xs:attribute name="connection" type="xs:string" use="required"/>
+	<xs:attribute name="connection" type="xs:string" use="optional"/>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="value" type="xs:string" />
 	<xs:attribute name="query" type="xs:string" />
 	<xs:attribute name="filename" type="xs:string" />
 	<xs:attribute name="namespace" type="xs:string" />
 	<xs:attribute name="xpath" type="xs:string" />
-	<xs:attribute name="type" type="xmlblackbox:setVariableType"/>
+	<xs:attribute name="type" type="xbb:setVariableType"/>
 </xs:complexType>
 
 <xs:complexType name="EXECUTE-QUERY">
@@ -77,7 +59,7 @@
 	</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="QUERY" type="xmlblackbox:QUERY"/>
+		<xs:element name="QUERY" type="xbb:QUERY" minOccurs="1"/>
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>
@@ -89,9 +71,11 @@
 	<xs:attribute name="type" type="xs:string" use="required"/>
 </xs:complexType>
 
-<xs:complexType name="dataset">
-	<xs:element type="xs:string"/>
-</xs:complexType>
+<!--xs:complexType name="dataset">
+	<any namespace="http://www.w3.org/1999/xhtml"
+                 minOccurs="1" maxOccurs="unbounded"
+                 processContents="skip"/>
+</xs:complexType-->
 
 <xs:complexType name="CHECK-DB">
 	<xs:annotation>
@@ -100,8 +84,9 @@
 	</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="dataset" type="xmlblackbox:dataset"/>
+		<xs:any processContents="lax" minOccurs="1"/>
 	</xs:sequence>
+
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="connection" type="xs:string" use="required"/>
 </xs:complexType>
@@ -113,17 +98,15 @@
 	</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="PARAMETERS" type="xmlblackbox:PARAMETERS"/>
+		<xs:element name="PARAMETERS" type="xbb:PARAMETERS" minOccurs="0"/>
 	</xs:sequence>
 	<xs:attribute name="class" type="xs:string" use="required"/>
 </xs:complexType>
 
 <xs:complexType name="PARAMETERS">
-	<xs:sequence>
-		<xs:element name="PARAMETER" type="xmlblackbox:PARAMETER"/>
-	</xs:sequence>
-	<xs:attribute name="name" type="xs:string" use="required"/>
-	<xs:attribute name="class" type="xs:string" use="required"/>
+	<xs:choice>
+		<xs:element name="PARAMETER" type="xbb:PARAMETER" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:choice>
 </xs:complexType>
 
 <xs:complexType name="PARAMETER">
@@ -137,10 +120,16 @@
 			Identify a step for checking xml file content
 	</xs:documentation>
 	</xs:annotation>
+<!--
 	<xs:sequence>
-		<xs:element name="XML-INSERT-ROW" type="xmlblackbox:XML-ROW"/>
-		<xs:element name="XML-CHECK-ROW" type="xmlblackbox:XML-ROW"/>
+		<xs:element name="XML-INSERT-ROW" type="xbb:XML-INSERT-ROW" minOccurs="0"/>
 	</xs:sequence>
+	-->
+	
+  	<xs:choice maxOccurs="unbounded">
+		<xs:element name="XML-INSERT-ROW" type="xbb:XML-ROW" minOccurs="0"/>
+		<xs:element name="XML-CHECK-ROW" type="xbb:XML-ROW" minOccurs="0"/>
+	</xs:choice>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="fileinput" type="xs:string" use="required"/>
 	<xs:attribute name="fileoutput" type="xs:string" use="optional"/>
@@ -148,7 +137,7 @@
 </xs:complexType>
 
 <xs:complexType name="XML-ROW">
-	<xs:attribute name="NAME" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="xpath" type="xs:string" use="required"/>
 	<xs:attribute name="value" type="xs:string" use="required"/>
 </xs:complexType>
@@ -177,7 +166,7 @@
 	</xs:annotation>
 	<xs:sequence>
 		<xs:element name="FILE-NAVIGATION" type="xs:string"/>
-		<xs:element name="PARAMETERS" type="xmlblackbox:PARAMETERS"/>
+		<xs:element name="PARAMETERS" type="xbb:PARAMETERS" minOccurs="0"/>
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>
@@ -193,7 +182,41 @@
 	<xs:attribute name="xsd" type="xs:string" use="required"/>
 </xs:complexType>
 
-<xs:element name="TEST" type="xmlblackbox:TEST"/>
+<xs:element name="TEST" type="xbb:TEST"/>
+<xs:element name="VALIDATE-XML" type="xbb:VALIDATE-XML"/>
+<xs:element name="DB-CONNECTIONS" type="xbb:DB-CONNECTIONS"/>
+<xs:element name="SET-VARIABLE" type="xbb:SET-VARIABLE"/>
+<xs:element name="EXECUTE-QUERY" type="xbb:EXECUTE-QUERY"/>
+<xs:element name="CHECK-DB" type="xbb:CHECK-DB"/>
+<xs:element name="RUN-PLUGIN" type="xbb:RUN-PLUGIN"/>
+<xs:element name="XML-CONTENT" type="xbb:XML-CONTENT"/>
+<xs:element name="WEB-SERVICE-CLIENT" type="xbb:WEB-SERVICE-CLIENT"/>
+<xs:element name="SELENIUM" type="xbb:SELENIUM"/>
+<!-- xs:element name="CONNECTION" type="xbb:CONNECTION"/> 
+<xs:element name="PARAMETERS" type="xbb:PARAMETERS"/>
+<xs:element name="PARAMETER" type="xbb:PARAMETER"/>
+<xs:element name="XML-INSERT-ROW" type="xbb:XML-INSERT-ROW"/>
+<xs:element name="XML-CHECK-ROW" type="xbb:XML-CHECK-ROW"/>
+-->
+<xs:complexType name="TEST">
+	<xs:annotation>
+		<xs:documentation>
+			Identify the main tag
+		</xs:documentation>
+	</xs:annotation>
+	<xs:choice maxOccurs="unbounded">
+		<xs:element ref="xbb:VALIDATE-XML" />
+		<xs:element ref="xbb:DB-CONNECTIONS" />
+		<xs:element ref="xbb:SET-VARIABLE" />
+		<xs:element ref="xbb:EXECUTE-QUERY" />
+		<xs:element ref="xbb:CHECK-DB" />
+		<xs:element ref="xbb:RUN-PLUGIN" />
+		<xs:element ref="xbb:XML-CONTENT" />
+		<xs:element ref="xbb:WEB-SERVICE-CLIENT" />
+		<xs:element ref="xbb:SELENIUM" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
 
 
 </xs:schema>

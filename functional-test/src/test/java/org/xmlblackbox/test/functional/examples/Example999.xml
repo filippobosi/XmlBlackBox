@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<TEST name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/ xmlblackbox_1_0.xsd">
-    <VALIDATE-XML name="Validazione test" 
-           xml="src/test/java/org/xmlblackbox/test/functional/examples/Example999.xml"
-           xsd="src/test/resources/xmlblackbox_1_0.xsd" />
+<TEST name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
    
 	<!-- Connection initialize -->
 	<!--INCLUDE-FILE filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE-->
-    <!--  DB-CONNECTIONS>
+    <DB-CONNECTIONS name="Connections Settings">
         <CONNECTION name="SGATE-CONNECTION199" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.199:1521:SVILSGATE"
             username="sgate_1" password="sgate_1"/>
         <CONNECTION name="SGATE-CONNECTION82" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
             username="sgate_tugurio" password="sgate_tugurio"/>
-    </DB-CONNECTIONS-->
-    
-    
+    </DB-CONNECTIONS>
+        
     <!-- setVariable example getting value from db chosing-->
     <SET-VARIABLE name="setVariable1">
         <SET connection="SGATE-CONNECTION199" name="codice_pod" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" type="DB_TYPE" />
@@ -89,20 +85,20 @@
             fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebService.xml"
             fileoutput="target/Example999_RichiestaPresaInCaricoWebService_1_out.xml"
             namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
-	        <XML-INSERT-ROW NAME="insertCodiceDistributore"
+	        <XML-INSERT-ROW name="insertCodiceDistributore"
                     xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
                     value="${CODICE_DISTRIBUTORE@fileProperties}"/>
-	        <XML-INSERT-ROW NAME="insertLogin"
+	        <XML-INSERT-ROW name="insertLogin"
                     xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
                     value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
-	        <XML-INSERT-ROW NAME="insertPassword"
+	        <XML-INSERT-ROW name="insertPassword"
                     xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
                     value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
 	</XML-CONTENT>
 	
     <WEB-SERVICE-CLIENT name="webservice.richiestaPresaInCarico">
-        <FILE_INPUT>target/Example999_RichiestaPresaInCaricoWebService_1_out.xml</FILE_INPUT>
-        <FILE_OUTPUT>target/Example999_RispostaPresaIncarico_out.xml</FILE_OUTPUT>
+        <FILE-INPUT>target/Example999_RichiestaPresaInCaricoWebService_1_out.xml</FILE-INPUT>
+        <FILE-OUTPUT>target/Example999_RispostaPresaIncarico_out.xml</FILE-OUTPUT>
         <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
         <STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
         <OPERATION>PresaInCaricoLotto</OPERATION>
