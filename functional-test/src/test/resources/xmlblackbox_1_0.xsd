@@ -11,7 +11,6 @@
 	<xs:sequence>
 		<xs:element name="CONNECTION" type="xbb:CONNECTION" maxOccurs="unbounded"/>
 	</xs:sequence>
-	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>
 
 
@@ -182,6 +181,15 @@
 	<xs:attribute name="xsd" type="xs:string" use="required"/>
 </xs:complexType>
 
+<xs:complexType name="INCLUDE-FILE">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for including other xml file
+		</xs:documentation>
+	</xs:annotation>
+	<xs:attribute name="filename" type="xs:string" use="required"/>
+</xs:complexType>
+
 <xs:element name="TEST" type="xbb:TEST"/>
 <xs:element name="VALIDATE-XML" type="xbb:VALIDATE-XML"/>
 <xs:element name="DB-CONNECTIONS" type="xbb:DB-CONNECTIONS"/>
@@ -192,12 +200,8 @@
 <xs:element name="XML-CONTENT" type="xbb:XML-CONTENT"/>
 <xs:element name="WEB-SERVICE-CLIENT" type="xbb:WEB-SERVICE-CLIENT"/>
 <xs:element name="SELENIUM" type="xbb:SELENIUM"/>
-<!-- xs:element name="CONNECTION" type="xbb:CONNECTION"/> 
-<xs:element name="PARAMETERS" type="xbb:PARAMETERS"/>
-<xs:element name="PARAMETER" type="xbb:PARAMETER"/>
-<xs:element name="XML-INSERT-ROW" type="xbb:XML-INSERT-ROW"/>
-<xs:element name="XML-CHECK-ROW" type="xbb:XML-CHECK-ROW"/>
--->
+<xs:element name="INCLUDE-FILE" type="xbb:INCLUDE-FILE"/>
+
 <xs:complexType name="TEST">
 	<xs:annotation>
 		<xs:documentation>
@@ -214,6 +218,7 @@
 		<xs:element ref="xbb:XML-CONTENT" />
 		<xs:element ref="xbb:WEB-SERVICE-CLIENT" />
 		<xs:element ref="xbb:SELENIUM" />
+		<xs:element ref="xbb:INCLUDE-FILE" />
 	</xs:choice>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 </xs:complexType>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<TEST name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
+<TEST name="Example999" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
    
 	<!-- Connection initialize -->
-	<!--INCLUDE-FILE filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE-->
-    <DB-CONNECTIONS name="Connections Settings">
+	<INCLUDE-FILE filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE>
+    <DB-CONNECTIONS>
         <CONNECTION name="SGATE-CONNECTION199" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.199:1521:SVILSGATE"
             username="sgate_1" password="sgate_1"/>

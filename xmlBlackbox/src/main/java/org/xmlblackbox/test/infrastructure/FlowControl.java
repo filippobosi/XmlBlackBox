@@ -89,7 +89,7 @@ public class FlowControl extends DatabaseTestCase {
 	}
 
 	public static Test suite() {
-		log.debug("Log di MainTestCase");
+		log.debug("Log di FlowControl");
 		TestSuite suite = new TestSuite(FlowControl.class);
 		return suite;
 	}
@@ -123,49 +123,6 @@ public class FlowControl extends DatabaseTestCase {
 				log.info("[-] Reloading variables tag : " + el.getXmlTagName() + " class : " + obj.getClass().getSimpleName());
 				el.reload(memoryData);
 				
-				/*
-				if (obj instanceof DbCheck) {
-					log.info("++                                       ++");
-					log.info("TROVATO DBCHECK "+((DbCheck) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof WebServiceClient) {
-					log.info("++                                       ++");
-					log.info("TROVATO Client WS "+((WebServiceClient) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof HTTPClient) {
-					log.info("++                                       ++");
-					log.info("TROVATO HTTP "+((HTTPClient) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof SetVariable) {
-					log.info("++                                       ++");
-					log.info("TROVATO SET-VARIABLE "+((SetVariable) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof ExecuteQuery) {
-					log.info("++                                       ++");
-					log.info("TROVATO EXECUTE-QUERY "+((ExecuteQuery) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof CheckInsertXmlContent) {
-					log.info("++                                       ++");
-                    log.info("TROVATO XML-CHECK/INSERT-CONTENT "+((CheckInsertXmlContent) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof RunFunction) {
-					log.info("++                                       ++");
-					log.info("TROVATO RUN FUNCTION "+((RunFunction) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				} else if (obj instanceof XmlValidate) {
-					log.info("++                                       ++");
-					log.info("TROVATO XML Validate "+((XmlValidate) obj).getNome());
-					log.info("++                                       ++");
-					el.reload(memoryData);
-				}
-				*/
 			}
 		} catch (Exception e) {
 			log.debug("DEBUG ");
@@ -189,6 +146,8 @@ public class FlowControl extends DatabaseTestCase {
 
 
 	public void execute(String fileConfigTest, Properties prop) throws TestException, Exception {    	
+        int step = 1;
+        Object obj = null;
 		try{
             log.info("execute fileConfigTest, prop, genericConnection");
 			log.info("[ START TEST CASE : " + fileConfigTest.substring(0, fileConfigTest.indexOf(".")) + " ]");
@@ -226,11 +185,10 @@ public class FlowControl extends DatabaseTestCase {
 			Iterator iterElement = readXmlDocument.getListaCompleta().iterator();
 
             log.debug("[TestCase number of steps  : "+readXmlDocument.getListaCompleta().size()+"]");
-            int step = 1;
 			while (iterElement.hasNext()) {
 	            log.info("[*][Starting execution TestCase : "+ nomeTestCase +" Step : "+step+"]");
 
-				Object obj = iterElement.next();
+				obj = iterElement.next();
 				//memory.debugMemory();
 				log.info("[Identify type node & Replacing variable xml]");
 				replacingVariableXml(obj,memory);
@@ -243,18 +201,18 @@ public class FlowControl extends DatabaseTestCase {
 			}
 		}catch(TestException e){
             memory.debugMemory();
-			log.error("TestException in MainTestCase.execute() ", e);
+            log.error("TestException in step "+step+" ("+obj.getClass()+") of FlowControl.execute() ", e);
 			throw e;
 		}catch(Exception e){
 			memory.debugMemory();
-			log.error("Exception in MainTestCase.execute() ", e);
+			log.error("Exception in in step "+step+" ("+obj.getClass()+") FlowControl.execute() ", e);
 			throw e;
 		}finally{
             Hashtable hashObject = memory.getAllObject();
             Enumeration elements = hashObject.elements();
             while(elements.hasMoreElements()){
-                Object obj = elements.nextElement();
-                if (obj instanceof Connection){
+                Object objTmp = elements.nextElement();
+                if (objTmp instanceof Connection){
                     Connection conn = (Connection)obj;
                     try {
                         if (conn!=null){
@@ -318,7 +276,7 @@ public class FlowControl extends DatabaseTestCase {
                 webServiceClient.eseguiWebService(memory, step);
             } else if (obj instanceof RunPlugin) {
                 RunPlugin runPlugin= (RunPlugin) obj;
-                log.info("Eseguito il plugin: "+runPlugin.getTemplateClass());
+                log.info("Executed plugin: "+runPlugin.getTemplateClass());
                 runPlugin.executePlugin(memory);
                 log.info("memory: "+memory.getRepository(Repository.RUN_PLUGIN));
             } else if (obj instanceof XmlValidate) {
@@ -335,7 +293,7 @@ public class FlowControl extends DatabaseTestCase {
 							connection.getUsername(),
 							connection.getPassword()
 							);
-                    log.info("Connection hhhhh "+connection.getName());
+                    log.info("Connection "+connection.getName());
 					memory.setConnection(connection.getName(), conn);
 					
 				}

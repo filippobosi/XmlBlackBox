@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TEST name="Example997" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
+   
+    <WEB-SERVICE-CLIENT name="webservice.richiestaPresaInCarico">
+        <FILE-INPUT>target/Example997_RichiestaPresaInCaricoWebService_1_out.xml</FILE-INPUT>
+        <FILE-OUTPUT>target/Example997_RispostaPresaIncarico_out.xml</FILE-OUTPUT>
+        <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>org.xmlblackbox.test.webservice.client.SgateWebServiceStub</STUB>
+        <OPERATION>PresaInCaricoLotto</OPERATION>
+    </WEB-SERVICE-CLIENT>		
+    
+</TEST>
+

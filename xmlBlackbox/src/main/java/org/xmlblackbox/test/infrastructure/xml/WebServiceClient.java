@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import org.xmlblackbox.test.infrastructure.util.WebServiceClientManager;
@@ -47,30 +48,49 @@ public class WebServiceClient extends Runnable {
 	}
 	
 	public void build(Element clientElement) throws Exception {
+		logger.info("clientElement "+clientElement);
+		logger.info("---------------------------------");
+		logger.debug(new XMLOutputter().outputString(xmlElement));
+		System.out.println(new XMLOutputter().outputString(xmlElement));
+	    
 		WebServiceClient wsClient=this;
 		wsClient.setNome(clientElement.getAttributeValue("name"));
+		logger.info("wsClient.getNome() "+wsClient.getNome());
 		
 
+    	Element fileInput = clientElement.getChild("FILE-INPUT");
+    	logger.info("fileInput "+fileInput);
+    	if (fileInput!=null){
+    		wsClient.setFileInput(fileInput.getText());
+    	}
+
     	Element urlServizioElement = clientElement.getChild("URL");
+    	clientElement.getChildren("URL").get(0);
+		logger.info("urlServizioElement "+urlServizioElement);
     	if (urlServizioElement!=null){
     		wsClient.setUrl(urlServizioElement.getText());
     	}
 
     	Element stubServizioElement = clientElement.getChild("STUB");
+		logger.info("stubServizioElement "+stubServizioElement);
     	if (stubServizioElement!=null){
     		wsClient.setStub(stubServizioElement.getText());
     	}
 
+    	
     	Element operationServizioElement = clientElement.getChild("OPERATION");
+		logger.info("operationServizioElement "+operationServizioElement);
     	if (operationServizioElement!=null){
     		wsClient.setOperation(operationServizioElement.getText());
     	}
         
-    	Element fileInput = clientElement.getChild("FILE_INPUT");
-    	wsClient.setFileInput(fileInput.getText());
-
-    	Element fileOutput = clientElement.getChild("FILE_OUTPUT");
-    	wsClient.setFileOutput(fileOutput.getText());
+    	
+    	
+    	Element fileOutput = clientElement.getChild("FILE-OUTPUT");
+    	logger.info("fileOutput "+fileOutput);
+    	if (fileOutput!=null){
+        	wsClient.setFileOutput(fileOutput.getText());
+    	}
 
         parameters = new HashMap();
 
