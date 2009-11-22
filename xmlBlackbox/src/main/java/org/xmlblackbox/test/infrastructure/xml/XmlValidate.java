@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.ValidateXML;
+import org.xmlblackbox.test.infrastructure.util.ValidateXmlTest;
 
 import org.jdom.Element;
 
@@ -45,7 +46,7 @@ public class XmlValidate extends XmlElement {
 	}
 	
     public void executeValidazioneXml() throws Exception{
-    	ValidateXML validatore = new ValidateXML(getFileXml(),getFileXsd());
+    	ValidateXML validatore = new ValidateXML(getFileXml(), getFileXsd());
     	validatore.validate();
     }
 

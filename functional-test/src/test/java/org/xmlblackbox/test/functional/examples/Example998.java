@@ -62,6 +62,7 @@ public class Example998 extends FlowControl{
    			log.error("Eccezione", e.getContainedException());
    			fail("Eccezione "+e);
    		} catch (Exception e) {
+   			e.printStackTrace();
    			log.error("Eccezione", e);
    			fail("Eccezione "+e.getMessage());
    		}

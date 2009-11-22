@@ -50,8 +50,8 @@ public class WebServiceClient extends Runnable {
 	public void build(Element clientElement) throws Exception {
 		logger.info("clientElement "+clientElement);
 		logger.info("---------------------------------");
-		logger.debug(new XMLOutputter().outputString(xmlElement));
-		System.out.println(new XMLOutputter().outputString(xmlElement));
+//		logger.debug(new XMLOutputter().outputString(xmlElement));
+//		System.out.println(new XMLOutputter().outputString(xmlElement));
 	    
 		WebServiceClient wsClient=this;
 		wsClient.setNome(clientElement.getAttributeValue("name"));

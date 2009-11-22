@@ -4,9 +4,12 @@ package org.xmlblackbox.test.infrastructure;
 import com.thoughtworks.selenium.Selenium;
 
 import org.xmlblackbox.test.infrastructure.exception.TestException;
+import org.xmlblackbox.test.infrastructure.exception.XmlValidationFault;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.DBConnection;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
+import org.xmlblackbox.test.infrastructure.util.ValidateXML;
+import org.xmlblackbox.test.infrastructure.util.ValidateXmlTest;
 import org.xmlblackbox.test.infrastructure.xml.CheckInsertXmlContent;
 import org.xmlblackbox.test.infrastructure.xml.DbCheck;
 import org.xmlblackbox.test.infrastructure.xml.DbConnection;
@@ -31,16 +34,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Properties;
+
+import javax.activation.FileTypeMap;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.dbunit.DatabaseTestCase;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
@@ -48,21 +55,22 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.xmlblackbox.test.infrastructure.util.Configurator;
 import org.xmlblackbox.test.infrastructure.xml.HTTPUploader;
+import org.xmlblackbox.xsd.TESTDocument;
 
 
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
  * Description:
  * </p>
  * <p>
- * Copyright: Copyright (c) 2009	
+ * Copyright: Copyright (c) 2009
  * </p>
  * <p>
- * Company: 
+ * Company:
  * </p>
  *
  * @author Crea
@@ -74,11 +82,11 @@ public class FlowControl extends DatabaseTestCase {
     private final static Logger log = Logger.getLogger(FlowControl.class);
 
     private MemoryData memory = new MemoryData();
-	
+
 	private HTTPClient httpClient = null;
 	private HTTPUploader httpUploader = null;
 	private Selenium selenium = null;
-	
+
 	private HttpTestCaseSimple httpTestCase = null;
 
 	//private IDatabaseConnection conn = null;
@@ -113,16 +121,16 @@ public class FlowControl extends DatabaseTestCase {
 	public void loadPropsInDomain(Properties testProp) {
 		memory.overrideRepository(Repository.FILE_PROPERTIES, testProp);
 	}
-	
+
 	private void replacingVariableXml(Object obj,MemoryData memoryData) throws Exception{
-		
+
 		try {
 			if(XmlElement.class.isAssignableFrom(obj.getClass()) ){
-	
+
 				XmlElement el=(XmlElement)obj;
 				log.info("[-] Reloading variables tag : " + el.getXmlTagName() + " class : " + obj.getClass().getSimpleName());
 				el.reload(memoryData);
-				
+
 			}
 		} catch (Exception e) {
 			log.debug("DEBUG ");
@@ -131,7 +139,7 @@ public class FlowControl extends DatabaseTestCase {
 		}
 	}
 
-    
+
     public void execute(Class testClass, Properties prop)	throws TestException, Exception {
 
         log.info("execute testClass, prop, genericConnection");
@@ -145,10 +153,41 @@ public class FlowControl extends DatabaseTestCase {
 
 
 
-	public void execute(String fileConfigTest, Properties prop) throws TestException, Exception {    	
+	public void execute(String fileConfigTest, Properties prop) throws TestException, Exception {
         int step = 1;
         Object obj = null;
 		try{
+			InputStream iSValidate = this.getClass().getResourceAsStream(fileConfigTest);
+//			ValidateXML validator = new ValidateXML(fileConfigTest, "/xmlblackbox_1_0.xsd");
+//			validator.validate();
+
+			TESTDocument testDoc = TESTDocument.Factory.parse(iSValidate);
+
+			ArrayList validationErrors = new ArrayList();
+			XmlOptions voptions = new XmlOptions();
+			voptions.setErrorListener(validationErrors);
+			boolean valid = testDoc.validate(voptions);
+			if(valid)
+			{
+				System.out.println("Its valid xml");
+				log.info("Its valid xml");
+			}
+			else
+			{
+				log.info("Not a valid xml file");
+				System.out.println("Not a valid xml file");
+				Iterator itr = validationErrors.iterator();
+				String errors = null;
+				while(itr.hasNext())
+				{
+					String next = itr.next().toString();
+					errors = errors +"-----"+next;
+					log.info(next);
+					System.out.println(next);
+				}
+				throw new XmlValidationFault(errors);
+			}
+
             log.info("execute fileConfigTest, prop, genericConnection");
 			log.info("[ START TEST CASE : " + fileConfigTest.substring(0, fileConfigTest.indexOf(".")) + " ]");
             Properties xmlBlackboxProp = Configurator.getProperties("xmlBlackbox.properties");
@@ -161,7 +200,7 @@ public class FlowControl extends DatabaseTestCase {
 			log.debug("[Starting Memory & File Properties][OK]");
 
 			//conn = new DatabaseConnection(genericConn);
-			
+
 			InputStream iS = this.getClass().getResourceAsStream(fileConfigTest);
 
 			log.debug("[Reading XML TestCase]");
@@ -193,19 +232,31 @@ public class FlowControl extends DatabaseTestCase {
 				log.info("[Identify type node & Replacing variable xml]");
 				replacingVariableXml(obj,memory);
 				log.info("[Identify type node & Replacing variable xml][OK]");
-				
+
 				log.info("[Executing node]");
 				executeNode((XmlElement) obj, step);
-				log.info("[Executing node][OK]");	
+				log.info("[Executing node][OK]");
 				step++;
 			}
 		}catch(TestException e){
-            memory.debugMemory();
-            log.error("TestException in step "+step+" ("+obj.getClass()+") of FlowControl.execute() ", e);
+			if (memory!=null){
+				memory.debugMemory();
+			}
+			if (obj!=null){
+				log.error("TestException in step "+step+" ("+obj.getClass()+") of FlowControl.execute() ", e);
+			}else{
+				log.error("Exception in FlowControl.execute() ", e);
+			}
 			throw e;
 		}catch(Exception e){
-			memory.debugMemory();
-			log.error("Exception in in step "+step+" ("+obj.getClass()+") FlowControl.execute() ", e);
+			if (memory!=null){
+				memory.debugMemory();
+			}
+			if (obj!=null){
+				log.error("Exception in in step "+step+" ("+obj.getClass()+") FlowControl.execute() ", e);
+			}else{
+				log.error("Exception in FlowControl.execute() ", e);
+			}
 			throw e;
 		}finally{
             Hashtable hashObject = memory.getAllObject();
@@ -226,7 +277,7 @@ public class FlowControl extends DatabaseTestCase {
             }
 		}
 	}
-	
+
 	private void waitTimeout(long timeout){
 		try {
 			Thread.sleep(1000*timeout);
@@ -234,9 +285,9 @@ public class FlowControl extends DatabaseTestCase {
 			log.error("InterruptedException nella sleep del Thread",e);
 		}
 	}
-	
+
 	private void executeNode(XmlElement obj, int step) throws Exception{
-	
+
         try {
             if (obj instanceof DbCheck) {
                 DbCheck dbCheck = (DbCheck) obj;
@@ -295,7 +346,7 @@ public class FlowControl extends DatabaseTestCase {
 							);
                     log.info("Connection "+connection.getName());
 					memory.setConnection(connection.getName(), conn);
-					
+
 				}
             } else if (obj instanceof SetVariable) {
                 SetVariable setVariable= (SetVariable) obj;

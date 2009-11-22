@@ -69,6 +69,7 @@ public class ValidateXML {
 	Schema schemaXSD = schemaFactory.newSchema( xsd );
 	v = schemaXSD.newValidator();
 	} catch (SAXException e) {
+		e.printStackTrace();
 		log.fatal("Errore durante la generazione del validatore XSD",e);
 	}
 	finally {
