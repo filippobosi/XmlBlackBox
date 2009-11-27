@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.xmlblackbox.test.infrastructure.xml.WebServiceClient;
 
 
@@ -142,8 +143,9 @@ public class WebServiceClientManager{
 		
 		log.info("webServiceClient.getFileOutput() "+ webServiceClient.getFileOutput());
 		File fileToSave = new File(webServiceClient.getFileOutput());
-		
-		rispostaWebService.save(new File(fileToSave.getParentFile()+"/"+fileToSave.getName()));
+		XmlOptions xmlOptions = new XmlOptions();
+        xmlOptions.setSavePrettyPrint();
+		rispostaWebService.save(new File(fileToSave.getParentFile()+"/"+fileToSave.getName()), xmlOptions);
 
 	}
 	
@@ -151,7 +153,9 @@ public class WebServiceClientManager{
 		
 		log.info("webServiceClient.getFileInput() "+ webServiceClient.getFileInput());
 		File fileToSave = new File(webServiceClient.getFileInput());
-		richiestaWebService.save(new File(fileToSave.getParentFile()+"/"+fileToSave.getName()));
+		XmlOptions xmlOptions = new XmlOptions();
+        xmlOptions.setSavePrettyPrint();
+		richiestaWebService.save(new File(fileToSave.getParentFile()+"/"+fileToSave.getName()), xmlOptions);
         
 
 	}

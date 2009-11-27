@@ -6,17 +6,17 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumEnvironment;
 
 
-public class GenericLoginXBB extends SeleniumTestCase implements SeleniumNavigation{
+public class GenericLoginXBB extends SeleniumEnvironment implements SeleniumNavigation{
 	private final static Logger logger = Logger.getLogger(GenericLoginXBB.class);
 
     @Override
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
-        super.setUp("http://www.sgate.it", prop.getProperty("EXAMPLE_WEB_URL"));
+        super.initialize("http://www.sgate.it", memory.getRepository(Repository.FILE_PROPERTIES));
 
         logger.info("selenium "+selenium);
         selenium.open(prop.getProperty("EXAMPLE_WEB_URL")+"/login.htm");

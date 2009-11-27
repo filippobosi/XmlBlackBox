@@ -387,7 +387,10 @@ public class FlowControl extends DatabaseTestCase {
                 try{
                     if (checkXmlContent.getFileOutput()!=null){
                         log.info("File output salvato "+checkXmlContent.getFileOutput());
-                        xobj.save(new File(checkXmlContent.getFileOutput()));
+                        XmlOptions xmlOptions = new XmlOptions();
+                        xmlOptions.setSavePrettyPrint();
+
+                        xobj.save(new File(checkXmlContent.getFileOutput()), xmlOptions);
                     }
                 }catch(IOException e){
                     throw new TestException(e, "IOException");

@@ -54,8 +54,11 @@ public class ReadXmlDocument {
 
             TESTDocument testDoc = null;
 			try{
-                    testDoc = TESTDocument.Factory.parse(iSValidate);
-                    testDoc.save(new File("target/prova.xml"));
+                testDoc = TESTDocument.Factory.parse(iSValidate);
+                XmlOptions xmlOptions = new XmlOptions();
+                xmlOptions.setSavePrettyPrint();
+                xmlOptions.setSaveAggressiveNamespaces();
+                testDoc.save(new File("target/prova.xml"), xmlOptions);
             }catch(Throwable e){
                 e.printStackTrace();
                 log.error("e "+e);

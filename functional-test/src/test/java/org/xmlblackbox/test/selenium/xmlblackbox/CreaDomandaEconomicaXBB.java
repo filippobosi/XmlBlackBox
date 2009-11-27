@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumEnvironment;
 
 
-public class CreaDomandaEconomicaXBB extends SeleniumTestCase implements SeleniumNavigation{
+public class CreaDomandaEconomicaXBB extends SeleniumEnvironment implements SeleniumNavigation{
 	private final static Logger logger = Logger.getLogger(CreaDomandaEconomicaXBB.class);
 
     @Override

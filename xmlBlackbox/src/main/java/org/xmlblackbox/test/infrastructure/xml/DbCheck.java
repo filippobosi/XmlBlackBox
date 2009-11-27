@@ -66,7 +66,7 @@ public class DbCheck extends XmlElement{
 
         Element parametersElement = dbcheckElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -77,7 +77,7 @@ public class DbCheck extends XmlElement{
     	}
 
 
-    	List listaInsert = dbcheckElement.getChildren("INSERT_UPDATE_QUERY", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	List listaInsert = dbcheckElement.getChildren("INSERT_UPDATE_QUERY", uriXsd);
     	Iterator iter = listaInsert.iterator();
     	List vector = new Vector();
     	int index = 0;

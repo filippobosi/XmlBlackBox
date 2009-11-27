@@ -52,7 +52,7 @@ public class ExecuteQuery extends XmlElement{
 
         Element parametersElement = executeQueryElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -62,7 +62,7 @@ public class ExecuteQuery extends XmlElement{
     		}
     	}
 
-    	Iterator<Element> queryIterator = executeQueryElement.getChildren("QUERY", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+    	Iterator<Element> queryIterator = executeQueryElement.getChildren("QUERY", uriXsd).iterator();
     	while(queryIterator.hasNext()){
             Element executeQuery = queryIterator.next();
 			log.info("executeQueryElement.getAttributeValue(nome) "+executeQuery.getAttributeValue("nome"));

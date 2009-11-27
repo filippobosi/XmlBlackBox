@@ -6,17 +6,17 @@ import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.interfaces.SeleniumNavigation;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.infrastructure.util.SeleniumTestCase;
+import org.xmlblackbox.test.infrastructure.util.SeleniumEnvironment;
 
 
-public class CorriereXBB extends SeleniumTestCase implements SeleniumNavigation{
+public class CorriereXBB extends SeleniumEnvironment implements SeleniumNavigation{
 	private final static Logger logger = Logger.getLogger(CorriereXBB.class);
 
     @Override
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
-        super.setUp(memory.getRepository(Repository.FILE_PROPERTIES));
+        super.initialize("http://mantis.ancitel.it", memory.getRepository(Repository.FILE_PROPERTIES));
 
         selenium.open("http://mantis.ancitel.it");
         selenium.waitForPageToLoad("30000");

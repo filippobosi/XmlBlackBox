@@ -117,7 +117,7 @@ public class HTTPClient extends Runnable  {
 
         Element parametersElement = clientElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -139,7 +139,7 @@ public class HTTPClient extends Runnable  {
 //    	if (timeout!=null)
 ////    		httpClient.setTimeout(Integer.parseInt(timeout.getText()));
 
-    	Element fileNavigationXml= clientElement.getChild("FILE-NAVIGATION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element fileNavigationXml= clientElement.getChild("FILE-NAVIGATION", uriXsd);
 
     	if (fileNavigationXml!=null){
     		httpClient.setFileNavigation(fileNavigationXml.getText());
@@ -167,12 +167,12 @@ public class HTTPClient extends Runnable  {
 //    		httpClient.setUrlUpload(urlApload.getText());
 //    	}
 
-    	Element type = clientElement.getChild("TYPE", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element type = clientElement.getChild("TYPE", uriXsd);
     	if (type!=null){
     		httpClient.setType(type.getAttributeValue("name"));
     	}
 
-    	Element waitTerminated = clientElement.getChild("WAIT_TERMINATED", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element waitTerminated = clientElement.getChild("WAIT_TERMINATED", uriXsd);
     	logger.info("waitTerminated "+waitTerminated);
     	if (waitTerminated!=null){
     		httpClient.setWaitingTerminated(true);

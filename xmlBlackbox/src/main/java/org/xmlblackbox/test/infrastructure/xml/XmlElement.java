@@ -3,21 +3,19 @@ package org.xmlblackbox.test.infrastructure.xml;
 import org.xmlblackbox.test.infrastructure.replacement.ReplaceFromXML;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.dbunit.dataset.DataSetException;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
 public abstract class XmlElement {
-	
+
+    public static Namespace uriXsd = Namespace.getNamespace("http://www.xmlblackbox.org/xsd/");
 	
 	public XmlElement(Element el) {
 		super();
@@ -66,7 +64,7 @@ public abstract class XmlElement {
 		HashMap<String,String> params = new HashMap<String, String>();
 
 		if (parameters!=null) {
-			Iterator parametersList = parameters.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+			Iterator parametersList = parameters.getChildren("PARAMETER", uriXsd).iterator();
 			while (parametersList.hasNext()){
 				Element parameterElement = (Element) parametersList.next();
 				String pname = parameterElement.getAttributeValue("name");

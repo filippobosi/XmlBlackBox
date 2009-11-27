@@ -12,9 +12,9 @@ import com.thoughtworks.selenium.SeleneseTestCase;
 import com.thoughtworks.selenium.Selenium;
 import org.apache.log4j.Logger;
 
-public abstract class SeleniumTestCase extends SeleneseTestCase {
+public abstract class SeleniumEnvironment extends SeleneseTestCase {
 
-    private final static Logger logger = Logger.getLogger(SeleniumTestCase.class);
+    private final static Logger logger = Logger.getLogger(SeleniumEnvironment.class);
 
 	public abstract void testNew() throws Exception;
 
@@ -46,9 +46,9 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
 		}
 	}
 
-	public void setUp(Properties prop) {
+	public void initialize(String url, Properties prop) {
 
-//        logger.info("url  "+url);
+        logger.info("url  "+url);
         logger.info("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
         logger.info("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
 
@@ -60,7 +60,7 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
         logger.info("firstSelenium "+firstSelenium);
 		if (firstSelenium == null) {
 			startServer(prop);
-			selenium = new DefaultSelenium(server_ip, server_port, "*chrome", "http://www.xmlobject.org");
+			selenium = new DefaultSelenium(server_ip, server_port, "*chrome", url);
 	        logger.info("selenium "+selenium);
 			try{
 				selenium.start();

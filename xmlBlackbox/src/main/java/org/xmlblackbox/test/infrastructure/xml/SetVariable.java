@@ -69,8 +69,8 @@ public class SetVariable extends XmlElement{
 		setList = new Vector();
         log.info("SET-VARIABLE build element2 "+new XMLOutputter().outputString(setVarElement));
 
-    	Iterator<Element> setIterator = setVarElement.getChildren("SET", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
-        log.info("setIterator "+setVarElement.getChildren("SET", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).size());
+    	Iterator<Element> setIterator = setVarElement.getChildren("SET", uriXsd).iterator();
+        log.info("setIterator "+setVarElement.getChildren("SET", uriXsd).size());
 
         if (!setIterator.hasNext()){
             throw new TestException("SET tag not found");

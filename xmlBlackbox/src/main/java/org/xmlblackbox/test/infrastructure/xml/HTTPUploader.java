@@ -106,7 +106,7 @@ public class HTTPUploader extends Runnable  {
 
         Element parametersElement = uploaderElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");

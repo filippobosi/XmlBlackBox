@@ -37,8 +37,8 @@ public class XmlDbConnections extends XmlElement{
 
         log.info("DB-CONNECTIONS dbConnectionElement "+new XMLOutputter().outputString(dbConnectionElement));
 
-    	Iterator<Element> setIterator = dbConnectionElement.getChildren("CONNECTION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
-		log.info("dbConnectionElement iterator size "+dbConnectionElement.getChildren("CONNECTION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).size());
+    	Iterator<Element> setIterator = dbConnectionElement.getChildren("CONNECTION", uriXsd).iterator();
+		log.info("dbConnectionElement iterator size "+dbConnectionElement.getChildren("CONNECTION", uriXsd).size());
     	while(setIterator.hasNext()){
             Element setConnection = setIterator.next();
             if (setConnection!=null){

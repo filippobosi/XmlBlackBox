@@ -59,27 +59,27 @@ public class WebServiceClient extends Runnable {
 		logger.info("wsClient.getNome() "+wsClient.getNome());
 		
 
-    	Element fileInput = clientElement.getChild("FILE-INPUT", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element fileInput = clientElement.getChild("FILE-INPUT", uriXsd);
     	logger.info("fileInput "+fileInput);
     	if (fileInput!=null){
     		wsClient.setFileInput(fileInput.getText());
     	}
 
-    	Element urlServizioElement = clientElement.getChild("URL", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element urlServizioElement = clientElement.getChild("URL", uriXsd);
 
 		logger.info("urlServizioElement "+urlServizioElement);
     	if (urlServizioElement!=null){
     		wsClient.setUrl(urlServizioElement.getText());
     	}
 
-    	Element stubServizioElement = clientElement.getChild("STUB", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element stubServizioElement = clientElement.getChild("STUB", uriXsd);
 		logger.info("stubServizioElement "+stubServizioElement);
     	if (stubServizioElement!=null){
     		wsClient.setStub(stubServizioElement.getText());
     	}
 
     	
-    	Element operationServizioElement = clientElement.getChild("OPERATION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element operationServizioElement = clientElement.getChild("OPERATION", uriXsd);
 		logger.info("operationServizioElement "+operationServizioElement);
     	if (operationServizioElement!=null){
     		wsClient.setOperation(operationServizioElement.getText());
@@ -87,7 +87,7 @@ public class WebServiceClient extends Runnable {
         
     	
     	
-    	Element fileOutput = clientElement.getChild("FILE-OUTPUT", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+    	Element fileOutput = clientElement.getChild("FILE-OUTPUT", uriXsd);
     	logger.info("fileOutput "+fileOutput);
     	if (fileOutput!=null){
         	wsClient.setFileOutput(fileOutput.getText());
@@ -95,9 +95,9 @@ public class WebServiceClient extends Runnable {
 
         parameters = new HashMap();
 
-        Element parametersElement = clientElement.getChild("PARAMETERS", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+        Element parametersElement = clientElement.getChild("PARAMETERS", uriXsd);
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
