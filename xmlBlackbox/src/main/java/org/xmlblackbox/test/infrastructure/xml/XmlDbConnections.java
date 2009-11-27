@@ -8,6 +8,8 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
+import org.jdom.Namespace;
+import org.jdom.output.XMLOutputter;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 
 /**
@@ -32,7 +34,11 @@ public class XmlDbConnections extends XmlElement{
 		log.info("dbConnectionElement "+dbConnectionElement);
 		log.info("dbConnectionElement.getAttributeValue(nome) "+dbConnectionElement.getAttributeValue("name"));
 		setDbConnection = new Vector();
-    	Iterator<Element> setIterator = dbConnectionElement.getChildren("CONNECTION").iterator();
+
+        log.info("DB-CONNECTIONS dbConnectionElement "+new XMLOutputter().outputString(dbConnectionElement));
+
+    	Iterator<Element> setIterator = dbConnectionElement.getChildren("CONNECTION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+		log.info("dbConnectionElement iterator size "+dbConnectionElement.getChildren("CONNECTION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).size());
     	while(setIterator.hasNext()){
             Element setConnection = setIterator.next();
             if (setConnection!=null){

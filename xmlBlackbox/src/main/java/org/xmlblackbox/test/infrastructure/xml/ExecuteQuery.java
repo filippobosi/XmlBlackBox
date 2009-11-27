@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.dbunit.dataset.DataSetException;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 /**
@@ -51,7 +52,7 @@ public class ExecuteQuery extends XmlElement{
 
         Element parametersElement = executeQueryElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -61,7 +62,7 @@ public class ExecuteQuery extends XmlElement{
     		}
     	}
 
-    	Iterator<Element> queryIterator = executeQueryElement.getChildren("QUERY").iterator();
+    	Iterator<Element> queryIterator = executeQueryElement.getChildren("QUERY", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     	while(queryIterator.hasNext()){
             Element executeQuery = queryIterator.next();
 			log.info("executeQueryElement.getAttributeValue(nome) "+executeQuery.getAttributeValue("nome"));

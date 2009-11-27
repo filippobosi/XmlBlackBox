@@ -9,7 +9,7 @@
     
     <VALIDATE-XML name="Validazione test" pippo="sdfs" pluto="sdfhsf"
             xml="src/test/java/org/xmlblackbox/test/functional/examples/Example999.xml"
-            xsd="xmlblackbox_1_0.xsd" />
+            xsd="/xmlblackbox_1_0.xsd" />
             
 
 </TEST>

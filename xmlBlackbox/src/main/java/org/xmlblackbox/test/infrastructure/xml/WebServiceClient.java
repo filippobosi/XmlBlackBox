@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.jdom.output.XMLOutputter;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
@@ -58,27 +59,27 @@ public class WebServiceClient extends Runnable {
 		logger.info("wsClient.getNome() "+wsClient.getNome());
 		
 
-    	Element fileInput = clientElement.getChild("FILE-INPUT");
+    	Element fileInput = clientElement.getChild("FILE-INPUT", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
     	logger.info("fileInput "+fileInput);
     	if (fileInput!=null){
     		wsClient.setFileInput(fileInput.getText());
     	}
 
-    	Element urlServizioElement = clientElement.getChild("URL");
-    	clientElement.getChildren("URL").get(0);
+    	Element urlServizioElement = clientElement.getChild("URL", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+
 		logger.info("urlServizioElement "+urlServizioElement);
     	if (urlServizioElement!=null){
     		wsClient.setUrl(urlServizioElement.getText());
     	}
 
-    	Element stubServizioElement = clientElement.getChild("STUB");
+    	Element stubServizioElement = clientElement.getChild("STUB", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
 		logger.info("stubServizioElement "+stubServizioElement);
     	if (stubServizioElement!=null){
     		wsClient.setStub(stubServizioElement.getText());
     	}
 
     	
-    	Element operationServizioElement = clientElement.getChild("OPERATION");
+    	Element operationServizioElement = clientElement.getChild("OPERATION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
 		logger.info("operationServizioElement "+operationServizioElement);
     	if (operationServizioElement!=null){
     		wsClient.setOperation(operationServizioElement.getText());
@@ -86,7 +87,7 @@ public class WebServiceClient extends Runnable {
         
     	
     	
-    	Element fileOutput = clientElement.getChild("FILE-OUTPUT");
+    	Element fileOutput = clientElement.getChild("FILE-OUTPUT", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
     	logger.info("fileOutput "+fileOutput);
     	if (fileOutput!=null){
         	wsClient.setFileOutput(fileOutput.getText());
@@ -94,9 +95,9 @@ public class WebServiceClient extends Runnable {
 
         parameters = new HashMap();
 
-        Element parametersElement = clientElement.getChild("PARAMETERS");
+        Element parametersElement = clientElement.getChild("PARAMETERS", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");

@@ -1,6 +1,6 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
-import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import java.io.Serializable;
@@ -14,18 +14,18 @@ import java.util.Properties;
 public abstract class GenericRunnablePlugin implements Serializable {
 
 	public abstract List<String> getParametersName();
-	public abstract void execute(Properties prop,MemoryData memory) throws RunFunctionAbnormalTermination ;
+	public abstract void execute(Properties prop,MemoryData memory) throws RunPluginAbnormalTermination ;
 	
-	public void checkPrametersName(Properties prop,List parametersRequired) throws RunFunctionAbnormalTermination{
+	public void checkPrametersName(Properties prop,List parametersRequired) throws RunPluginAbnormalTermination{
 		
 		if (parametersRequired == null)
-			throw new RunFunctionAbnormalTermination("La funzione non può essere avviata, perchè non sono stati dichiarati i prametri necessari nell'implementazione della classe. Verifica : getParametersName() nell'implementazione della funzione.");
+			throw new RunPluginAbnormalTermination("La funzione non puo' essere avviata, perche' non sono stati dichiarati i prametri necessari nell'implementazione della classe. Verifica : getParametersName() nell'implementazione della funzione.");
 		
 		Iterator<String> it = parametersRequired.iterator();
 		while (it.hasNext()){
 			String param = it.next();
 			if (prop.getProperty(param) == null)
-				throw new RunFunctionAbnormalTermination("La funzione non può essere avviata, non è stato dichiarato il parametro necessario : " + param);
+				throw new RunPluginAbnormalTermination("La funzione non puo' essere avviata, non e' stato dichiarato il parametro necessario : " + param);
 		}
 	}
 }

@@ -46,11 +46,11 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
 		}
 	}
 
-	public void setUp(String url, Properties prop) {
+	public void setUp(Properties prop) {
 
-        logger.debug("url  "+url);
-        logger.debug("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
-        logger.debug("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
+//        logger.info("url  "+url);
+        logger.info("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
+        logger.info("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
 
         
         String server_ip = prop.getProperty("SELENIUM_HOST_SERVER");
@@ -60,7 +60,7 @@ public abstract class SeleniumTestCase extends SeleneseTestCase {
         logger.info("firstSelenium "+firstSelenium);
 		if (firstSelenium == null) {
 			startServer(prop);
-			selenium = new DefaultSelenium(server_ip, server_port, "*chrome", url);
+			selenium = new DefaultSelenium(server_ip, server_port, "*chrome", "http://www.xmlobject.org");
 	        logger.info("selenium "+selenium);
 			try{
 				selenium.start();

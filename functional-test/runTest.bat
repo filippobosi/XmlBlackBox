@@ -1,3 +1,3 @@
-mvn install -Duser.name=examar -Dtest=Example999 -o
+mvn test -Duser.name=examar -Dtest=Example999 -o
 
 

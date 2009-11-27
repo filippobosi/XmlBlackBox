@@ -2,15 +2,15 @@
 <TEST name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
    
 	<!-- Connection initialize -->
-	<INCLUDE-FILE filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE>
-    <DB-CONNECTIONS>
+    <INCLUDE-FILE filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE>
+    <!--DB-CONNECTIONS>
         <CONNECTION name="SGATE-CONNECTION199" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.199:1521:SVILSGATE"
             username="sgate_1" password="sgate_1"/>
         <CONNECTION name="SGATE-CONNECTION82" driver="oracle.jdbc.driver.OracleDriver"
             db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
             username="sgate_tugurio" password="sgate_tugurio"/>
-    </DB-CONNECTIONS>
+    </DB-CONNECTIONS-->
         
     <!-- setVariable example getting value from db chosing-->
     <SET-VARIABLE name="setVariable1">
@@ -38,20 +38,20 @@
         </dataset>
     </CHECK-DB>
     <!-- Execute a Plugin to create a date (-30 days from today) with a certain pattern -->
-    <RUN-PLUGIN class="org.xmlblackbox.test.infrastructure.functions.GenerateDate" >
+    <!--RUN-PLUGIN class="org.xmlblackbox.test.infrastructure.functions.GenerateDate" >
             <PARAMETERS>
-    			<PARAMETER name="pattern" value="yyyyMMdd" />
+                <PARAMETER name="pattern" value="yyyyMMdd" />
                 <PARAMETER name="addOrSubDays" value="-30"/>
             </PARAMETERS>
-    </RUN-PLUGIN>
+    </RUN-PLUGIN-->
     <!-- Example setVariable with VALUE_TYPE -->
     <SET-VARIABLE name="setVariable2">
-        <SET name="codice_pid" value="codicePID" type="VALUE_TYPE" />
+        <SET name="codice_pid" value="836737" type="VALUE_TYPE" />
     </SET-VARIABLE>
     <!-- Example setVariable with VALUE_TYPE fromn another variable (the one craeted with Plugin execution)-->
-    <SET-VARIABLE name="setVariable3">
+    <!--SET-VARIABLE name="setVariable3">
         <SET name="generatedDate" value="${generatedDate@runPlugin}" type="VALUE_TYPE" />
-    </SET-VARIABLE>
+    </SET-VARIABLE-->
     
     <!-- Example for creating an Xml file with modified value -->
     <XML-CONTENT name="xmlContent1"
@@ -70,7 +70,7 @@
 	</XML-CONTENT>
 	<!-- Example to verify values in xml file -->
     <XML-CONTENT name="XML-CONTENT Check"
-    		fileinput="target/Example999_1_out.xml"
+            fileinput="target/Example999_1_out.xml"
             namespace="declare namespace xsd='http://www.example.xmlblackbox.org/xsd/';">
         <XML-CHECK-ROW name="verifica login"
             xpath="$this//xsd:spedizione/xsd:mittente/xsd:login"
@@ -78,23 +78,23 @@
         <XML-CHECK-ROW name="verifica password"
             xpath="$this//xsd:spedizione/xsd:mittente/xsd:password"
             value="gdgd!6yhfy"/>
-	</XML-CONTENT>
+    </XML-CONTENT>
 	
 	<!-- Example to create xml file for the following web-service-client -->
     <XML-CONTENT name="xmlContent3"
             fileinput="src/test/resources/templateXml/WebServiceTemplate/RichiestaPresaInCaricoWebService.xml"
             fileoutput="target/Example999_RichiestaPresaInCaricoWebService_1_out.xml"
             namespace="declare namespace xsd='http://www.sgate.ancitel.it/xsd/';">
-	        <XML-INSERT-ROW name="insertCodiceDistributore"
-                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
-                    value="${CODICE_DISTRIBUTORE@fileProperties}"/>
-	        <XML-INSERT-ROW name="insertLogin"
-                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
-                    value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
-	        <XML-INSERT-ROW name="insertPassword"
-                    xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
-                    value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
-	</XML-CONTENT>
+            <XML-INSERT-ROW name="insertCodiceDistributore"
+                xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:codiceDistributore"
+                value="${CODICE_DISTRIBUTORE@fileProperties}"/>
+            <XML-INSERT-ROW name="insertLogin"
+                xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:login"
+                value="${USERNAME_DISTRIBUTORE@fileProperties}"/>
+            <XML-INSERT-ROW name="insertPassword"
+                xpath="$this//xsd:richiestaPresaInCaricoLotto/xsd:mittente/xsd:password"
+                value="${PASSWORD_DISTRIBUTORE@fileProperties}"/>
+    </XML-CONTENT>
 	
     <WEB-SERVICE-CLIENT name="webservice.richiestaPresaInCarico">
         <FILE-INPUT>target/Example999_RichiestaPresaInCaricoWebService_1_out.xml</FILE-INPUT>
@@ -114,14 +114,14 @@
             xpath="$this//xsd:rispostaPresaInCaricoLotto/xsd:lottoMessaggi/xsd:idLotto"
             type="XML_TYPE"/>
     </SET-VARIABLE>
-    <SELENIUM name="Example999 Login con SELENIUM">
-		<FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.GenericLoginXBB</FILE-NAVIGATION>
-		<PARAMETERS>
-			<PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />
-			<PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
-			<PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
-		</PARAMETERS>
-	</SELENIUM>
+    <SELENIUM name="Example999 navigazione con SELENIUM">
+            <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.CorriereXBB</FILE-NAVIGATION>
+            <PARAMETERS>
+                    <PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />
+                    <PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
+                    <PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
+            </PARAMETERS>
+    </SELENIUM>
     
 <!--
     <RUN-PLUGIN class="org.xmlblackbox.test.functions.xmlblackbox.PresaInCaricoSvuotaCodeXBB" >

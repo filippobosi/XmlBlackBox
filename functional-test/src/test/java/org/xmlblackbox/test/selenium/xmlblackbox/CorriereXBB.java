@@ -16,9 +16,9 @@ public class CorriereXBB extends SeleniumTestCase implements SeleniumNavigation{
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
         Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
-        super.setUp("http://www.corriere.it", memory.getRepository(Repository.FILE_PROPERTIES));
+        super.setUp(memory.getRepository(Repository.FILE_PROPERTIES));
 
-        selenium.open("http://www.corriere.it");
+        selenium.open("http://mantis.ancitel.it");
         selenium.waitForPageToLoad("30000");
         
         return selenium;

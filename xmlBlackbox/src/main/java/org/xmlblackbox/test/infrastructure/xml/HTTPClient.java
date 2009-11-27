@@ -47,6 +47,7 @@ import com.tapsterrock.jiffie.JiffieException;
 import com.thoughtworks.selenium.Selenium;
 import java.sql.Connection;
 import org.dbunit.database.DatabaseConnection;
+import org.jdom.Namespace;
 /**
  * Es.
  *  Login fatta con Selenium all'indirizzo WEB_URL@testProp trovato nel
@@ -116,7 +117,7 @@ public class HTTPClient extends Runnable  {
 
         Element parametersElement = clientElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -138,8 +139,8 @@ public class HTTPClient extends Runnable  {
 //    	if (timeout!=null)
 ////    		httpClient.setTimeout(Integer.parseInt(timeout.getText()));
 
-    	Element fileNavigationXml= clientElement.getChild("FILE-NAVIGATION");
-        logger.info("fileNavigationXml.getText() "+fileNavigationXml.getText());
+    	Element fileNavigationXml= clientElement.getChild("FILE-NAVIGATION", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
+
     	if (fileNavigationXml!=null){
     		httpClient.setFileNavigation(fileNavigationXml.getText());
     	}
@@ -166,12 +167,12 @@ public class HTTPClient extends Runnable  {
 //    		httpClient.setUrlUpload(urlApload.getText());
 //    	}
 
-    	Element type = clientElement.getChild("TYPE");
+    	Element type = clientElement.getChild("TYPE", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
     	if (type!=null){
     		httpClient.setType(type.getAttributeValue("name"));
     	}
 
-    	Element waitTerminated = clientElement.getChild("WAIT_TERMINATED");
+    	Element waitTerminated = clientElement.getChild("WAIT_TERMINATED", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
     	logger.info("waitTerminated "+waitTerminated);
     	if (waitTerminated!=null){
     		httpClient.setWaitingTerminated(true);

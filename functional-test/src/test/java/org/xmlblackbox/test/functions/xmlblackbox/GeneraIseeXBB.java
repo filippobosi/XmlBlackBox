@@ -12,7 +12,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
-import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.ITableUtil;
@@ -23,7 +23,7 @@ public class GeneraIseeXBB extends GenericRunnablePlugin  {
     private final static Logger log = Logger.getLogger(GeneraIseeXBB.class);
 
 	@Override
-	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunPluginAbnormalTermination {
 
         Connection conn = (Connection)memory.getObjectByName(Repository.RUN_PLUGIN);
 
@@ -41,10 +41,10 @@ public class GeneraIseeXBB extends GenericRunnablePlugin  {
                 codicePODItable = ITableUtil.getITable(databaseConnection, "CODICEISEE", query);
             } catch (DataSetException ex) {
                 log.error("DataSetException", ex);
-                throw new RunFunctionAbnormalTermination("DataSetException");
+                throw new RunPluginAbnormalTermination("DataSetException");
             } catch (SQLException ex) {
                 log.error("SQLException", ex);
-                throw new RunFunctionAbnormalTermination("SQLException");
+                throw new RunPluginAbnormalTermination("SQLException");
             }
 
 

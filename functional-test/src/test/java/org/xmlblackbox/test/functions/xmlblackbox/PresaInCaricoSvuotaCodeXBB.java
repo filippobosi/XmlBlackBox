@@ -18,7 +18,7 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
@@ -29,7 +29,7 @@ public class PresaInCaricoSvuotaCodeXBB extends GenericRunnablePlugin {
     XmlObject richiestaPIC = null;
 
 	@Override
-	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination {
+	public void execute(Properties prop, MemoryData memory) throws RunPluginAbnormalTermination {
         try {
             Connection conn = (Connection)memory.getObjectByName(Repository.RUN_PLUGIN);
 
@@ -56,13 +56,13 @@ public class PresaInCaricoSvuotaCodeXBB extends GenericRunnablePlugin {
             }
         } catch (XmlException ex) {
             log.error("XmlException", ex);
-            throw new RunFunctionAbnormalTermination("XmlException");
+            throw new RunPluginAbnormalTermination("XmlException");
         } catch (IOException ex) {
             log.error("IOException", ex);
-            throw new RunFunctionAbnormalTermination("IOException");
+            throw new RunPluginAbnormalTermination("IOException");
         } catch (Exception ex) {
             log.error("Exception", ex);
-            throw new RunFunctionAbnormalTermination("Exception");
+            throw new RunPluginAbnormalTermination("Exception");
         }
 
 	}

@@ -24,9 +24,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
+import javax.xml.namespace.QName;
 import org.apache.xmlbeans.XmlObject;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.ITable;
+import org.jdom.Namespace;
+import org.jdom.output.XMLOutputter;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 /**
@@ -64,7 +67,15 @@ public class SetVariable extends XmlElement{
 		log.info("setVarElement "+setVarElement);
 		log.info("setVarElement.getAttributeValue(nome) "+setVarElement.getAttributeValue("name"));
 		setList = new Vector();
-    	Iterator<Element> setIterator = setVarElement.getChildren("SET").iterator();
+        log.info("SET-VARIABLE build element2 "+new XMLOutputter().outputString(setVarElement));
+
+    	Iterator<Element> setIterator = setVarElement.getChildren("SET", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
+        log.info("setIterator "+setVarElement.getChildren("SET", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).size());
+
+        if (!setIterator.hasNext()){
+            throw new TestException("SET tag not found");
+        }
+
     	while(setIterator.hasNext()){
             Element setVariable = setIterator.next();
             if (setVariable!=null){
@@ -138,11 +149,12 @@ public class SetVariable extends XmlElement{
         try {
 
             Properties prop = memory.getOrCreateRepository(Repository.SET_VARIABLE);
-            IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(currentSet.getConnection()));
+            IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getConnectionByName(currentSet.getConnection()));
 
             log.info("query: " + currentSet.getQuery());
             log.info("conn: " + conn);
             log.info("currentSet: " + currentSet);
+            log.info("currentSet.getConnection(): " + currentSet.getConnection());
             log.info("conn.getConnection(): " + conn.getConnection());
             PreparedStatement prepareStatement = conn.getConnection().prepareStatement(currentSet.getQuery());
             ResultSet resultSet= prepareStatement.executeQuery();
@@ -154,7 +166,7 @@ public class SetVariable extends XmlElement{
                 throw new TestException("Nessun risultato per set " + currentSet.getNome());
             }
             if (resultSet.next()) {
-                throw new TestException("Più di un risultato per set " + currentSet.getNome());
+                throw new TestException("Piu' di un risultato per set " + currentSet.getNome());
             }
         }  catch (SQLException ex) {
             log.info("SQLException ", ex);

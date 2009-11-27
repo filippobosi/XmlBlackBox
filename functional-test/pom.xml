@@ -23,12 +23,12 @@
             <testResource>
                 <directory>target/generated-sources/axis2/wsdl2code/resources/</directory>
             </testResource>
-            <!--testResource>
+            <testResource>
                 <directory>${basedir}/target/generated-sources/wsdl2code/src</directory>
             </testResource>
             <testResource>
                 <directory>${basedir}/target/generated-sources/xmlbeans</directory>
-            </testResource-->
+            </testResource>
         </testResources>
         <plugins>
 			<plugin>

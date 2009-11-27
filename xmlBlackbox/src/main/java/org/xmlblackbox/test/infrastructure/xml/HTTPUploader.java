@@ -47,6 +47,7 @@ import com.tapsterrock.jiffie.JiffieException;
 import com.thoughtworks.selenium.Selenium;
 import java.sql.Connection;
 import org.dbunit.database.DatabaseConnection;
+import org.jdom.Namespace;
 /**
  * Es.
  *  Login fatta con Selenium all'indirizzo WEB_URL@testProp trovato nel
@@ -105,7 +106,7 @@ public class HTTPUploader extends Runnable  {
 
         Element parametersElement = uploaderElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");

@@ -1,6 +1,6 @@
 package org.xmlblackbox.test.infrastructure.functions;
 
-import org.xmlblackbox.test.infrastructure.exception.RunFunctionAbnormalTermination;
+import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import java.sql.Connection;
@@ -21,7 +21,7 @@ public class GenerateInteger extends GenericRunnablePlugin {
 	}
 
 	@Override
-	public void execute(Properties prop, MemoryData memory) throws RunFunctionAbnormalTermination{
+	public void execute(Properties prop, MemoryData memory) throws RunPluginAbnormalTermination{
 		
 	}
 

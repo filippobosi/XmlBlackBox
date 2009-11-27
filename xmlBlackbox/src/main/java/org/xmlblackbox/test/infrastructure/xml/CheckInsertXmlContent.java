@@ -19,6 +19,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
@@ -74,7 +75,7 @@ public class CheckInsertXmlContent extends Runnable {
 
         Element parametersElement = checkInsertXmlElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -89,7 +90,7 @@ public class CheckInsertXmlContent extends Runnable {
         setFileInput(checkInsertXmlElement.getAttributeValue("fileinput"));
         setFileOutput(checkInsertXmlElement.getAttributeValue("fileoutput"));
 
-    	Iterator<Element> xmlCheckIterator = checkInsertXmlElement.getChildren("XML-CHECK-ROW").iterator();
+    	Iterator<Element> xmlCheckIterator = checkInsertXmlElement.getChildren("XML-CHECK-ROW", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     	while(xmlCheckIterator.hasNext()){
             Element element = xmlCheckIterator.next();
             if (element!=null){
@@ -97,7 +98,7 @@ public class CheckInsertXmlContent extends Runnable {
             }
         }
 
-        Iterator<Element> xmlInsertIterator = checkInsertXmlElement.getChildren("XML-INSERT-ROW").iterator();
+        Iterator<Element> xmlInsertIterator = checkInsertXmlElement.getChildren("XML-INSERT-ROW", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     	while(xmlInsertIterator.hasNext()){
             Element element = xmlInsertIterator.next();
             if (element!=null){
@@ -105,7 +106,7 @@ public class CheckInsertXmlContent extends Runnable {
             }
         }
 
-        Iterator<Element> xmlInsertNodeIterator = checkInsertXmlElement.getChildren("XML-INSERT-NODE-ROW").iterator();
+        Iterator<Element> xmlInsertNodeIterator = checkInsertXmlElement.getChildren("XML-INSERT-NODE-ROW", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     	while(xmlInsertNodeIterator.hasNext()){
             Element element = xmlInsertNodeIterator.next();
             if (element!=null){
@@ -113,7 +114,7 @@ public class CheckInsertXmlContent extends Runnable {
             }
         }
 
-        Iterator<Element> xmlRemoveNodeIterator = checkInsertXmlElement.getChildren("XML-INSERT-NODE-ROW").iterator();
+        Iterator<Element> xmlRemoveNodeIterator = checkInsertXmlElement.getChildren("XML-INSERT-NODE-ROW", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     	while(xmlRemoveNodeIterator.hasNext()){
             Element element = xmlRemoveNodeIterator.next();
             if (element!=null){

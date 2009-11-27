@@ -17,10 +17,10 @@ public class RunPlugin extends XmlElement {
 
 	private final static Logger log = Logger.getLogger(RunPlugin.class);
 
-    private String templateClass;
-    private HashMap<String, String> input;
-    private HashMap<String, String> output;
-	
+        private String templateClass;
+        private HashMap<String, String> input;
+        private HashMap<String, String> output;
+
 	public HashMap<String, String> getInput() {
 		return input;
 	}

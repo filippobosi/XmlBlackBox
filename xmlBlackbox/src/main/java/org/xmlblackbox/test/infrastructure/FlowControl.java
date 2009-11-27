@@ -153,40 +153,10 @@ public class FlowControl extends DatabaseTestCase {
 
 
 
-	public void execute(String fileConfigTest, Properties prop) throws TestException, Exception {
+    public void execute(String fileConfigTest, Properties prop) throws TestException, Exception {
         int step = 1;
         Object obj = null;
 		try{
-			InputStream iSValidate = this.getClass().getResourceAsStream(fileConfigTest);
-//			ValidateXML validator = new ValidateXML(fileConfigTest, "/xmlblackbox_1_0.xsd");
-//			validator.validate();
-
-			TESTDocument testDoc = TESTDocument.Factory.parse(iSValidate);
-
-			ArrayList validationErrors = new ArrayList();
-			XmlOptions voptions = new XmlOptions();
-			voptions.setErrorListener(validationErrors);
-			boolean valid = testDoc.validate(voptions);
-			if(valid)
-			{
-				System.out.println("Its valid xml");
-				log.info("Its valid xml");
-			}
-			else
-			{
-				log.info("Not a valid xml file");
-				System.out.println("Not a valid xml file");
-				Iterator itr = validationErrors.iterator();
-				String errors = null;
-				while(itr.hasNext())
-				{
-					String next = itr.next().toString();
-					errors = errors +"-----"+next;
-					log.info(next);
-					System.out.println(next);
-				}
-				throw new XmlValidationFault(errors);
-			}
 
             log.info("execute fileConfigTest, prop, genericConnection");
 			log.info("[ START TEST CASE : " + fileConfigTest.substring(0, fileConfigTest.indexOf(".")) + " ]");
@@ -201,12 +171,11 @@ public class FlowControl extends DatabaseTestCase {
 
 			//conn = new DatabaseConnection(genericConn);
 
-			InputStream iS = this.getClass().getResourceAsStream(fileConfigTest);
 
 			log.debug("[Reading XML TestCase]");
 			ReadXmlDocument readXmlDocument = null;
 			try {
-				readXmlDocument = new ReadXmlDocument(iS);
+				readXmlDocument = new ReadXmlDocument(fileConfigTest);
 			} catch (DataSetException e1) {
 				log.error("[!] Unable to read test file ",e1);
 				throw new TestException( e1, "Unable to read test file "+fileConfigTest);
@@ -263,8 +232,9 @@ public class FlowControl extends DatabaseTestCase {
             Enumeration elements = hashObject.elements();
             while(elements.hasMoreElements()){
                 Object objTmp = elements.nextElement();
+				log.info("objTmp "+objTmp);
                 if (objTmp instanceof Connection){
-                    Connection conn = (Connection)obj;
+                    Connection conn = (Connection)objTmp;
                     try {
                         if (conn!=null){
                             conn.close();
@@ -344,13 +314,16 @@ public class FlowControl extends DatabaseTestCase {
 							connection.getUsername(),
 							connection.getPassword()
 							);
-                    log.info("Connection "+connection.getName());
+                    log.info("connection.getName() "+connection.getName());
+                    log.info("conn "+conn);
 					memory.setConnection(connection.getName(), conn);
 
 				}
             } else if (obj instanceof SetVariable) {
+                log.debug("setVariable ");
                 SetVariable setVariable= (SetVariable) obj;
                 Iterator<Set> iter = setVariable.getSetList().iterator();
+                log.debug("setVariable.getSetList().size() "+setVariable.getSetList().size());
                 while(iter.hasNext()){
                     Set currentSet = iter.next();
 
@@ -380,7 +353,7 @@ public class FlowControl extends DatabaseTestCase {
 
                 while(iter.hasNext()){
                     Query query = iter.next();
-                    IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(query.getConnection()));
+                    IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getConnectionByName(query.getConnection()));
                     log.info("Run query "+query.getQuery()+" about xml object "+query.getNome());
                     if (query.getType().equals(Query.UPDATE) || query.getType().equals(Query.INSERT)){
                         int result = conn.getConnection().createStatement().executeUpdate(query.getQuery());

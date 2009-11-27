@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dbunit.database.IDatabaseConnection;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.DBConnection;
 
@@ -33,7 +34,7 @@ public class XmlDBConnection extends XmlElement{
 
         Element parametersElement = dbcheckElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");

@@ -2,17 +2,24 @@
 package org.xmlblackbox.test.infrastructure.xml;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlOptions;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
+import org.xmlblackbox.test.infrastructure.exception.IncludeFileNotFound;
+import org.xmlblackbox.test.infrastructure.exception.XmlValidationFault;
+import org.xmlblackbox.xsd.TESTDocument;
 
 
 public class ReadXmlDocument {
@@ -33,25 +40,70 @@ public class ReadXmlDocument {
 	private String nomeTest = null;
 	
 
-	public ReadXmlDocument(InputStream navigationFile) throws Exception{
-		loadFile(navigationFile);
+	public ReadXmlDocument(String navigationFile) throws Exception{
+        InputStream iSValidate = this.getClass().getResourceAsStream(navigationFile);
+        //navigationFile.mark(1000000);
+        validateXml(iSValidate);
+        //navigationFile.reset();
+		InputStream iS = this.getClass().getResourceAsStream(navigationFile);
+        loadFile(iS);
 	}
 
-	private void loadFile(InputStream navigationFile) throws Exception{
-		SAXBuilder saxBuilder = new SAXBuilder();
-		saxBuilder.setValidation(false);
-		
-		Document documentJdom = null;
+    private void validateXml(InputStream iSValidate) throws XmlValidationFault{
+//            InputStream iSValidate = this.getClass().getResourceAsStream(fileConfigTest);
 
-        log.info("navigationFile "+navigationFile);
-		try {
-			
-			documentJdom = saxBuilder.build(navigationFile);
+            TESTDocument testDoc = null;
+			try{
+                    testDoc = TESTDocument.Factory.parse(iSValidate);
+                    testDoc.save(new File("target/prova.xml"));
+            }catch(Throwable e){
+                e.printStackTrace();
+                log.error("e "+e);
+                log.error("THROWABLE ", e);
+                throw new XmlValidationFault("");
+            }
+			ArrayList validationErrors = new ArrayList();
+			XmlOptions voptions = new XmlOptions();
+			voptions.setErrorListener(validationErrors);
+			boolean valid = testDoc.validate(voptions);
+			if(valid)
+			{
+				System.out.println("Its valid xml");
+				log.info("Its valid xml");
+			}
+			else
+			{
+				log.info("Not a valid xml file");
+				System.out.println("Not a valid xml file");
+				Iterator itr = validationErrors.iterator();
+				String errors = null;
+				while(itr.hasNext())
+				{
+					String next = itr.next().toString();
+					errors = errors +next;
+
+					log.error(next);
+					System.out.println(next);
+				}
+				throw new XmlValidationFault(errors);
+			}
+
+    }
+
+	private void loadFile(InputStream navigationFile) throws Exception{
+            SAXBuilder saxBuilder = new SAXBuilder();
+            //saxBuilder.setValidation(false);
+
+            Document documentJdom = null;
+
+            log.info("navigationFile "+navigationFile);
+            try {
+                documentJdom = saxBuilder.build(navigationFile);
 	    } catch (JDOMException e) {
 	        e.printStackTrace();
 	    } catch (IOException e) {
-			e.printStackTrace();
-		}
+                e.printStackTrace();
+            }
 	    
 	    Element element = documentJdom.getRootElement();	    
 	    Iterator elementList = element.getChildren().iterator();
@@ -62,6 +114,7 @@ public class ReadXmlDocument {
 	    while (elementList.hasNext()){
 	    	Element element2 = (Element) elementList.next();
 	    	log.info("[Element : " + element2 + " Name : " + element2.getName());
+            log.info("element2 "+new XMLOutputter().outputString(element2));
         	try {
 		    	if ("CHECK-DB".equals(element2.getName())) {
 	            	DbCheck dbCheck = new DbCheck(element2);
@@ -88,6 +141,7 @@ public class ReadXmlDocument {
 		        	listaWsClient.add(wsClient);
 		        	getListaCompleta().add(wsClient);
 		        } else if ("SET-VARIABLE".equals(element2.getName())) {
+                    log.info("SET-VARIABLE element2 "+new XMLOutputter().outputString(element2));
 		        	SetVariable setVariable = new SetVariable(element2);
 		        	listaSetVariable.add(setVariable);
 		        	getListaCompleta().add(setVariable);
@@ -112,12 +166,15 @@ public class ReadXmlDocument {
                     log.debug("filename "+filename);
                     InputStream includeFile = this.getClass().getResourceAsStream(filename);
                     log.debug("includeFile "+includeFile);
+                    if (includeFile==null){
+                    	throw new IncludeFileNotFound("Include file not found "+filename);
+                    }
                     this.loadFile(includeFile);
                 }else{
             		log.error("Exception. The element " + element2.getName()+" does not exist");
                 }
         	} catch (Exception e) {
-        		log.fatal("[!] Errore durante il build dell'oggetto " + element2);
+        		log.fatal("[!] Errore durante il build dell'oggetto " + element2, e);
         		throw e;
 			}
 	   }

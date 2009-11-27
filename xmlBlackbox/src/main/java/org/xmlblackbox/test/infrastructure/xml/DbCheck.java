@@ -31,6 +31,7 @@ import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.jdom.Namespace;
 
 public class DbCheck extends XmlElement{
 
@@ -65,7 +66,7 @@ public class DbCheck extends XmlElement{
 
         Element parametersElement = dbcheckElement.getChild("PARAMETERS");
     	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER").iterator();
+    		Iterator parametersList = parametersElement.getChildren("PARAMETER", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/")).iterator();
     		while (parametersList.hasNext()){
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
@@ -76,7 +77,7 @@ public class DbCheck extends XmlElement{
     	}
 
 
-    	List listaInsert = dbcheckElement.getChildren("INSERT_UPDATE_QUERY");
+    	List listaInsert = dbcheckElement.getChildren("INSERT_UPDATE_QUERY", Namespace.getNamespace("http://www.xmlblackbox.org/xsd/"));
     	Iterator iter = listaInsert.iterator();
     	List vector = new Vector();
     	int index = 0;
