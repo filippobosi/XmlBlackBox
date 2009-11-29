@@ -49,7 +49,7 @@
 							<goal>xmlbeans</goal>
 						</goals>
 						<configuration>
-							<schemaDirectory>src/main/resources/xsd/</schemaDirectory>
+							<schemaDirectory>src/main/resources/xsd/1.1/</schemaDirectory>
 							<sourceGenerationDirectory>target/generated-sources/xmlbeans</sourceGenerationDirectory>
 							<classGenerationDirectory>target/generated-classes/xmlbeans</classGenerationDirectory>
 							<staleFile>target/generated-sources/xmlbeans/.staleFlag</staleFile>

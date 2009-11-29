@@ -11,6 +11,7 @@
 	<xs:sequence>
 		<xs:element name="CONNECTION" type="xbb:CONNECTION" maxOccurs="unbounded"/>
 	</xs:sequence>
+	<xs:attribute name="version" type="xbb:version" use="required"/>
 </xs:complexType>
 
 
@@ -21,6 +22,12 @@
 	<xs:attribute name="username" type="xs:string" use="required"/>
 	<xs:attribute name="password" type="xs:string" use="required"/>
 </xs:complexType>
+
+<xs:simpleType name="version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
 
 <xs:simpleType name="setVariableType">
 	<xs:restriction base="xs:string">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xbb:TEST name="Example997" xmlns:xbb="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
    
-    <xbb:WEB-SERVICE-CLIENT name="webservice.richiestaPresaInCarico">
+    <xbb:WEB-SERVICE-CLIENT version="1.1" name="webservice.richiestaPresaInCarico">
         <xbb:FILE-INPUT>target/Example997_RichiestaPresaInCaricoWebService_1_out.xml</xbb:FILE-INPUT>
         <xbb:FILE-OUTPUT>target/Example997_RispostaPresaIncarico_out.xml</xbb:FILE-OUTPUT>
         <xbb:URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</xbb:URL>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xbb="http://www.xmlblackbox.org/xsd/" elementFormDefault="qualified" targetNamespace="http://www.xmlblackbox.org/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    
+<xs:complexType name="DB-CONNECTIONS">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a database connection
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="CONNECTION" type="xbb:CONNECTION" maxOccurs="unbounded"/>
+	</xs:sequence>
+	<xs:attribute name="version" type="xbb:connection-version" use="required"/>
+</xs:complexType>
+
+
+<xs:complexType name="CONNECTION">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="driver" type="xs:string" use="required"/>
+	<xs:attribute name="db-url" type="xs:string" use="required"/>
+	<xs:attribute name="username" type="xs:string" use="required"/>
+	<xs:attribute name="password" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:simpleType name="connection-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="setvariable-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="executequery-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="runplugin-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="checkdb-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="xmlcontent-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="webserviceclient-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="selenium-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="validate-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="includefile-version">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="1.0|1.1" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="setVariableType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="XML_TYPE|VALUE_TYPE|DB_TYPE" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="SET-VARIABLE">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for setting variable
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="SET" type="xbb:SET" minOccurs="1"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:setvariable-version" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="SET">
+	<xs:attribute name="connection" type="xs:string" use="optional"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" />
+	<xs:attribute name="query" type="xs:string" />
+	<xs:attribute name="filename" type="xs:string" />
+	<xs:attribute name="namespace" type="xs:string" />
+	<xs:attribute name="xpath" type="xs:string" />
+	<xs:attribute name="type" type="xbb:setVariableType"/>
+</xs:complexType>
+
+<xs:complexType name="EXECUTE-QUERY">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for executing query
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="QUERY" type="xbb:QUERY" minOccurs="1"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:executequery-version" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="QUERY">
+	<xs:attribute name="connection" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="query" type="xs:string" use="required"/>
+	<xs:attribute name="type" type="xs:string" use="required"/>
+</xs:complexType>
+
+<!--xs:complexType name="dataset">
+	<any namespace="http://www.w3.org/1999/xhtml"
+                 minOccurs="1" maxOccurs="unbounded"
+                 processContents="skip"/>
+</xs:complexType-->
+
+<xs:complexType name="CHECK-DB">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for db check
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:any processContents="lax" minOccurs="1"/>
+	</xs:sequence>
+
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:checkdb-version" use="required"/>
+	<xs:attribute name="connection" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="RUN-PLUGIN">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for run a plugin
+	</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="PARAMETERS" type="xbb:PARAMETERS" minOccurs="0"/>
+	</xs:sequence>
+	<xs:attribute name="version" type="xbb:runplugin-version" use="required"/>
+	<xs:attribute name="class" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="PARAMETERS">
+	<xs:choice>
+		<xs:element name="PARAMETER" type="xbb:PARAMETER" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:choice>
+</xs:complexType>
+
+<xs:complexType name="PARAMETER">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="XML-CONTENT">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for checking xml file content
+	</xs:documentation>
+	</xs:annotation>
+  	<xs:choice maxOccurs="unbounded">
+		<xs:element name="XML-INSERT-ROW" type="xbb:XML-ROW" minOccurs="0"/>
+		<xs:element name="XML-CHECK-ROW" type="xbb:XML-ROW" minOccurs="0"/>
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:xmlcontent-version" use="required"/>
+	<xs:attribute name="fileinput" type="xs:string" use="required"/>
+	<xs:attribute name="fileoutput" type="xs:string" use="optional"/>
+	<xs:attribute name="namespace" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="XML-ROW">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="xpath" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="WEB-SERVICE-CLIENT">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for executing a web service call
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="FILE-INPUT" type="xs:string"/>
+		<xs:element name="FILE-OUTPUT" type="xs:string"/>
+		<xs:element name="URL" type="xs:string"/>
+		<xs:element name="STUB" type="xs:string"/>
+		<xs:element name="OPERATION" type="xs:string"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:webserviceclient-version" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="SELENIUM">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for executing a web navigation
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="FILE-NAVIGATION" type="xs:string"/>
+		<xs:element name="PARAMETERS" type="xbb:PARAMETERS" minOccurs="0"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:selenium-version" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="VALIDATE-XML">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for validating an xml file
+		</xs:documentation>
+	</xs:annotation>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:validate-version" use="required"/>
+	<xs:attribute name="xml" type="xs:string" use="required"/>
+	<xs:attribute name="xsd" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="INCLUDE-FILE">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a step for including other xml file
+		</xs:documentation>
+	</xs:annotation>
+	<xs:attribute name="version" type="xbb:includefile-version" use="required"/>
+	<xs:attribute name="filename" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:element name="TEST" type="xbb:TEST"/>
+<xs:element name="VALIDATE-XML" type="xbb:VALIDATE-XML"/>
+<xs:element name="DB-CONNECTIONS" type="xbb:DB-CONNECTIONS"/>
+<xs:element name="SET-VARIABLE" type="xbb:SET-VARIABLE"/>
+<xs:element name="EXECUTE-QUERY" type="xbb:EXECUTE-QUERY"/>
+<xs:element name="CHECK-DB" type="xbb:CHECK-DB"/>
+<xs:element name="RUN-PLUGIN" type="xbb:RUN-PLUGIN"/>
+<xs:element name="XML-CONTENT" type="xbb:XML-CONTENT"/>
+<xs:element name="WEB-SERVICE-CLIENT" type="xbb:WEB-SERVICE-CLIENT"/>
+<xs:element name="SELENIUM" type="xbb:SELENIUM"/>
+<xs:element name="INCLUDE-FILE" type="xbb:INCLUDE-FILE"/>
+
+<xs:complexType name="TEST">
+	<xs:annotation>
+		<xs:documentation>
+			Identify the main tag
+		</xs:documentation>
+	</xs:annotation>
+	<xs:choice maxOccurs="unbounded">
+		<xs:element ref="xbb:VALIDATE-XML" />
+		<xs:element ref="xbb:DB-CONNECTIONS" />
+		<xs:element ref="xbb:SET-VARIABLE" />
+		<xs:element ref="xbb:EXECUTE-QUERY" />
+		<xs:element ref="xbb:CHECK-DB" />
+		<xs:element ref="xbb:RUN-PLUGIN" />
+		<xs:element ref="xbb:XML-CONTENT" />
+		<xs:element ref="xbb:WEB-SERVICE-CLIENT" />
+		<xs:element ref="xbb:SELENIUM" />
+		<xs:element ref="xbb:INCLUDE-FILE" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+</xs:complexType>
+
+
+</xs:schema>

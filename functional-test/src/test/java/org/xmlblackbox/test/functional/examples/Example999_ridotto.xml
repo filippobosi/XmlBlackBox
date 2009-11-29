@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <TEST name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
-    <SELENIUM name="Example999 Login con SELENIUM">
+    <SELENIUM version="1.1" name="Example999 Login con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.CorriereXBB</FILE-NAVIGATION>
             <PARAMETERS>
                     <PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />

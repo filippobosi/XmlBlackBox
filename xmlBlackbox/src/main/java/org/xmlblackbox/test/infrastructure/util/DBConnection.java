@@ -92,10 +92,10 @@ public class DBConnection {
 										password);
 				jdbcConnection.setAutoCommit(true);
 			}catch(SQLException e){
-				log.error("[!] Impossibile completare la connessione al database",e);
+				log.error("[!] Connection not complete ",e);
 				throw e;
 			} catch (ClassNotFoundException e) {
-				log.error("[!] Impossibile completare la connessione al database - driver non trovato",e);
+				log.error("[!] Connection not complete - driver not found",e);
 				throw e;
 			}
 	

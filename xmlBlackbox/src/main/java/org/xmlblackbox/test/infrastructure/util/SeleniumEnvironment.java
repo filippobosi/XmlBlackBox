@@ -90,6 +90,7 @@ public abstract class SeleniumEnvironment extends SeleneseTestCase {
 		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+            logger.error("",e);
 		}
 		try {
 
@@ -97,6 +98,7 @@ public abstract class SeleniumEnvironment extends SeleneseTestCase {
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
+          logger.error("",e);
 			e.printStackTrace();
 		}
 
