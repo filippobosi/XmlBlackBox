@@ -147,8 +147,7 @@
 	</xs:annotation>
 	<xs:sequence>
 		<xs:any processContents="lax" minOccurs="1"/>
-	</xs:sequence>
-
+    </xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="version" type="xbb:checkdb-version" use="required"/>
 	<xs:attribute name="connection" type="xs:string" use="required"/>
@@ -217,6 +216,33 @@
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="version" type="xbb:webserviceclient-version" use="required"/>
 </xs:complexType>
+
+<!--xs:complexType name="DATASET-DBUNIT">
+	<xs:annotation>
+		<xs:documentation>
+			Identify a dataset for executing a check db call
+		</xs:documentation>
+	</xs:annotation>
+                <table name="DOMANDA_AGEV">
+                <column>ID</column>
+                <column>STATO_DOMANDA</column>
+                <row>
+                    <value>45111</value>
+                    <value>ammessa</value>
+                </row>
+            </table>
+
+	<xs:sequence>
+		<xs:element name="table" type="xs:string"/>
+		<xs:element name="FILE-OUTPUT" type="xs:string"/>
+		<xs:element name="URL" type="xs:string"/>
+		<xs:element name="STUB" type="xs:string"/>
+		<xs:element name="OPERATION" type="xs:string"/>
+	</xs:sequence>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="version" type="xbb:webserviceclient-version" use="required"/>
+</xs:complexType-->
+
 
 <xs:complexType name="SELENIUM">
 	<xs:annotation>

@@ -123,6 +123,48 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+          <id>tomcat5x</id>
+          <build>
+            <plugins>
+              <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <configuration>
+                  <wait>false</wait>
+                  <container>
+                    <containerId>tomcat5x</containerId>
+                    <zipUrlInstaller>
+                      <url>http://www.apache.org/dist/jakarta/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip</url>
+                      <installDir>${installDir}</installDir>
+                    </zipUrlInstaller>
+                  </container>
+                  <configuration>
+                    <home>${project.build.directory}/tomcat5x/container</home>
+                  </configuration>
+                </configuration>
+                <executions>
+                  <execution>
+                    <id>start-container</id>
+                    <phase>pre-integration-test</phase>
+                    <goals>
+                      <goal>start</goal>
+                    </goals>
+                  </execution>
+                  <execution>
+                    <id>stop-container</id>
+                    <phase>post-integration-test</phase>
+                    <goals>
+                      <goal>stop</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
+            </plugins>
+          </build>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>it.httptester</groupId>

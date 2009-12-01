@@ -15,6 +15,7 @@ import org.dbunit.Assertion;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.Column;
 import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.DataSetUtils;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
@@ -31,6 +32,8 @@ import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.dbunit.dataset.ITableIterator;
+import org.dbunit.dataset.xml.XmlDataSet;
 import org.jdom.Namespace;
 
 public class DbCheck extends XmlElement{
@@ -46,6 +49,11 @@ public class DbCheck extends XmlElement{
 	private List listaInsert = new Vector();
 	private Map<String, String> parameters = new HashMap<String, String>();
     private String connection;
+    private String version;
+
+    private static final String VERSION10 = "1.0";
+    private static final String VERSION11 = "1.1";
+
 
 	public DbCheck(Element el) throws Exception {
 		super(el);
@@ -57,6 +65,7 @@ public class DbCheck extends XmlElement{
 		DbCheck dbCheck=this;
 		
     	dbCheck.setNome((String)dbcheckElement.getAttributeValue("name"));
+    	dbCheck.setVersion((String)dbcheckElement.getAttributeValue("version"));
     	dbCheck.setMotivo((String)dbcheckElement.getAttributeValue("motif"));    	
     	dbCheck.setTipo((String)dbcheckElement.getAttributeValue("type"));
     	dbCheck.setDatabase((String)dbcheckElement.getAttributeValue("database"));
@@ -89,6 +98,14 @@ public class DbCheck extends XmlElement{
     	
     	IDataSet iDataSet = readDbUnit(dbcheckElement);
 		dbCheck.setDBUnitDataSet(iDataSet);
+        String[] tableNames = iDataSet.getTableNames();
+		logger.debug("BUILD BUILD tableNamesss "+ tableNames);
+		logger.debug("BUILD BUILD tableNames.length "+ tableNames.length);
+
+        ITableIterator tableIter = iDataSet.iterator();
+        logger.debug("tableIter.next() "+ tableIter.next());
+        logger.debug("tableIter.getTable().getTableMetaData().getTableName() "+ tableIter.getTable().getTableMetaData().getTableName());
+
 
 	}
 	
@@ -150,16 +167,22 @@ public class DbCheck extends XmlElement{
 //		File file = new File(Thread.currentThread().getName()+"dbunit.txt");
 //		file.createNewFile();
 		Element dataset = null;
-		dataset = dbcheckElement.getChild("dataset");
+		dataset = dbcheckElement.getChild("dataset", uriXsd);
 		
 		//Nel caso di DATASET_DBUNIT con solo le query di inserimento dati in questo modo non da errore
 		if (dataset==null){
 			dataset = new Element("dataset");
 		}
 		
+		logger.debug("new XMLOutputter().outputString(dataset) "+ new XMLOutputter().outputString(dataset));
 		StringReader srDataset=new StringReader(new XMLOutputter().outputString(dataset));
-		
-		IDataSet expectedDataSet = new FlatXmlDataSet(srDataset);
+		IDataSet expectedDataSet = null;
+        logger.debug("geVersion "+getVersion());
+        if (getVersion().equals(VERSION11)){
+    		expectedDataSet = new XmlDataSet(srDataset);
+        }else if(getVersion().equals(VERSION10)){
+    		expectedDataSet = new FlatXmlDataSet(srDataset);
+        }
 		srDataset.close();
 		
 //		inputStreamReader.close();
@@ -267,6 +290,20 @@ public class DbCheck extends XmlElement{
      */
     public String getConnection() {
         return connection;
+    }
+
+    /**
+     * @return the version
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(String version) {
+        this.version = version;
     }
 
 	

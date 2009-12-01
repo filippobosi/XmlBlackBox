@@ -22,9 +22,17 @@
         <QUERY connection="SGATE-CONNECTION199" name="CambioDataAgevolazione" query="UPDATE DOMANDA_AGEV SET STATO_DOMANDA='sospesa' WHERE ID=45111" type="UPDATE"/>
     </EXECUTE-QUERY>
     <!-- Checkdb example verify STATO_DOMANDA is sospesa-->
-    <CHECK-DB version="1.1" connection="SGATE-CONNECTION199" name="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
+    <CHECK-DB version="1.0" connection="SGATE-CONNECTION199" name="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
         <dataset>
             <DOMANDA_AGEV ID="45111" STATO_DOMANDA="sospesa"/>
+            <!--table name="DOMANDA_AGEV">
+                <column>ID</column>
+                <column>STATO_DOMANDA</column>
+                <row>
+                    <value>45111</value>
+                    <value>sospesa</value>
+                </row>
+            </table-->
         </dataset>
     </CHECK-DB>
     <!-- execute query example updating STATO_DOMANDA to 'ammessa' in db-->
@@ -34,7 +42,15 @@
     <!-- Checkdb example verify STATO_DOMANDA is 'ammessa' chosing the connection-->
     <CHECK-DB version="1.1" connection="SGATE-CONNECTION199" name="CessazioneLatoComune008PresaInCaricoCessazioneViaWebServiceSelenium verifica stato dopo presa in carico segnalazione">
         <dataset>
-            <DOMANDA_AGEV ID="45111" STATO_DOMANDA="ammessa"/>
+            <!--DOMANDA_AGEV ID="45111" STATO_DOMANDA="ammessa"/-->
+            <table name="DOMANDA_AGEV">
+                <column>ID</column>
+                <column>STATO_DOMANDA</column>
+                <row>
+                    <value>45111</value>
+                    <value>ammessa</value>
+                </row>
+            </table>
         </dataset>
     </CHECK-DB>
     <!-- Execute a Plugin to create a date (-30 days from today) with a certain pattern -->
