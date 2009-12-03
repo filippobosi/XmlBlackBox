@@ -28,10 +28,10 @@ import org.jdom.output.XMLOutputter;
  *
  * @author Crea
  */
-public class ExecuteQuery extends XmlElement{
+public class RunQuery extends XmlElement{
 
 
-	private final static Logger log = Logger.getLogger(ExecuteQuery.class);
+	private final static Logger log = Logger.getLogger(RunQuery.class);
     private Map<String, String> parameters = new HashMap<String, String>();
 
     private String connection;
@@ -39,7 +39,7 @@ public class ExecuteQuery extends XmlElement{
     private List queryList = new Vector();
 
 
-	public ExecuteQuery(Element el) throws Exception {
+	public RunQuery(Element el) throws Exception {
 		super(el);
 		build(el);
 	}

@@ -11,10 +11,10 @@ import org.xmlblackbox.test.infrastructure.util.MemoryData;
 import org.xmlblackbox.test.infrastructure.util.ValidateXML;
 import org.xmlblackbox.test.infrastructure.util.ValidateXmlTest;
 import org.xmlblackbox.test.infrastructure.xml.CheckInsertXmlContent;
-import org.xmlblackbox.test.infrastructure.xml.DbCheck;
+import org.xmlblackbox.test.infrastructure.xml.CheckDatabase;
 import org.xmlblackbox.test.infrastructure.xml.DbConnection;
-import org.xmlblackbox.test.infrastructure.xml.ExecuteQuery;
-import org.xmlblackbox.test.infrastructure.xml.HTTPClient;
+import org.xmlblackbox.test.infrastructure.xml.RunQuery;
+import org.xmlblackbox.test.infrastructure.xml.ClientWeb;
 import org.xmlblackbox.test.infrastructure.xml.Query;
 import org.xmlblackbox.test.infrastructure.xml.ReadXmlDocument;
 import org.xmlblackbox.test.infrastructure.xml.RunPlugin;
@@ -83,7 +83,7 @@ public class FlowControl extends DatabaseTestCase {
 
     private MemoryData memory = new MemoryData();
 
-	private HTTPClient httpClient = null;
+	private ClientWeb httpClient = null;
 	private HTTPUploader httpUploader = null;
 	private Selenium selenium = null;
 
@@ -259,23 +259,23 @@ public class FlowControl extends DatabaseTestCase {
 	private void executeNode(XmlElement obj, int step) throws Exception{
 
         try {
-            if (obj instanceof DbCheck) {
-                DbCheck dbCheck = (DbCheck) obj;
+            if (obj instanceof CheckDatabase) {
+                CheckDatabase dbCheck = (CheckDatabase) obj;
 
                 log.info("checkDB connection "+dbCheck.getConnection());
                 Connection connDbCheck = memory.getConnectionByName(dbCheck.getConnection());
 
                 dbCheck.checkDB(memory, new DatabaseConnection(connDbCheck), step);
-            } else if (obj instanceof HTTPClient) {
-                httpClient = (HTTPClient) obj;
+            } else if (obj instanceof ClientWeb) {
+                httpClient = (ClientWeb) obj;
 
                 Properties webNavigationProp = memory.getOrCreateRepository(Repository.WEB_NAVIGATION);
                 webNavigationProp.putAll(httpClient.getParameters());
 
-                if (httpClient.getType().equals(HTTPClient.HTTPTESTER)){
+                if (httpClient.getType().equals(ClientWeb.HTTPTESTER)){
                     httpTestCase = httpClient.executeHttpClient(httpClient, httpTestCase, memory);
                     webNavigationProp.putAll(httpTestCase.getResultVariables());
-                }else if (httpClient.getType().equals(HTTPClient.SELENIUM)){
+                }else if (httpClient.getType().equals(ClientWeb.SELENIUM)){
                     selenium = httpClient.executeSelenium(memory, selenium);
                 }else{
                     throw new TestException("HTTP-CLIENT type "+httpClient.getType() +" not exist!!!");
@@ -345,8 +345,8 @@ public class FlowControl extends DatabaseTestCase {
                     }
 
                 }
-            } else if (obj instanceof ExecuteQuery) {
-                ExecuteQuery executeQuery = (ExecuteQuery) obj;
+            } else if (obj instanceof RunQuery) {
+                RunQuery executeQuery = (RunQuery) obj;
                 Iterator<Query> iter = executeQuery.getQueryList().iterator();
                 log.info("ExecuteQuery");
                 log.info("executeQuery.getConnection() "+executeQuery.getConnection());

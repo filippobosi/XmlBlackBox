@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<TEST name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
+<TEST version="1.1" name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
    
 	<!-- Connection initialize -->
     <INCLUDE-FILE version="1.1" filename="/org/xmlblackbox/test/functional/examples/ConfigConnection.xml"></INCLUDE-FILE>
@@ -11,6 +11,10 @@
             db-url="jdbc:oracle:thin:@172.18.13.82:1521:XE"
             username="sgate_tugurio" password="sgate_tugurio"/>
     </DB-CONNECTIONS-->
+    <!-- setVariable example getting value from db chosing-->
+    <WAIT-TASK version="1.1" name="waitTask1">
+        <WAIT connection="SGATE-CONNECTION199" timeout="20" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" />
+    </WAIT-TASK>
         
     <!-- setVariable example getting value from db chosing-->
     <SET-VARIABLE version="1.1" name="setVariable1">

@@ -2,7 +2,6 @@
 package org.xmlblackbox.test.infrastructure.xml;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ public class ReadXmlDocument {
 	private List listaCheckXmlContent = new Vector();
 	private List listaDbConnection= new Vector();
 	private List listaPlugin = new Vector();
+	private List listaWaitTask = new Vector();
 	
 	private String nomeTest = null;
 	
@@ -94,14 +94,14 @@ public class ReadXmlDocument {
     }
 
 	private void loadFile(InputStream navigationFile) throws Exception{
-            SAXBuilder saxBuilder = new SAXBuilder();
-            //saxBuilder.setValidation(false);
+        SAXBuilder saxBuilder = new SAXBuilder();
+        //saxBuilder.setValidation(false);
 
-            Document documentJdom = null;
+        Document documentJdom = null;
 
-            log.info("navigationFile "+navigationFile);
-            try {
-                documentJdom = saxBuilder.build(navigationFile);
+        log.info("navigationFile "+navigationFile);
+        try {
+            documentJdom = saxBuilder.build(navigationFile);
 	    } catch (JDOMException e) {
 	        e.printStackTrace();
 	    } catch (IOException e) {
@@ -120,7 +120,7 @@ public class ReadXmlDocument {
             log.info("element2 "+new XMLOutputter().outputString(element2));
         	try {
 		    	if ("CHECK-DB".equals(element2.getName())) {
-	            	DbCheck dbCheck = new DbCheck(element2);
+	            	CheckDatabase dbCheck = new CheckDatabase(element2);
 		            listaDBCheck.add(dbCheck);
 		            getListaCompleta().add(dbCheck);
 		        } else if ("VALIDATE-XML".equals(element2.getName())) {
@@ -128,11 +128,11 @@ public class ReadXmlDocument {
 	            	listaHttpClient.add(xmlValidate);
 		            getListaCompleta().add(xmlValidate);
 		        } else if ("SELENIUM".equals(element2.getName())) {
-		        	HTTPClient httpClient= new HTTPClient(element2, HTTPClient.SELENIUM);
+		        	ClientWeb httpClient= new ClientWeb(element2, ClientWeb.SELENIUM);
 	            	listaHttpClient.add(httpClient);
 		            getListaCompleta().add(httpClient);
 		        } else if ("HTTPTESTER".equals(element2.getName())) {
-		        	HTTPClient httpClient= new HTTPClient(element2, HTTPClient.HTTPTESTER);
+		        	ClientWeb httpClient= new ClientWeb(element2, ClientWeb.HTTPTESTER);
 	            	listaHttpClient.add(httpClient);
 		            getListaCompleta().add(httpClient);
 		        } else if ("UPLOADER".equals(element2.getName())) {
@@ -153,7 +153,7 @@ public class ReadXmlDocument {
 		        	listaPlugin.add(runPlugin);
 		        	getListaCompleta().add(runPlugin);	        	
 		        } else if ("EXECUTE-QUERY".equals(element2.getName())) {
-		        	ExecuteQuery executeQuery = new ExecuteQuery(element2);
+		        	RunQuery executeQuery = new RunQuery(element2);
 		        	listaExecuteQuery.add(executeQuery);
 		        	getListaCompleta().add(executeQuery);
 		        } else if ("XML-CONTENT".equals(element2.getName())) {
@@ -164,6 +164,10 @@ public class ReadXmlDocument {
                     XmlDbConnections xmlDbConnections = new XmlDbConnections(element2);
                     listaDbConnection.add(xmlDbConnections);
                     getListaCompleta().add(xmlDbConnections);
+		        } else if ("WAIT-TASK".equals(element2.getName())) {
+                    WaitTask waitTask = new WaitTask(element2);
+                    listaWaitTask.add(waitTask);
+                    getListaCompleta().add(waitTask);
                 } else if ("INCLUDE-FILE".equals(element2.getName())) {
                     String filename = element2.getAttributeValue("filename");
                     log.debug("filename "+filename);
@@ -184,11 +188,6 @@ public class ReadXmlDocument {
 	   log.info("[Parsing xml elements]");
 		
 	}
-	/*
-	 * Per ora utilizzo un file per passare il target di DBUnit del file xml al sax parser 
-	 * dovremmo utilizzare le Pipe
-	 */
-	
 
 	public void setListaCompleta(List listaCompleta) {
 		this.listaCompleta = listaCompleta;

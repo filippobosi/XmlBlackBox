@@ -49,38 +49,38 @@ public class WebServiceClient extends Runnable {
 	}
 	
 	public void build(Element clientElement) throws Exception {
-		logger.info("clientElement "+clientElement);
-		logger.info("---------------------------------");
+		logger.debug("clientElement "+clientElement);
+		logger.debug("---------------------------------");
 //		logger.debug(new XMLOutputter().outputString(xmlElement));
 //		System.out.println(new XMLOutputter().outputString(xmlElement));
 	    
 		WebServiceClient wsClient=this;
 		wsClient.setNome(clientElement.getAttributeValue("name"));
-		logger.info("wsClient.getNome() "+wsClient.getNome());
+		logger.debug("wsClient.getNome() "+wsClient.getNome());
 		
 
     	Element fileInput = clientElement.getChild("FILE-INPUT", uriXsd);
-    	logger.info("fileInput "+fileInput);
+    	logger.debug("fileInput "+fileInput);
     	if (fileInput!=null){
     		wsClient.setFileInput(fileInput.getText());
     	}
 
     	Element urlServizioElement = clientElement.getChild("URL", uriXsd);
 
-		logger.info("urlServizioElement "+urlServizioElement);
+		logger.debug("urlServizioElement "+urlServizioElement);
     	if (urlServizioElement!=null){
     		wsClient.setUrl(urlServizioElement.getText());
     	}
 
     	Element stubServizioElement = clientElement.getChild("STUB", uriXsd);
-		logger.info("stubServizioElement "+stubServizioElement);
+		logger.debug("stubServizioElement "+stubServizioElement);
     	if (stubServizioElement!=null){
     		wsClient.setStub(stubServizioElement.getText());
     	}
 
     	
     	Element operationServizioElement = clientElement.getChild("OPERATION", uriXsd);
-		logger.info("operationServizioElement "+operationServizioElement);
+		logger.debug("operationServizioElement "+operationServizioElement);
     	if (operationServizioElement!=null){
     		wsClient.setOperation(operationServizioElement.getText());
     	}
@@ -88,7 +88,7 @@ public class WebServiceClient extends Runnable {
     	
     	
     	Element fileOutput = clientElement.getChild("FILE-OUTPUT", uriXsd);
-    	logger.info("fileOutput "+fileOutput);
+    	logger.debug("fileOutput "+fileOutput);
     	if (fileOutput!=null){
         	wsClient.setFileOutput(fileOutput.getText());
     	}

@@ -54,23 +54,18 @@ import org.jdom.Namespace;
  *  file di properties (testProp) con utente e password che poi vengono
  *  utilizzati nella navigazione selenium
  * <br>
- *  &lt; HTTP-CLIENT nome="Login con SELENIUM"&gt; <br>
- *		&lt; TYPE name="WEB_SELENIUM"/&gt; <br>
- *		&lt; APPLICATION name="WEB"/&gt; <br>
+ *  &lt; SELENIUM nome="Login con SELENIUM"&gt; <br>
  *		&lt; SELENIUM-NAVIGATION&gt;it.example.test.selenium.GenericLogin&lt; /SELENIUM-NAVIGATION&gt; <br>
  *		&lt; PARAMETERS&gt; <br>
  *			&lt; PARAMETER name="WEB_URL" value="${WEB_URL@testProp}" /&gt; <br>
  *			&lt; PARAMETER name="username" value="${USERNAME_COMUNE@testProp}"/&gt; <br>
  *			&lt; PARAMETER name="password" value="${PASSWORD_COMUNE@testProp}"/&gt; <br>
  *		&lt; /PARAMETERS&gt; <br>
- *	&lt; /HTTP-CLIENT&gt; <br><br>
+ *	&lt; /SELENIUM&gt; <br><br>
  *
  *  Creazione della domanda economica
  * <br>
- *  &lt; HTTP-CLIENT nome="EsportaAnagrafica001 Crea domanda economica PRESA IN CARICO"&gt; <br>
- *		&lt; TYPE name="WEB_SELENIUM"/&gt; <br>
- *		&lt; APPLICATION name="WEB"/&gt; <br>
- *		&lt; OUTPUT_PREFIX&gt;EsportaAnagrafica001&lt; /OUTPUT_PREFIX&gt; <br>
+ *  &lt; SELENIUM nome="EsportaAnagrafica001 Crea domanda economica PRESA IN CARICO"&gt; <br>
  *		&lt; SELENIUM-NAVIGATION&gt;it.example.test.selenium.CreaDomandaEconomica&lt; /SELENIUM-NAVIGATION&gt; <br>
  *		&lt; PARAMETERS&gt; <br>
  *			&lt; PARAMETER name="click_button_finale" value="_finish_presenta"/&gt; <br>
@@ -78,40 +73,40 @@ import org.jdom.Namespace;
  *          &lt; PARAMETER name="codice_provincia_comune" value="${CODICE_PROVINCIA_COMUNE@testProp}"/&gt; <br>
  *			&lt; PARAMETER name="codice_comune" value="${CODICE_COMUNE@testProp}"/&gt; <br>
  *		&lt; /PARAMETERS&gt; <br>
- *	&lt; /HTTP-CLIENT&gt; <br>
+ *	&lt; /SELENIUM&gt; <br>
  *
  *
  * @author acrea
  */
-public class HTTPClient extends Runnable  {
-	
-	private final static Logger logger = Logger.getLogger(HTTPClient.class);
+public class ClientWeb extends Runnable  {
+
+	private final static Logger logger = Logger.getLogger(ClientWeb.class);
 
 	public static String HTTPTESTER = "HTTPTESTER";
 	public static String SELENIUM = "SELENIUM";
 	public static String UPLOAD_FILE = "UPLOAD_FILE";
-	
+
 	private Map<String, String> parameters = new HashMap<String, String>();
 	private String outputPrefix = null;
 	private String fileNavigation= null;
 	private String application = null;
 	private String urlUpload= null;
-	
+
 	private boolean startConversation=false;
 	private boolean waitingTerminated=false;
 	private String waitingQuery = null;
 	private String waitingTimeout= "100";
 	private String waitingConnection = null;
 	private String type;
-	
+
 	int timeout = -1;
-	
-	public HTTPClient(Element el, String type) throws Exception {
+
+	public ClientWeb(Element el, String type) throws Exception {
 		super(el);
         this.type = type;
         build(el);
 	}
-	
+
 	public void build(Element clientElement) throws Exception {
 		parameters = new HashMap<String, String>();
 
@@ -122,19 +117,19 @@ public class HTTPClient extends Runnable  {
     			Element parameterElement = (Element) parametersList.next();
     			String pname = parameterElement.getAttributeValue("name");
     			String pvalue = parameterElement.getAttributeValue("value");
-    			
+
     			parameters.put(pname, pvalue);
     		}
     	}
-    	
-		HTTPClient httpClient=this;
-		logger.info("clientElement "+clientElement);
-		logger.info("clientElement.getAttributeValue(nome) "+clientElement.getAttributeValue("name"));
+
+		ClientWeb httpClient=this;
+		logger.debug("clientElement "+clientElement);
+		logger.debug("clientElement.getAttributeValue(nome) "+clientElement.getAttributeValue("name"));
 		httpClient.setNome(clientElement.getAttributeValue("name"));
-		
+
 		if(clientElement.getAttributeValue("start")!=null)
 			httpClient.setStartConversation(true);
-    	
+
 //    	Element timeout = clientElement.getChild("TIMEOUT");
 //    	if (timeout!=null)
 ////    		httpClient.setTimeout(Integer.parseInt(timeout.getText()));
@@ -161,9 +156,9 @@ public class HTTPClient extends Runnable  {
 ////    	}
 
 //    	Element urlApload = clientElement.getChild("URL_UPLOAD");
-//		logger.info("urlApload "+urlApload);
+//		logger.debug("urlApload "+urlApload);
 //    	if (urlApload!=null){
-//    		logger.info("urlApload.getText() "+urlApload.getText());
+//    		logger.debug("urlApload.getText() "+urlApload.getText());
 //    		httpClient.setUrlUpload(urlApload.getText());
 //    	}
 
@@ -177,7 +172,7 @@ public class HTTPClient extends Runnable  {
     	if (waitTerminated!=null){
     		httpClient.setWaitingTerminated(true);
     		httpClient.setWaitingQuery(waitTerminated.getAttributeValue("query"));
-    		
+
     		logger.info("waitTerminated.getAttributeValue(\"timeout\") "+waitTerminated.getAttributeValue("timeout"));
         	if (waitTerminated.getAttributeValue("timeout")!=null){
     			httpClient.setWaitingTimeout(waitTerminated.getAttributeValue("timeout"));
@@ -185,7 +180,7 @@ public class HTTPClient extends Runnable  {
             httpClient.setWaitingConnection(waitTerminated.getAttributeValue("connection"));
 
     	}
-    	
+
 //    	if (waitTerminated!=null){
 //    		httpClient.setWaitingTerminated(true);
 //    		httpClient.setWaitingTable(waitTerminated.getAttributeValue("table"));
@@ -194,11 +189,11 @@ public class HTTPClient extends Runnable  {
 //    			httpClient.setWaitingTimeout(new Integer(waitTerminated.getAttributeValue("timeout")));
 //    		}
 //    		httpClient.setWaitingValue(waitTerminated.getText());
-//    		
+//
 //    	}
 
 	}
-	
+
 	public void setTimeout(int timeout){
 		this.timeout = timeout;
 	}
@@ -214,7 +209,7 @@ public class HTTPClient extends Runnable  {
 	public String getFileNavigation() {
 		return fileNavigation;
 	}
-	
+
 	public Map<String, String> getParameters() {
 		return parameters;
 	}
@@ -225,11 +220,11 @@ public class HTTPClient extends Runnable  {
 
 
 //	public class HttpParameter {
-//		
+//
 //		private String paramName = null;
 //		private String paramValue = null;
 //		private String paramFrom = null;
-//		
+//
 //		public HttpParameter(String paramName, String paramValue, String paramFrom) {
 //			this.paramName = paramName;
 //			this.paramValue = paramValue;
@@ -295,12 +290,12 @@ public class HTTPClient extends Runnable  {
 
 	public String getWaitingTimeout() {
 		return waitingTimeout;
-	} 
+	}
 
 	public void setWaitingTimeout(String waitingTimeout) {
 		this.waitingTimeout = waitingTimeout;
 	}
-	
+
 	public boolean isWaitingTerminated() {
 		return waitingTerminated;
 	}
@@ -329,15 +324,15 @@ public class HTTPClient extends Runnable  {
 	public String getRepositoryName() {
 		return Repository.WEB_NAVIGATION;
 	}
-	
-	public void uploadFile(MemoryData memory, HTTPClient httpClient) throws TestException, HttpException, IOException  {
+
+	public void uploadFile(MemoryData memory, ClientWeb httpClient) throws TestException, HttpException, IOException  {
 		int ris;
 		HttpClient hClient = new HttpClient();
-		
+
 		Properties prop = memory.getOrCreateRepository(getRepositoryName());
 		logger.info("prop "+prop);
 
-		
+
 		/**
 		 * Effettua la login
 		 */
@@ -345,7 +340,7 @@ public class HTTPClient extends Runnable  {
 		String passwordStr = (String)httpClient.getParameters().get("password");
 
 		Properties fileProperties = memory.getOrCreateRepository(Repository.FILE_PROPERTIES);
-		
+
 		String httpApplicationRootUrl = fileProperties.getProperty("HTTP_APPLICATION_ROOT");
 		String loginWebUrl;
 		loginWebUrl = httpApplicationRootUrl+ fileProperties.getProperty("PATH_LOGIN");
@@ -372,14 +367,14 @@ public class HTTPClient extends Runnable  {
 		if (ris != HttpStatus.SC_MOVED_TEMPORARILY) {
 			throw new TestException("Errore alla login per fare l'upload del file");
 		}
-		
+
 		XmlObject[] domandeXml = null;
 
-		
-		
+
+
 		File fileXML = new File(httpClient.getFileInput());
 		PostMethod postm = new PostMethod(httpApplicationRootUrl+"/"+urlUpload);
-		
+
 		logger.debug("fileXML.getName() "+fileXML.getName());
 		logger.debug("fileXML "+fileXML);
 		logger.debug("postm.getParams()  "+postm.getParams());
@@ -398,7 +393,7 @@ public class HTTPClient extends Runnable  {
 			logger.error("FileNotFoundException ", e2);
 			throw new TestException(e2, "FileNotFoundException ");
 		}
-		
+
 		hClient.getHttpConnectionManager().getParams().setConnectionTimeout(8000);
 
 		try {
@@ -407,15 +402,15 @@ public class HTTPClient extends Runnable  {
 			logger.debug("ris Upload password "+passwordStr+" "+ris);
 			if (ris == HttpStatus.SC_OK) {
 				//logger.info("Upload completo, risposta=" + postm.getResponseBodyAsString());
-				
+
 				InputStream in = postm.getResponseBodyAsStream();
 			    //OutputStream out = new FileOutputStream(new File(prop.getProperty("FILE_RISPOSTA_SERVLET")));
 			    OutputStream out = new FileOutputStream(new File(httpClient.getFileOutput()));
 			    OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
 			    InputStreamReader reader = new InputStreamReader(in, "UTF-8");
-			    
+
 			    BufferedReader bufferedReader= new BufferedReader(reader);
-			    
+
 			    // Transfer bytes from in to out
 			    //byte[] buf = new byte[1024];
 			    //int len;
@@ -427,7 +422,7 @@ public class HTTPClient extends Runnable  {
 			    reader.close();
 			    in.close();
 			    out.close();
-			    
+
 			} else {
 			    logger.error("Upload fallito, risposta=" + HttpStatus.getStatusText(ris));
 			    logger.error("ECCEZIONE: La risposta del server per l'upload del file non è corretta");
@@ -438,13 +433,13 @@ public class HTTPClient extends Runnable  {
 		    throw new TestException(e, "");
 		} catch (IOException e) {
 		    logger.error("ECCEZIONE IOException: La risposta del server per l'upload del file non è corretta ", e);
-	
+
 		    throw new TestException(e, "");
 		} finally {
 			postm.releaseConnection();
 		}
 	}
-	
+
     public Selenium executeSelenium(MemoryData memory, Selenium selenium) throws TestException, Exception{
 
     	Class seleniumClass=Class.forName(getFileNavigation());
@@ -461,12 +456,13 @@ public class HTTPClient extends Runnable  {
 
 			logger.error("Eccezione durante la navigazione. ", e);
             String seleniumPath = memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("SELENIUM_PATH");
+            String errorDir = memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty(" SELENIUM_HTML_ERROR");
             if (seleniumPath==null){
                 seleniumPath = "";
             }
        	    if (seleniumImpl!=null && seleniumImpl.getSelenium()!=null && seleniumImpl.getSelenium().getHtmlSource()!=null){
                    logger.info("Creazione del file di output di errore "+seleniumPath+getFileNavigation()+"_"+getNome().replace(' ', '_')+"_selenium.html");
-       	           FileWriter fstream = new FileWriter(seleniumPath+getFileNavigation()+"_"+getNome().replace(' ', '_')+"_selenium.html");
+       	           FileWriter fstream = new FileWriter(seleniumPath+errorDir+getFileNavigation()+"_"+getNome().replace(' ', '_')+"_selenium.html");
         	       BufferedWriter out = new BufferedWriter(fstream);
         	       out.write(seleniumImpl.getSelenium().getHtmlSource());
         	       out.close();
@@ -481,12 +477,12 @@ public class HTTPClient extends Runnable  {
            Thread.sleep((wait*1000));
            throw e;
         }
-        
+
         waitTask(memory);
-        
+
         return seleniumImpl.getSelenium();
     }
-    
+
 	private void waitTask(MemoryData memory) throws TestException{
 		if (isWaitingTerminated()){
 	    	boolean waitExit = false;
@@ -503,9 +499,9 @@ public class HTTPClient extends Runnable  {
 	    		}catch(Exception e){
 	    			logger.error("Exception ", e);
 	    			throw new TestException("Eccezione eseguendo la query "+getWaitingQuery()+" per la WAIT_TERMINATED");
-	    			
+
 	    		}
-	    		
+
 	    		logger.info("waiTaskItable.getRowCount() "+waiTaskItable.getRowCount());
 	    		if (waiTaskItable.getRowCount()==1){
 	    			waitExit = true;
@@ -522,36 +518,36 @@ public class HTTPClient extends Runnable  {
 	    		logger.info("waitExit "+waitExit);
 	    		logger.info("(httpClient.getWaitingTimeout()) "+(getWaitingTimeout()));
 	    		logger.info("(index<httpClient.getWaitingTimeout()) "+(index<timeout));
-	    		
+
 	    	}
-	    	
+
 		}
 	}
-	
-	public HttpTestCaseSimple runHttpTester(WebNavigationSession conversation, Map resultVaribles, Properties prop, HTTPClient httpClient, MemoryData memory) throws TestException{
-		
-        HttpTestCaseSimple httpTestCase= 
-            new HttpTestCaseSimple();   
-        
+
+	public HttpTestCaseSimple runHttpTester(WebNavigationSession conversation, Map resultVaribles, Properties prop, ClientWeb httpClient, MemoryData memory) throws TestException{
+
+        HttpTestCaseSimple httpTestCase=
+            new HttpTestCaseSimple();
+
         logger.info("httpClient.getNome() "+httpClient.getNome());
         logger.info("httpClient.getType() "+httpClient.getType());
         logger.info("httpClient.getApplication() "+httpClient.getApplication());
         logger.info("httpClient.getUrlUpload() "+httpClient.getUrlUpload());
-    	        
+
         if(!httpClient.isStartConversation() && conversation!=null)
 	        httpTestCase.setWebNavigationSession(conversation);
-    	
+
         Hashtable hParameters=new Hashtable();
-        
+
         Iterator propertiesSet = prop.keySet().iterator();
         while(propertiesSet.hasNext()){
         	String propTemp = (String)propertiesSet.next();
         	hParameters.put(propTemp,prop.getProperty(propTemp));
         }
-        
+
         logger.info("http.output.prefix "+httpClient.getOutputPrefix());
         hParameters.put("http.output.prefix",httpClient.getOutputPrefix());
-        
+
         logger.info("hParameters "+hParameters);
 
         httpTestCase.setInitialVariables(hParameters);
@@ -560,7 +556,7 @@ public class HTTPClient extends Runnable  {
         	httpTestCase.addVariables(resultVaribles);
         }
         httpTestCase.setNavigationFile(httpClient.getFileNavigation());
-        httpTestCase.setTestClass(HTTPClient.class);
+        httpTestCase.setTestClass(ClientWeb.class);
         try {
 			httpTestCase.testNode();
 		} catch (SystemException e) {
@@ -569,22 +565,22 @@ public class HTTPClient extends Runnable  {
 		} catch (JiffieException e) {
 			logger.error("JiffieException ", e);
 			throw new TestException(e, "Eccezione");
-		}       
-		
-		
+		}
+
+
 		waitTask(memory);
 
-        return httpTestCase; 
+        return httpTestCase;
 
 	}
 
 
-	public HttpTestCaseSimple executeHttpClient(HTTPClient httpClient, HttpTestCaseSimple httpTestCase, MemoryData memory) throws Exception {
+	public HttpTestCaseSimple executeHttpClient(ClientWeb httpClient, HttpTestCaseSimple httpTestCase, MemoryData memory) throws Exception {
         try{
             Properties prop = memory.getOrCreateRepository(Repository.FILE_PROPERTIES);
-           logger.info("Eseguito HTTP-CLIENT di tipo HTTPClient.WEB_HTTPTESTER");
+           logger.info("Executed web client type "+getType());
            if (httpTestCase !=null){
-           	return runHttpTester(httpTestCase.getWebConversation(), 
+           	return runHttpTester(httpTestCase.getWebConversation(),
            	httpTestCase.getResultVariables(), prop, httpClient, memory);
            }else{
         	   return runHttpTester(null, null, prop, httpClient,memory);
@@ -593,7 +589,7 @@ public class HTTPClient extends Runnable  {
               logger.error(e.getMessage(), e);
               throw new TestException("Errore durante la navigazione WEB ");
           }
-          
+
 	}
 
     /**

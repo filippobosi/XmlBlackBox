@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<TEST name="Example997" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
+<TEST version="1.1" name="Example997" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
        <SELENIUM version="1.1" name="Example999 Login con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.CorriereXBB</FILE-NAVIGATION>
             <PARAMETERS>
@@ -9,9 +9,9 @@
             </PARAMETERS>
     </SELENIUM>
 
-	<SET-VARIABLE version="1.1" name="setVariable1">
-	   <SET connection="SGATE-CONNECTION199" name="codice_pod" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" type="DB_TYPE" />
-	</SET-VARIABLE>
+    <SET-VARIABLE version="1.1" name="setVariable1">
+    	<SET connection="SGATE-CONNECTION199" name="codice_pod" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" type="DB_TYPE" />
+    </SET-VARIABLE>
 
     <!--SET-VARIABLE name="setVariable2">
         <SET name="codice_pid" value="836737" type="VALUE_TYPE" />
