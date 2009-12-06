@@ -1,46 +1,15 @@
 package org.xmlblackbox.test.infrastructure;
 
 
-import com.thoughtworks.selenium.Selenium;
-
-import org.xmlblackbox.test.infrastructure.exception.TestException;
-import org.xmlblackbox.test.infrastructure.exception.XmlValidationFault;
-import org.xmlblackbox.test.infrastructure.interfaces.Repository;
-import org.xmlblackbox.test.infrastructure.util.DBConnection;
-import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.infrastructure.util.ValidateXML;
-import org.xmlblackbox.test.infrastructure.util.ValidateXmlTest;
-import org.xmlblackbox.test.infrastructure.xml.CheckInsertXmlContent;
-import org.xmlblackbox.test.infrastructure.xml.CheckDatabase;
-import org.xmlblackbox.test.infrastructure.xml.DbConnection;
-import org.xmlblackbox.test.infrastructure.xml.RunQuery;
-import org.xmlblackbox.test.infrastructure.xml.ClientWeb;
-import org.xmlblackbox.test.infrastructure.xml.Query;
-import org.xmlblackbox.test.infrastructure.xml.ReadXmlDocument;
-import org.xmlblackbox.test.infrastructure.xml.RunPlugin;
-import org.xmlblackbox.test.infrastructure.xml.Set;
-import org.xmlblackbox.test.infrastructure.xml.SetVariable;
-import org.xmlblackbox.test.infrastructure.xml.WebServiceClient;
-import org.xmlblackbox.test.infrastructure.xml.XmlCheckRow;
-import org.xmlblackbox.test.infrastructure.xml.XmlDbConnections;
-import org.xmlblackbox.test.infrastructure.xml.XmlElement;
-import org.xmlblackbox.test.infrastructure.xml.XmlInsertRemoveNodeRow;
-import org.xmlblackbox.test.infrastructure.xml.XmlInsertRow;
-import org.xmlblackbox.test.infrastructure.xml.XmlRowInterface;
-import org.xmlblackbox.test.infrastructure.xml.XmlValidate;
 import it.imolinfo.httptester.HttpTestCaseSimple;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Properties;
-
-import javax.activation.FileTypeMap;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -53,9 +22,33 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
+import org.xmlblackbox.test.infrastructure.exception.TestException;
+import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.Configurator;
+import org.xmlblackbox.test.infrastructure.util.DBConnection;
+import org.xmlblackbox.test.infrastructure.util.MemoryData;
+import org.xmlblackbox.test.infrastructure.xml.CheckDatabase;
+import org.xmlblackbox.test.infrastructure.xml.CheckInsertXmlContent;
+import org.xmlblackbox.test.infrastructure.xml.ClientWeb;
+import org.xmlblackbox.test.infrastructure.xml.DbConnection;
 import org.xmlblackbox.test.infrastructure.xml.HTTPUploader;
-import org.xmlblackbox.xsd.TESTDocument;
+import org.xmlblackbox.test.infrastructure.xml.Query;
+import org.xmlblackbox.test.infrastructure.xml.ReadXmlDocument;
+import org.xmlblackbox.test.infrastructure.xml.RunPlugin;
+import org.xmlblackbox.test.infrastructure.xml.RunQuery;
+import org.xmlblackbox.test.infrastructure.xml.Set;
+import org.xmlblackbox.test.infrastructure.xml.SetVariable;
+import org.xmlblackbox.test.infrastructure.xml.WaitTask;
+import org.xmlblackbox.test.infrastructure.xml.WebServiceClient;
+import org.xmlblackbox.test.infrastructure.xml.XmlCheckRow;
+import org.xmlblackbox.test.infrastructure.xml.XmlDbConnections;
+import org.xmlblackbox.test.infrastructure.xml.XmlElement;
+import org.xmlblackbox.test.infrastructure.xml.XmlInsertRemoveNodeRow;
+import org.xmlblackbox.test.infrastructure.xml.XmlInsertRow;
+import org.xmlblackbox.test.infrastructure.xml.XmlRowInterface;
+import org.xmlblackbox.test.infrastructure.xml.XmlValidate;
+
+import com.thoughtworks.selenium.Selenium;
 
 
 
@@ -295,6 +288,10 @@ public class FlowControl extends DatabaseTestCase {
                 WebServiceClient webServiceClient= (WebServiceClient) obj;
                 //log.info("Eseguito il wsc "+webServiceClient.getNome());
                 webServiceClient.eseguiWebService(memory, step);
+            } else if (obj instanceof WaitTask) {
+            	WaitTask waitTask= (WaitTask) obj;
+                log.info("Eseguito il waitTask "+waitTask.getNome());
+            	waitTask.waitTask(memory);
             } else if (obj instanceof RunPlugin) {
                 RunPlugin runPlugin= (RunPlugin) obj;
                 log.info("Executed plugin: "+runPlugin.getTemplateClass());

@@ -39,6 +39,7 @@ public class WaitTask extends Runnable  {
 		logger.debug("waitElement "+waitElement);
 		logger.debug("waitElement.getAttributeValue(nome) "+waitElement.getAttributeValue("name"));
 		waitTask.setNome(waitElement.getAttributeValue("name"));
+        waitTask.setWaitingConnection(waitElement.getAttributeValue("connection"));
 		
     	Element waitTerminated = waitElement.getChild("WAIT", uriXsd);
     	logger.info("waitTerminated "+waitTerminated);
@@ -49,7 +50,6 @@ public class WaitTask extends Runnable  {
         	if (waitTerminated.getAttributeValue("timeout")!=null){
     			waitTask.setWaitingTimeout(waitTerminated.getAttributeValue("timeout"));
     		}
-            waitTask.setWaitingConnection(waitTerminated.getAttributeValue("connection"));
 
     	}
     	
@@ -84,11 +84,13 @@ public class WaitTask extends Runnable  {
 		return Repository.WAIT_TASK;
 	}
 	
-	private void waitTask(MemoryData memory) throws TestException{
+	public void waitTask(MemoryData memory) throws TestException{
 		if (isWaitingTerminated()){
 	    	boolean waitExit = false;
 	    	int index = 0;
 	    	int timeout = new Integer(getWaitingTimeout());
+    		logger.info("connecting to "+getWaitingConnection());
+	    	
             IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getObjectByName(getWaitingConnection()));
 	    	while(!waitExit && (index<timeout)){
 	    		String query = getWaitingQuery();
@@ -99,12 +101,13 @@ public class WaitTask extends Runnable  {
 	    				"WAITTASK", query);
 	    		}catch(Exception e){
 	    			logger.error("Exception ", e);
-	    			throw new TestException("Eccezione eseguendo la query "+getWaitingQuery()+" per la WAIT_TERMINATED");
+	    			throw new TestException("Exception during query execution "+getWaitingQuery()+" for WAIT-TASK");
 	    			
 	    		}
 	    		
 	    		logger.info("waiTaskItable.getRowCount() "+waiTaskItable.getRowCount());
 	    		if (waiTaskItable.getRowCount()==1){
+		    		logger.info("Found one record according to the query executed");
 	    			waitExit = true;
 	    		}else{
 	    			try {
