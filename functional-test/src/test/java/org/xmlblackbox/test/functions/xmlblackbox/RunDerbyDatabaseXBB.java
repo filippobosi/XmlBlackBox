@@ -24,11 +24,13 @@ public class RunDerbyDatabaseXBB extends GenericRunnablePlugin  {
 		log.info("driver "+driver);
         try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
-            Properties props = new Properties(); // connection properties
+            log.info("Loaded the appropriate driver");
+
+			Properties props = new Properties(); // connection properties
             props.put("user", "xmlblackbox");
             props.put("password", "xmlblackbox");
 
-            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/xmlblackbox;create=true", props);
+            Connection conn = DriverManager.getConnection("jdbc:derby:xmlblackbox;create=true", props);
 
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
