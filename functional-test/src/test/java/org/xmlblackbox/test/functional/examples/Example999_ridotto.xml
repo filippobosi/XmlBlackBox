@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <TEST version="1.1" name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
+    
+    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.functions.xmlblackbox.RunDerbyDatabaseXBB" >
+            <PARAMETERS>
+    			<PARAMETER name="driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+            </PARAMETERS>
+    </RUN-PLUGIN>
     <DB-CONNECTIONS version="1.1">
         <CONNECTION name="DERBY" driver="org.apache.derby.jdbc.ClientDriver"
             db-url="jdbc:derby://localhost:1527/xmlblackbox"
             username="xmlblackbox" password="xmlblackbox"/>
     </DB-CONNECTIONS>
+    
+    
     
     <WAIT-TASK connection="DERBY" version="1.1" name="task">
     	<WAIT query="select * from pippo" timeout="300" />
