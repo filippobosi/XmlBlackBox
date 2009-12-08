@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TEST version="1.1" name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
+   
+	<!-- Connection initialize -->
+    <DB-CONNECTIONS version="1.1">
+        <CONNECTION name="DERBY" driver="org.apache.derby.jdbc.ClientDriver"
+            db-url="jdbc:derby://localhost:1527/xmlblackbox;create=true"
+            username="xmlblackbox" password="xmlblackbox"/>
+    </DB-CONNECTIONS>
+
+    <WAIT-TASK connection="DERBY" version="1.1" name="task">
+    	<WAIT query="select * from pippo" timeout="10" />
+    </WAIT-TASK>
+
+    
+    <!-- Example for creating an Xml file with modified value -->
+    <XML-CONTENT name="xmlContent1" version="1.1" 
+            fileinput="src/test/resources/templateXml/WebServiceTemplate/NewWebServiceTemplate.xml"
+            fileoutput="target/Example999WebApp_1_out.xml"
+            namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
+	        <XML-INSERT-ROW name="arg0"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:address"
+                    value="Via emilia"/>
+	        <XML-INSERT-ROW name="arg1"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:name"
+                    value="Giulio"/>
+	        <XML-INSERT-ROW name="arg2"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:surname"
+                    value="Bianchi"/>
+	</XML-CONTENT>
+	<!-- Example to verify values in xml file -->
+    <XML-CONTENT version="1.1" name="XML-CONTENT Check"
+            fileinput="target/Example999WebApp_1_out.xml"
+            namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
+	        <XML-CHECK-ROW name="arg0"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:address"
+                    value="Via emilia"/>
+	        <XML-CHECK-ROW name="arg1"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:name"
+                    value="Giulio"/>
+	        <XML-CHECK-ROW name="arg2"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:surname"
+                    value="Bianchi"/>
+    </XML-CONTENT>
+	
+	
+    <WEB-SERVICE-CLIENT version="1.1" name="webservice">
+        <FILE-INPUT>target/Example999WebApp_1_out.xml</FILE-INPUT>
+        <FILE-OUTPUT>target/Example999WebApp_2_out.xml</FILE-OUTPUT>
+        <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
+        <STUB>org.xmlblackbox.test.webservice.client.NewWebServiceServiceStub</STUB>
+        <OPERATION>getPerson</OPERATION>
+    </WEB-SERVICE-CLIENT>		
+
+    <VALIDATE-XML version="1.1" name="Validate"
+        xml="target/Example999WebApp_2_out.xml"
+        xsd="src/test/resources/wsdl/NewWebService.xsd" />
+
+	<!-- Example to verify values in xml file -->
+    <XML-CONTENT version="1.1" name="XML-CONTENT Check"
+            fileinput="target/Example999WebApp_2_out.xml"
+            namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
+	        <XML-CHECK-ROW name="arg0"
+                    xpath="$this//xsd:getPersonResponse/return/address"
+                    value="Via romaaaaaaaaaaaaaaaaaaaa"/>
+	        <XML-CHECK-ROW name="arg1"
+                    xpath="$this//xsd:getPersonResponse/return/name"
+                    value="Mario"/>
+	        <XML-CHECK-ROW name="arg2"
+                    xpath="$this//xsd:getPersonResponse/return/surname"
+                    value="Rossi"/>
+    </XML-CONTENT>
+
+    <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
+            <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.WebApplicationTest</FILE-NAVIGATION>
+            <PARAMETERS>
+                    <PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />
+                    <PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
+                    <PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
+            </PARAMETERS>
+    </SELENIUM>
+
+</TEST>
+

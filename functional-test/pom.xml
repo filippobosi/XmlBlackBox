@@ -72,7 +72,8 @@
 			</executions>
 			<configuration>
 				<databindingName>xmlbeans</databindingName>
-                <wsdlFile>${basedir}/src/test/resources/wsdl/02_SGATE_WDSL_v8.wsdl</wsdlFile>
+                <!--wsdlFile>${basedir}/src/test/resources/wsdl/02_SGATE_WDSL_v8.wsdl</wsdlFile-->
+                <wsdlFile>${basedir}/src/test/resources/wsdl/NewWebService.wsdl</wsdlFile>
                 <packageName>org.xmlblackbox.test.webservice.client</packageName>
 			</configuration>
 		</plugin>
@@ -316,6 +317,12 @@
     </pluginRepositories>
     <repositories>
 
+
+        <repository>
+            <id>maven-repository</id>
+            <name>Repository for Maven 2</name>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
         <!-- Two repositories required by jaxws-maven-plugin -->
         <repository><!-- Necessario anche per ottenere le API javax.jws -->
             <id>maven-repository.dev.java.net</id>

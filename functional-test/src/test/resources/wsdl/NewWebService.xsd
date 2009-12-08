@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.4-b01-. --><xs:schema xmlns:tns="http://webservice.test.xmlblackbox.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://webservice.test.xmlblackbox.org/">
+
+<xs:element name="getPerson" type="tns:getPerson"></xs:element>
+
+<xs:element name="getPersonResponse" type="tns:getPersonResponse"></xs:element>
+
+<xs:complexType name="getPerson">
+<xs:sequence>
+<xs:element name="arg0" type="tns:person" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="person">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="name" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="surname" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPersonResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:person" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
