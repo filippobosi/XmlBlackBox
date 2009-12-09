@@ -63,6 +63,35 @@
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
 			<version>1.3</version>
+            <executions>
+                    <execution>
+                        <id>wsdl2codeNewWebService</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2code</goal>
+                        </goals>
+                        <configuration>
+                            <databindingName>xmlbeans</databindingName>
+                            <wsdlFile>${basedir}/src/test/resources/wsdl/NewWebService.wsdl</wsdlFile>
+                            <packageName>org.xmlblackbox.test.webservice.client</packageName>
+                            <staleFile>target/generated-sources/NewWebService/.staleFlagNewWebService</staleFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Sgate</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2code</goal>
+                        </goals>
+                        <configuration>
+                            <databindingName>xmlbeans</databindingName>
+                            <wsdlFile>${basedir}/src/test/resources/wsdl/02_SGATE_WDSL_v8.wsdl</wsdlFile>
+                            <packageName>org.xmlblackbox.test.webservice.client</packageName>
+                            <staleFile>target/generated-sources/NewWebService/.staleFlagNewWebService</staleFile>
+                        </configuration>
+                    </execution>
+                </executions>
+<!--
 			<executions>
 				<execution>
 					<goals>
@@ -72,10 +101,9 @@
 			</executions>
 			<configuration>
 				<databindingName>xmlbeans</databindingName>
-                <!--wsdlFile>${basedir}/src/test/resources/wsdl/02_SGATE_WDSL_v8.wsdl</wsdlFile-->
                 <wsdlFile>${basedir}/src/test/resources/wsdl/NewWebService.wsdl</wsdlFile>
                 <packageName>org.xmlblackbox.test.webservice.client</packageName>
-			</configuration>
+			</configuration>-->
 		</plugin>
 
 

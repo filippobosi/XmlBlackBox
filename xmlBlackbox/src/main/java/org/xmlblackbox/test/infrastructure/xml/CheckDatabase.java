@@ -36,6 +36,7 @@ public class CheckDatabase extends XmlElement{
     private final static Logger logger = Logger.getLogger(CheckDatabase.class);
 
 	private IDataSet dataSet = null;
+	private String sqlWhere = null;
 	private String nome = null;
 	private boolean automatico=false;
 	private String tipo;
@@ -143,9 +144,10 @@ public class CheckDatabase extends XmlElement{
 		Element dataset = null;
 		dataset = dbcheckElement.getChild("dataset", uriXsd);
 		
-		if (dataset==null){
-			dataset = new Element("dataset");
-		}
+		if (dataset!=null){
+            setSqlWhere(dataset.getChild("table", uriXsd).getAttributeValue("SQL.WHERE"));
+            logger.debug("getSqlWhere() "+getSqlWhere());
+        }
 		
 		logger.debug("new XMLOutputter().outputString(dataset) "+ new XMLOutputter().outputString(dataset));
 		StringReader srDataset=new StringReader(new XMLOutputter().outputString(dataset));
@@ -212,7 +214,7 @@ public class CheckDatabase extends XmlElement{
 			
 			
 			
-			ITable iTableReale = ITableUtil.getRealTable(conn, iTableAttesa);
+			ITable iTableReale = ITableUtil.getRealTable(conn, iTableAttesa, getSqlWhere());
 			ITable iTableAttesaRipulita = ITableUtil.removeITableFields(iTableAttesa);
 
 
@@ -277,6 +279,20 @@ public class CheckDatabase extends XmlElement{
      */
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    /**
+     * @return the sqlWhere
+     */
+    public String getSqlWhere() {
+        return sqlWhere;
+    }
+
+    /**
+     * @param sqlWhere the sqlWhere to set
+     */
+    public void setSqlWhere(String sqlWhere) {
+        this.sqlWhere = sqlWhere;
     }
 
 	

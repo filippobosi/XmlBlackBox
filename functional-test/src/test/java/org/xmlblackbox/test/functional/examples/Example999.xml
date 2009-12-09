@@ -15,7 +15,7 @@
     <WAIT-TASK version="1.1" name="waitTask1">
         <WAIT connection="SGATE-CONNECTION199" timeout="20" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" />
     </WAIT-TASK>
-        
+
     <!-- setVariable example getting value from db chosing-->
     <SET-VARIABLE version="1.1" name="setVariable1">
         <SET connection="SGATE-CONNECTION199" name="codice_pod" query="SELECT NUM_POD FROM DOMANDA_AGEV WHERE ID='45111'" type="DB_TYPE" />

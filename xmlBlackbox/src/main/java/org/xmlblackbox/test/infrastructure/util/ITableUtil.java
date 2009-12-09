@@ -24,52 +24,6 @@ public class ITableUtil{
 	private static String SQL_WHERE = "SQL.WHERE";
 	
 	
-//	public static ITable removeITableFields(IDatabaseConnection conn, ITable expectedTable) throws DataSetException, SQLException{
-//		
-//		String sql = null;
-//		
-//		ReplacementTable replacementTable = null;
-//		
-//		log.debug("isSetITable(expectedTable,SQL.WHERE) "+isSetITable(expectedTable,"SQL.WHERE"));
-//		log.debug("isSetITable(expectedTable,SQL.ISPRESENT) "+isSetITable(expectedTable,"SQL.ISPRESENT"));
-//		
-//		if (isSetITable(expectedTable,"SQL.WHERE")){
-//			sql="SELECT * FROM "+expectedTable.getTableMetaData().getTableName()
-//				+" WHERE " + expectedTable.getValue(0,"SQL.WHERE");
-//
-//			log.debug("SQL.WHERE sql "+sql);
-//
-//			Column[] colonneNuovaTabella = null;
-//
-//			if (isSetITable(expectedTable,"SQL.ISPRESENT")) {
-//				colonneNuovaTabella = new Column[2];
-//			}else{
-//				colonneNuovaTabella = new Column[2];
-//			}
-//
-//	    	replacementTable = new ReplacementTable(expectedTable);
-//			replacementTable.addReplacementSubstring("SQL.WHERE=\""+(String)expectedTable.getValue(0,"SQL.WHERE")+"\"", "");
-//	
-//			if (isSetITable(expectedTable,"SQL.ISPRESENT")){
-//				replacementTable = new ReplacementTable(replacementTable);
-//				replacementTable.addReplacementSubstring("SQL.ISPRESENT\""+(String)expectedTable.getValue(0,"SQL.ISPRESENT")+"\"", "");
-//			}
-//		}else if (isSetITable(expectedTable,"SQL.ISPRESENT")){
-//			log.debug("KKKKKKKKKKKKKK NO SQL.WHERE. YES SQL.ISPRESENT");
-//			replacementTable = new ReplacementTable(expectedTable);
-//			replacementTable.addReplacementObject("SQL.ISPRESENT", null);
-////			replacementTable.addReplacementSubstring("SQL.ISPRESENT=\""+(String)expectedTable.getValue(0,"SQL.ISPRESENT")+"\"", "");
-////			replacementTable.addReplacementSubstring("SQL.ISPRESENT="+(String)expectedTable.getValue(0,"SQL.ISPRESENT")+"\"", "");
-//		}else{
-//			/**
-//			 * IN caso non siano presenti ne SQL.WHERE ne SQL.ISPRESENT viene restituita la stessa tabella in input
-//			 */
-//			replacementTable = new ReplacementTable(expectedTable);
-//		}
-//		
-//		return replacementTable;
-//	}
-	
 	public static ITable removeITableFields(ITable tabella) throws DataSetException{
 		boolean isSQLWhere = isSetITable(tabella,"SQL.WHERE");
 		boolean isSQLIsPresent= isSetITable(tabella,"SQL.ISPRESENT");
@@ -112,7 +66,7 @@ public class ITableUtil{
 	}
 	
 
-	public static ITable getRealTable(IDatabaseConnection conn, ITable expectedTable) throws DataSetException, SQLException{
+	public static ITable getRealTable(IDatabaseConnection conn, ITable expectedTable, String sqlWhere) throws DataSetException, SQLException{
 		
 		String sql = null;
 		
@@ -134,19 +88,26 @@ public class ITableUtil{
             }
         }
         log.debug("columnNames "+columnNames);
+        log.debug("sqlWhere "+sqlWhere);
 
-		if (isSetITable(expectedTable,"SQL.WHERE")){
+		if (true){
+//			sql="SELECT "+columnNames+" FROM "+expectedTable.getTableMetaData().getTableName()
+//				+" WHERE " + expectedTable.getValue(0,"SQL.WHERE");
+//			log.debug("SQL.WHERE sql "+sqlWhere);
 			sql="SELECT "+columnNames+" FROM "+expectedTable.getTableMetaData().getTableName()
-				+" WHERE " + expectedTable.getValue(0,"SQL.WHERE");
-			log.debug("SQL.WHERE sql "+sql);
+				+" WHERE " + sqlWhere;
+			log.debug("SQL.WHERE sql "+sqlWhere);
 		}else{
 			
 			
 			/** 
 			 * In mancanza della opzione SQL.WHERE viene preso il primo campo come chiave
 			 */
-			
-			sql="SELECT "+columnNames+" FROM "+expectedTable.getTableMetaData().getTableName()
+
+			log.debug("expectedTable.getTableMetaData().getColumns()[0].getSqlTypeName() "+expectedTable.getTableMetaData().getColumns()[0].getSqlTypeName());
+			log.debug("expectedTable.getTableMetaData().getColumns()[0].getSqlTypeName()getDataType().toString() "+expectedTable.getTableMetaData().getColumns()[0].getDataType().toString());
+
+            sql="SELECT "+columnNames+" FROM "+expectedTable.getTableMetaData().getTableName()
 				+" WHERE " +expectedTable.getTableMetaData().getColumns()[0].getColumnName()
 					+"='"+expectedTable.getValue(0, expectedTable.getTableMetaData().getColumns()[0].getColumnName()) +"'";
 			log.debug("NO SQL.WHERE sql "+sql);
