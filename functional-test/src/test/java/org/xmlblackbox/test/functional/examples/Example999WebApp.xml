@@ -4,6 +4,14 @@
    	<!-- Connection initialize -->
     <INCLUDE-FILE version="1.1" filename="/org/xmlblackbox/test/functional/examples/ConfigConnectionDerby.xml"></INCLUDE-FILE>
 
+    <!-- Execute a Plugin to create a date (-30 days from today) with a certain pattern -->
+    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.infrastructure.functions.GenerateDate" >
+            <PARAMETERS>
+                <PARAMETER name="pattern" value="yyyyMMdd" />
+                <PARAMETER name="addOrSubDays" value="-30"/>
+            </PARAMETERS>
+    </RUN-PLUGIN>
+
 
     <WAIT-TASK connection="DERBY" version="1.1" name="task">
     	<WAIT query="select * from XMLBLACKBOX.pippo" timeout="10" />
@@ -109,14 +117,14 @@
                     value="Rossi"/>
     </XML-CONTENT>
 
-    <!--SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
+    <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.WebApplicationTest</FILE-NAVIGATION>
             <PARAMETERS>
                     <PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />
                     <PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
                     <PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
             </PARAMETERS>
-    </SELENIUM-->
+    </SELENIUM>
 
 </TEST>
 

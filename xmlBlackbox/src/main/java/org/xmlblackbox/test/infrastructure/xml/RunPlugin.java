@@ -48,7 +48,7 @@ public class RunPlugin extends XmlElement {
 	public void build(Element setRunPlugin) throws Exception {
 		RunPlugin runPlugin = this;
 		runPlugin.setTemplateClass(setRunPlugin.getAttributeValue("class"));
-		runPlugin.setInput(parseParameters(setRunPlugin.getChild("PARAMETERS")));
+		runPlugin.setInput(parseParameters(setRunPlugin.getChild("PARAMETERS", uriXsd)));
 	}
 
 	@Override
