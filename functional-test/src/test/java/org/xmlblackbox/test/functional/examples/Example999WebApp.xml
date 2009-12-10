@@ -32,14 +32,16 @@
     <CHECK-DB version="1.1" connection="DERBY" name="checkDB">
         <dataset>
             <table name="XMLBLACKBOX.PIPPO" SQL.WHERE="ID_TABLE=100">
-                <column>ID_TABLE</column>
-                <column>VALUE_TABLE</column>
-                <row>
-                    <value>100</value>
-                    <value>1000</value>
-                </row>
+                <column>ID_TABLE</column><column>VALUE_TABLE</column>
+                <row><value>100</value><value>1000</value></row>
             </table>
         </dataset>
+        <!--dataset>
+            <table name="XMLBLACKBOX.PIPPO" SQL.WHERE="ID_TABLE=20">
+                <column>ID_TABLE</column><column>VALUE_TABLE</column>
+                <row><value>20</value><value>30</value></row>
+            </table>
+        </dataset-->
     </CHECK-DB>
 
 

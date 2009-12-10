@@ -35,8 +35,7 @@ public class CheckDatabase extends XmlElement{
 
     private final static Logger logger = Logger.getLogger(CheckDatabase.class);
 
-	private IDataSet dataSet = null;
-	private String sqlWhere = null;
+	private List<DataSetXBB> dataSetList = null;
 	private String nome = null;
 	private boolean automatico=false;
 	private String tipo;
@@ -54,14 +53,14 @@ public class CheckDatabase extends XmlElement{
 		super(el);
 		build(el);
 	}
-	
+
 	public void build(Element dbcheckElement) throws Exception{
-		
+
 		CheckDatabase dbCheck=this;
-		
+
     	dbCheck.setNome((String)dbcheckElement.getAttributeValue("name"));
     	dbCheck.setVersion((String)dbcheckElement.getAttributeValue("version"));
-    	dbCheck.setMotivo((String)dbcheckElement.getAttributeValue("motif"));    	
+    	dbCheck.setMotivo((String)dbcheckElement.getAttributeValue("motif"));
     	dbCheck.setTipo((String)dbcheckElement.getAttributeValue("type"));
     	dbCheck.setDatabase((String)dbcheckElement.getAttributeValue("database"));
     	dbCheck.setAutomatico((String)dbcheckElement.getAttributeValue("automatic"));
@@ -79,9 +78,9 @@ public class CheckDatabase extends XmlElement{
     			parameters.put(pname, pvalue);
     		}
     	}
-    	
-    	IDataSet iDataSet = readDbUnit(dbcheckElement);
-		dbCheck.setDBUnitDataSet(iDataSet);
+
+    	dataSetList = readDbUnit(dbcheckElement);
+		dbCheck.addDataSets(dataSetList);
 //        String[] tableNames = iDataSet.getTableNames();
 //		logger.debug("tableNames.length "+ tableNames.length);
 //
@@ -91,8 +90,8 @@ public class CheckDatabase extends XmlElement{
 
 
 	}
-	
-	
+
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -101,12 +100,8 @@ public class CheckDatabase extends XmlElement{
 		return nome;
 	}
 
-	public void setDBUnitDataSet(IDataSet dataSet) {
-		this.dataSet = dataSet;
-	}
-
-	public IDataSet getDBUnitDataSet() {
-		return dataSet;
+	public List<DataSetXBB> getDataSetList() {
+		return dataSetList;
 	}
 
 	public String getTipo() {
@@ -116,7 +111,7 @@ public class CheckDatabase extends XmlElement{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	public String getMotivo() {
 		return motivo;
 	}
@@ -124,47 +119,53 @@ public class CheckDatabase extends XmlElement{
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
 	}
-	
-	
-	public String listaTabelle() throws DataSetException {
+
+
+	public String listaTabelle(DataSetXBB dataSet) throws DataSetException {
 		String result = "";
-		if ((getDBUnitDataSet()!=null)) {
-				for (int i = 0; i < dataSet.getTableNames().length; i++) {
-					result+=dataSet.getTableNames()[i]+"-";
+		if ((dataSet!=null)) {
+				for (int i = 0; i < dataSet.getDataSet().getTableNames().length; i++) {
+					result+=dataSet.getDataSet().getTableNames()[i]+"-";
 				}
 		}
 		return result;
 	}
 
-	public IDataSet readDbUnit(Element dbcheckElement) throws DataSetException, IOException{
-		
+	public List<DataSetXBB> readDbUnit(Element dbcheckElement) throws DataSetException, IOException{
+
 		XMLOutputter outputter = new XMLOutputter();
-//		File file = new File(Thread.currentThread().getName()+"dbunit.txt");
-//		file.createNewFile();
-		Element dataset = null;
-		dataset = dbcheckElement.getChild("dataset", uriXsd);
-		
-		if (dataset!=null){
-            setSqlWhere(dataset.getChild("table", uriXsd).getAttributeValue("SQL.WHERE"));
-            logger.debug("getSqlWhere() "+getSqlWhere());
+        List<DataSetXBB> dataSetList = new ArrayList();
+
+        Element dataset = null;
+		Iterator<Element> iter = dbcheckElement.getChildren("dataset", uriXsd).iterator();
+
+        while(iter.hasNext()){
+
+            DataSetXBB dataSetXbb = new DataSetXBB();
+            dataset = iter.next();
+            if (dataset!=null){
+                dataSetXbb.setSqlWhere(dataset.getChild("table", uriXsd).getAttributeValue("SQL.WHERE"));
+                logger.debug("getSqlWhere() "+dataSetXbb.getSqlWhere());
+            }
+
+            logger.debug("new XMLOutputter().outputString(dataset) "+ new XMLOutputter().outputString(dataset));
+            StringReader srDataset=new StringReader(new XMLOutputter().outputString(dataset));
+            IDataSet expectedDataSet = null;
+            logger.debug("geVersion "+getVersion());
+            if (getVersion().equals(VERSION11)){
+                expectedDataSet = new XmlDataSet(srDataset);
+            }else if(getVersion().equals(VERSION10)){
+                expectedDataSet = new FlatXmlDataSet(srDataset);
+            }
+            dataSetXbb.setDataSet(expectedDataSet);
+            dataSetList.add(dataSetXbb);
+            srDataset.close();
+
         }
-		
-		logger.debug("new XMLOutputter().outputString(dataset) "+ new XMLOutputter().outputString(dataset));
-		StringReader srDataset=new StringReader(new XMLOutputter().outputString(dataset));
-		IDataSet expectedDataSet = null;
-        logger.debug("geVersion "+getVersion());
-        if (getVersion().equals(VERSION11)){
-    		expectedDataSet = new XmlDataSet(srDataset);
-        }else if(getVersion().equals(VERSION10)){
-    		expectedDataSet = new FlatXmlDataSet(srDataset);
-        }
-		srDataset.close();
-		
-//		inputStreamReader.close();
-		
-		return expectedDataSet;
-		
-	
+
+		return dataSetList;
+
+
 	}
 
 	public boolean isAutomatico() {
@@ -191,73 +192,81 @@ public class CheckDatabase extends XmlElement{
 	public String getRepositoryName() {
 		return Repository.DB_CHECK;
 	}
-	
+
     public void checkDB(MemoryData memoryData, IDatabaseConnection conn, int step) throws Exception, TestException {
-		String[] tableNames = getDBUnitDataSet().getTableNames();
 		
-		logger.debug("tableNames "+ tableNames+ ". Step "+step);
-		
-		for (int k=0; k < tableNames.length; k++){
-			ITable iTableAttesa = getDBUnitDataSet().getTable(tableNames[k]);
-			logger.debug("iTableAttesa.getTableMetaData() "+ iTableAttesa.getTableMetaData().getTableName());
+        Iterator<DataSetXBB> dataSets = getDataSetList().iterator();
 
-			Column[] column = iTableAttesa.getTableMetaData().getColumns();
-			for (int i = 0; i < column.length; i++) {
-				logger.info("iTableAttesa column["+i+"] "+column[i].getColumnName());
-			}
+        while (dataSets.hasNext()) {
+            DataSetXBB dataSetXBB = dataSets.next();
+            IDataSet idataSet = dataSetXBB.getDataSet();
 
-			List<Column> columnList = Arrays.asList(column);  
-			List<String> columnNameList = new ArrayList<String>();  
-			for (int i = 0; i < columnList.size(); i++) {
-				columnNameList.add(columnList.get(i).getColumnName());
-			} 
-			
-			
-			
-			ITable iTableReale = ITableUtil.getRealTable(conn, iTableAttesa, getSqlWhere());
-			ITable iTableAttesaRipulita = ITableUtil.removeITableFields(iTableAttesa);
+            String[] tableNames = idataSet.getTableNames();
+
+            logger.debug("tableNames "+ tableNames+ ". Step "+step);
+
+            for (int k=0; k < tableNames.length; k++){
+                ITable iTableAttesa = idataSet.getTable(tableNames[k]);
+                logger.debug("iTableAttesa.getTableMetaData() "+ iTableAttesa.getTableMetaData().getTableName());
+
+                Column[] column = iTableAttesa.getTableMetaData().getColumns();
+                for (int i = 0; i < column.length; i++) {
+                    logger.info("iTableAttesa column["+i+"] "+column[i].getColumnName());
+                }
+
+                List<Column> columnList = Arrays.asList(column);
+                List<String> columnNameList = new ArrayList<String>();
+                for (int i = 0; i < columnList.size(); i++) {
+                    columnNameList.add(columnList.get(i).getColumnName());
+                }
 
 
-			Column[] columnTableReale = iTableReale.getTableMetaData().getColumns();
-			for (int i = 0; i < columnTableReale.length; i++) {
-				logger.info("columnTableReale column["+i+"] "+columnTableReale[i].getColumnName());
-			}
-			Column[] columnTableAttesaRipulita = iTableAttesaRipulita.getTableMetaData().getColumns();
-			for (int i = 0; i < columnTableAttesaRipulita.length; i++) {
-				logger.info("columnTableAttesaRipulita column["+i+"] "+columnTableAttesaRipulita[i].getColumnName());
-			}
 
-			logger.debug("iTableReale.getRowCount() "+ iTableReale.getRowCount());
-			logger.debug("iTableAttesaRipulita.getRowCount() "+ iTableAttesaRipulita.getRowCount());
+                ITable iTableReale = ITableUtil.getRealTable(conn, iTableAttesa, dataSetXBB.getSqlWhere());
+                ITable iTableAttesaRipulita = ITableUtil.removeITableFields(iTableAttesa);
 
-			boolean sqlIsPresent = false;
-			logger.debug("columnNameList.contains(\"SQL.ISPRESENT\")"+ columnNameList.contains("SQL.ISPRESENT"));
-			
-			if (columnNameList.contains("SQL.ISPRESENT")){
-				sqlIsPresent = new Boolean((String)iTableAttesa.getValue(0,"SQL.ISPRESENT"));
-				logger.debug("sqlIsPresent "+ sqlIsPresent);
-				if (!sqlIsPresent){
-					if (iTableReale.getRowCount()>0){
-						new TestException("Resord found record non atteso nella tabella "+iTableAttesa.getTableMetaData().getTableName());
-					}
-				}else{
-    				logger.debug("Execution verify for dbCheck "+ getNome()+ ". Step "+step);
+
+                Column[] columnTableReale = iTableReale.getTableMetaData().getColumns();
+                for (int i = 0; i < columnTableReale.length; i++) {
+                    logger.info("columnTableReale column["+i+"] "+columnTableReale[i].getColumnName());
+                }
+                Column[] columnTableAttesaRipulita = iTableAttesaRipulita.getTableMetaData().getColumns();
+                for (int i = 0; i < columnTableAttesaRipulita.length; i++) {
+                    logger.info("columnTableAttesaRipulita column["+i+"] "+columnTableAttesaRipulita[i].getColumnName());
+                }
+
+                logger.debug("iTableReale.getRowCount() "+ iTableReale.getRowCount());
+                logger.debug("iTableAttesaRipulita.getRowCount() "+ iTableAttesaRipulita.getRowCount());
+
+                boolean sqlIsPresent = false;
+                logger.debug("columnNameList.contains(\"SQL.ISPRESENT\")"+ columnNameList.contains("SQL.ISPRESENT"));
+
+                if (columnNameList.contains("SQL.ISPRESENT")){
+                    sqlIsPresent = new Boolean((String)iTableAttesa.getValue(0,"SQL.ISPRESENT"));
+                    logger.debug("sqlIsPresent "+ sqlIsPresent);
+                    if (!sqlIsPresent){
+                        if (iTableReale.getRowCount()>0){
+                            new TestException("Resord found record non atteso nella tabella "+iTableAttesa.getTableMetaData().getTableName());
+                        }
+                    }else{
+                        logger.debug("Execution verify for dbCheck "+ getNome()+ ". Step "+step);
+                        Assertion.assertEquals(iTableAttesaRipulita, iTableReale);
+                    }
+
+                }else{
+
+                    Column[] colonne = iTableReale.getTableMetaData().getColumns();
+                    for (int i = 0; i < colonne.length; i++) {
+                        if (iTableReale.getRowCount()>0)
+                            logger.debug("iTableReale.getValue(0, iTableReale["+i+"]) "+iTableReale.getValue(0, colonne[i].getColumnName()));
+                    }
+
+                    logger.debug("Execution verify for dbCheck "+ getNome()+ ". Step "+step);
                     Assertion.assertEquals(iTableAttesaRipulita, iTableReale);
-				}
-
-			}else{
-			
-				Column[] colonne = iTableReale.getTableMetaData().getColumns();
-				for (int i = 0; i < colonne.length; i++) {
-					if (iTableReale.getRowCount()>0)
-						logger.debug("iTableReale.getValue(0, iTableReale["+i+"]) "+iTableReale.getValue(0, colonne[i].getColumnName()));
-				}
-
-                logger.debug("Execution verify for dbCheck "+ getNome()+ ". Step "+step);
-                Assertion.assertEquals(iTableAttesaRipulita, iTableReale);
-			}			
-			logger.debug("Tables name"+ tableNames[k]);
-		}
+                }
+                logger.debug("Tables name"+ tableNames[k]);
+    		}
+        }
 	}
 
     /**
@@ -282,23 +291,10 @@ public class CheckDatabase extends XmlElement{
     }
 
     /**
-     * @return the sqlWhere
-     */
-    public String getSqlWhere() {
-        return sqlWhere;
-    }
-
-    /**
      * @param sqlWhere the sqlWhere to set
      */
-    public void setSqlWhere(String sqlWhere) {
-        this.sqlWhere = sqlWhere;
+    public void addDataSets(List<DataSetXBB> list) {
+        this.dataSetList = list;
     }
 
-	
 }
-
-/*
- * $Id: $
- * $Log: $
- */
