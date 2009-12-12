@@ -26,7 +26,7 @@ public class GenerateDate extends GenericRunnablePlugin {
 	 * 
 	 * @param String pattern,int addOrSubDays
 	 * 
-	 * @return String generateDate
+	 * @return String generatedDate
 	 * 
 	 */
 	private final static Logger log = Logger.getLogger(RunPlugin.class);
