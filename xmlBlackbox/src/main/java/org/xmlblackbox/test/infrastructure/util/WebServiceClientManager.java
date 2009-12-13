@@ -78,6 +78,8 @@ public class WebServiceClientManager{
         	
         	Object[] valori=new Object[1];
         	valori[0]=webServiceClient.getUrl();
+			log.info("---- valori : " +valori[0]);
+			log.info("---- WS Operation     : " +webServiceClient.getOperation());
         	
 			binding = (Stub)
 				stubClass.getConstructor(parametri).newInstance(valori);
@@ -124,8 +126,8 @@ public class WebServiceClientManager{
 
         } catch (InvocationTargetException e) {
         	try{
-        		risposta=(XmlObject)e.getTargetException().getClass().getMethod("getFaultMessage", new Class[0]).invoke(e.getTargetException(), new Object[0]);
         		log.error("Fault", e);
+        		risposta=(XmlObject)e.getTargetException().getClass().getMethod("getFaultMessage", new Class[0]).invoke(e.getTargetException(), new Object[0]);
         		saveRisposta(risposta);
         		return risposta;
         	}catch(NoSuchMethodException nsme){

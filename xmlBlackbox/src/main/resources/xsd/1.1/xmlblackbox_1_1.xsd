@@ -231,6 +231,7 @@
 		<xs:element name="URL" type="xs:string"/>
 		<xs:element name="STUB" type="xs:string"/>
 		<xs:element name="OPERATION" type="xs:string"/>
+		<xs:element name="PARAMETERS" type="xbb:PARAMETERS" minOccurs="0"/>
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="version" type="xbb:webserviceclient-version" use="required"/>

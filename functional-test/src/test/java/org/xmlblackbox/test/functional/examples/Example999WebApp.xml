@@ -108,6 +108,9 @@
         <URL>${EXAMPLE_WEB_SERVICE_URL@fileProperties}</URL>
         <STUB>org.xmlblackbox.test.webservice.client.NewWebServiceServiceStub</STUB>
         <OPERATION>getPerson</OPERATION>
+        <PARAMETERS>
+        	<PARAMETER name="EXAMPLE_WEB_SERVICE_URL" value="http://localhost:8080/WebApplicationTest/NewWebService"/>
+        </PARAMETERS>
     </WEB-SERVICE-CLIENT>		
 
     <VALIDATE-XML version="1.1" name="Validate"
@@ -132,7 +135,8 @@
     <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.WebApplicationTest</FILE-NAVIGATION>
             <PARAMETERS>
-                    <PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" />
+   	                <!--  PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" /-->
+    		    	<PARAMETER name="EXAMPLE_WEB_URL" value="http://172.18.13.199:8280/sgate-web/"/>
                     <PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
                     <PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>
             </PARAMETERS>
