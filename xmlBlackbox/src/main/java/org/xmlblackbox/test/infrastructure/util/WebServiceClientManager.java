@@ -118,6 +118,14 @@ public class WebServiceClientManager{
             log.info("Invoke del Web Service webServiceClient.getFileOutput() : "+webServiceClient.getFileOutput());
         	log.info("Invoke del Web Service richiesta : "+richiesta[0].xmlText());
 
+
+        	for (int i = 0; i < stubClass.getDeclaredMethods().length; i++) {
+        		Method method = stubClass.getDeclaredMethods()[i];
+            	log.info("method.getName() "+method.getName());
+            	if(method.getParameterTypes().length>0)
+            		log.info("method.getParameterTypes() "+method.getParameterTypes()[0]);
+        		
+			}
 			Method metodo=stubClass.getDeclaredMethod(webServiceClient.getOperation(), parametriInvocazione);
 			log.info("Invoke del Web Service ("+webServiceClient.getOperation()+")");
             risposta=(XmlObject)metodo.invoke(binding, valoriInvocazione);
@@ -127,6 +135,7 @@ public class WebServiceClientManager{
         } catch (InvocationTargetException e) {
         	try{
         		log.error("Fault", e);
+        		log.error("Fault2", e.getTargetException());
         		risposta=(XmlObject)e.getTargetException().getClass().getMethod("getFaultMessage", new Class[0]).invoke(e.getTargetException(), new Object[0]);
         		saveRisposta(risposta);
         		return risposta;

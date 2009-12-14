@@ -56,7 +56,6 @@
 		<inherited>true</inherited>
 		<configuration>
 		   <schemaDirectory>src/test/resources/xsd/xmlbeans</schemaDirectory>
-
 		</configuration>
 	  </plugin>
 		<plugin>

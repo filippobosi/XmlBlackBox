@@ -101,7 +101,7 @@
                     value="Bianchi"/>
     </XML-CONTENT>
 	
-	
+
     <WEB-SERVICE-CLIENT version="1.1" name="webservice">
         <FILE-INPUT>target/Example999WebApp_1_out.xml</FILE-INPUT>
         <FILE-OUTPUT>target/Example999WebApp_2_out.xml</FILE-OUTPUT>
