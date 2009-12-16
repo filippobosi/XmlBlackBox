@@ -1,4 +1,4 @@
-package org.xmlblackbox.test.infrastructure.functions;
+package org.xmlblackbox.test.infrastructure.plugin;
 
 import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
