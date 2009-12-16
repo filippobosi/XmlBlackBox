@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
  * @author not attributable
- * @version $Id: TestException.java,v 1.2 2006/04/07 14:03:10 crea Exp $
+ * @version $Id: $
  */
 
 public class TestException extends Exception{
@@ -72,25 +72,5 @@ public class TestException extends Exception{
 
 /*
  * $Log: TestException.java,v $
- * Revision 1.2  2006/04/07 14:03:10  crea
- * Aggiunta l'eccezione che lancia in caso di errore da parte del pccsa-client
- *
- * Revision 1.1  2006/02/09 15:01:20  crea
- * Aggiunti altri test (Nascita004) e classi di utilita'
- *
- * Revision 1.3  2005/03/29 13:44:37  lmanzoni
- * Allineamento CVS Trieste
- *
- * Revision 1.2  2005/03/01 14:51:10  lmanzoni
- * commit merge CR_TOSCANI
- *
- * Revision 1.1.2.1  2005/02/17 11:48:21  amedeo
- * Modifiche in seguito ad aggiunta dei test della CR_LOG
- *
- * Revision 1.1  2005/02/16 08:42:16  amedeo
- * Renaming della classe EjbTestExcepion in TestException
- *
- * Revision 1.2  2005/02/15 08:59:47  amedeo
- * Aggiunta della keyword log di cvs
  *
  */

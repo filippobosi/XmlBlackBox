@@ -4,10 +4,12 @@ import java.util.Hashtable;
 
 import org.apache.log4j.Logger;
 
-public class VariableNotFound extends TestException {
+public class VariableNotFound extends Exception {
 	
+    protected final static Logger log = Logger.getLogger(VariableNotFound.class);
+
 	public VariableNotFound(String key,Hashtable repository) {
-		super();
+		super("[!] Variable not found : "+key);
 		log.error("---------------------------------------------------------");
 		log.error("[!] Variable not found : " + key);
 		log.error("[!] Repository contains : " + repository);

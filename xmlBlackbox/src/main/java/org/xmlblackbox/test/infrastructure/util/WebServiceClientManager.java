@@ -28,15 +28,15 @@ public class WebServiceClientManager{
 	private final static Logger log = Logger.getLogger(WebServiceClientManager.class);
 	private WebServiceClient webServiceClient = null;
 	private Properties prop = null;
-	private String nomeTestCase = null;
+	private String testCaseName = null;
 	private XmlObject[] richiesta=null;
-	private XmlObject risposta=null;
+	private XmlObject response=null;
 	private int step=-1;
 
 	public WebServiceClientManager(WebServiceClient webServiceClient, Properties prop, String nomeTestCase, int step) throws Exception{
 		this.webServiceClient = webServiceClient;
 		this.prop = prop;
-		this.nomeTestCase = nomeTestCase;		
+		this.testCaseName = nomeTestCase;		
 		this.step = step;
 		log.info("webServiceClient.getFileInput() "+webServiceClient.getFileInput());
 		richiesta=new XmlObject[1];
@@ -45,18 +45,15 @@ public class WebServiceClientManager{
 	
 	public XmlObject executeWebServiceClient(XmlObject richiestaSingola) throws Exception
 	{
-
-		//rinominaInput(webServiceClient);
-		
         Stub binding = null;
         File fileInput = new File(webServiceClient.getFileInput());
         
-		fileInput = new File(fileInput.getParent()+"/"+nomeTestCase+fileInput.getName());
+		fileInput = new File(fileInput.getParent()+"/"+testCaseName+fileInput.getName());
         
 		log.info("################ ");
 		log.info("Client WS: " + webServiceClient.getNome());
 		log.info("URL: " + webServiceClient.getUrl());
-		log.info("OPERAZIONE: " + webServiceClient.getOperation());
+		log.info("OPERATION: " + webServiceClient.getOperation());
 		log.info("STUB: " + webServiceClient.getStub());
 		log.info("FILEINPUT: " + fileInput);
 		log.info("################ ");
@@ -76,13 +73,13 @@ public class WebServiceClientManager{
         	Class[] parametri=new Class[1];
         	parametri[0]=String.class;
         	
-        	Object[] valori=new Object[1];
-        	valori[0]=webServiceClient.getUrl();
-			log.info("---- valori : " +valori[0]);
+        	Object[] values=new Object[1];
+        	values[0]=webServiceClient.getUrl();
+			log.info("---- values : " +values[0]);
 			log.info("---- WS Operation     : " +webServiceClient.getOperation());
         	
 			binding = (Stub)
-				stubClass.getConstructor(parametri).newInstance(valori);
+				stubClass.getConstructor(parametri).newInstance(values);
 			
 			log.info("---- WS Operation     : " +webServiceClient.getOperation());
 			log.info("---- WS richiesta.length : " +richiesta.length);
@@ -101,7 +98,6 @@ public class WebServiceClientManager{
 						break;
 					}
 				}
-			
 			}
 			log.info("---- WS Operation  ----------------");
 			
@@ -128,17 +124,16 @@ public class WebServiceClientManager{
 			}
 			Method metodo=stubClass.getDeclaredMethod(webServiceClient.getOperation(), parametriInvocazione);
 			log.info("Invoke del Web Service ("+webServiceClient.getOperation()+")");
-            risposta=(XmlObject)metodo.invoke(binding, valoriInvocazione);
-			log.info("Dopo l'Invoke del Web Service ("+webServiceClient.getOperation()+")");
-			log.info ("WS RISPOSTA = [" +risposta.toString()+ "]");
+            response=(XmlObject)metodo.invoke(binding, valoriInvocazione);
+			log.info("After the Web Service invoke ("+webServiceClient.getOperation()+")");
+			log.info ("WS Resonse= [" +response.toString()+ "]");
 
         } catch (InvocationTargetException e) {
         	try{
         		log.error("Fault", e);
-        		log.error("Fault2", e.getTargetException());
-        		risposta=(XmlObject)e.getTargetException().getClass().getMethod("getFaultMessage", new Class[0]).invoke(e.getTargetException(), new Object[0]);
-        		saveRisposta(risposta);
-        		return risposta;
+        		response=(XmlObject)e.getTargetException().getClass().getMethod("getFaultMessage", new Class[0]).invoke(e.getTargetException(), new Object[0]);
+        		saveRisposta(response);
+        		return response;
         	}catch(NoSuchMethodException nsme){
         		log.error("Exception", nsme);
         	}
@@ -146,8 +141,8 @@ public class WebServiceClientManager{
         	throw e; 
         }
 		
-		saveRisposta(risposta);
-        return risposta;
+		saveRisposta(response);
+        return response;
 
 	}
 	private void saveRisposta(XmlObject rispostaWebService) throws IOException, XmlException{
@@ -183,14 +178,14 @@ public class WebServiceClientManager{
 			String estensione=nomefile.substring(nomefile.lastIndexOf('.'));
 			nomefile=nomefile.substring(0,nomefile.lastIndexOf('.'));
 			
-		    File fileOutput = new File(fileInput.getParent()+"/"+nomeTestCase+nomefile+"-"+(richiesta.length+1)+estensione);
+		    File fileOutput = new File(fileInput.getParent()+"/"+testCaseName+nomefile+"-"+(richiesta.length+1)+estensione);
 			log.debug("fileInput.getParent() "+fileInput.getParent());
-			log.debug("nomeTestCase "+nomeTestCase);
+			log.debug("nomeTestCase "+testCaseName);
 			log.debug("fileInput.getName() "+fileInput.getName());
 			fos = new FileOutputStream(fileOutput);
 		    osr = new OutputStreamWriter(fos, "UTF-8");
 		    
-			log.info("Salvo il file "+fileInput.getParent()+"/"+nomeTestCase+nomefile+"-"+(richiesta.length+1)+estensione);
+			log.info("Salvo il file "+fileInput.getParent()+"/"+testCaseName+nomefile+"-"+(richiesta.length+1)+estensione);
 	    	richiestaSAIADocument.save(osr);
 	    	int i=0;
 			while(richiesta[i]!=null){
@@ -199,7 +194,7 @@ public class WebServiceClientManager{
 				
 	    	richiesta[i]=richiestaSAIADocument;
 	    	
-			log.info("Salvato il file "+fileInput.getParent()+"/"+nomeTestCase+nomefile+"-"+(richiesta.length+1)+estensione);
+			log.info("Salvato il file "+fileInput.getParent()+"/"+testCaseName+nomefile+"-"+(richiesta.length+1)+estensione);
 		}finally{
 			if (osr!=null){
 				osr.close();
@@ -215,7 +210,7 @@ public class WebServiceClientManager{
 		InputStream in = new FileInputStream(new File((String)prop.getProperty("FILE_RISPOSTA_CLIENT")));
 		//Al nome del file di output definito nel file xml del singolo test viene aggiunto il nome del test
 		File fileOutput = new File(webServiceClient.getFileOutput());
-		File file = new File(fileOutput.getParent()+"/"+nomeTestCase+fileOutput.getName());
+		File file = new File(fileOutput.getParent()+"/"+testCaseName+fileOutput.getName());
 		file.createNewFile();
 		OutputStream out = new FileOutputStream(file);
 	    // Transfer bytes from in to out

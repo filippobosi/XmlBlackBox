@@ -24,6 +24,8 @@ public class NewWebService {
         people[0].setSurname("Rossi");
         people[0].setAddress("Via romaaaaaaaaaaaaaaaaaaaa");
 
+        System.out.println("Creata la persona Mario Rossi Via romaaaaaaaaaaaaaaaaaaaa");
+
         return people;
     }
 

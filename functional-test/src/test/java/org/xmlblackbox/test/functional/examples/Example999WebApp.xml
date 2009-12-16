@@ -4,8 +4,8 @@
    	<!-- Connection initialize -->
     <INCLUDE-FILE version="1.1" filename="/org/xmlblackbox/test/functional/examples/ConfigConnectionDerby.xml"></INCLUDE-FILE>
 
-    <!-- Execute a Plugin to create a date (-30 days from today) with a certain pattern -->
-    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.infrastructure.functions.GenerateDate" >
+    <!-- Execute a Plugin to create a today date (0 days from today) with a yyyy-MM-dd pattern -->
+    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.infrastructure.plugin.GenerateDate" >
             <PARAMETERS>
                 <PARAMETER name="pattern" value="yyyy-MM-dd" />
                 <PARAMETER name="addOrSubDays" value="0"/>
@@ -16,11 +16,9 @@
         <QUERY connection="DERBY" name="insertRecord" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='1'" type="DELETE"/>
     </EXECUTE-QUERY>
 
-    <EXECUTE-QUERY version="1.1" name="delete record">
+    <EXECUTE-QUERY version="1.1" name="insert record">
         <QUERY connection="DERBY" name="insertRecord" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('1','ddddd',Date('${generatedDate@runPlugin}'))" type="INSERT"/>
     </EXECUTE-QUERY>
-
-
 
 
     <WAIT-TASK connection="DERBY" version="1.1" name="task">
@@ -135,7 +133,6 @@
     <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.WebApplicationTest</FILE-NAVIGATION>
             <PARAMETERS>
-   	                <!--  PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}" /-->
     		    	<PARAMETER name="EXAMPLE_WEB_URL" value="http://172.18.13.199:8280/sgate-web/"/>
                     <PARAMETER name="username" value="${USERNAME_COMUNE@fileProperties}"/>
                     <PARAMETER name="password" value="${PASSWORD_COMUNE@fileProperties}"/>

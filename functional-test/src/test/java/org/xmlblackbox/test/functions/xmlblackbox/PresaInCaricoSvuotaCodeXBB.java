@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
-import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
+import org.xmlblackbox.test.infrastructure.plugin.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 

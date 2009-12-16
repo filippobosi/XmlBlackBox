@@ -1,5 +1,5 @@
 package org.xmlblackbox.test.infrastructure.exception;
 
-public class InvalidVariableAnnotation extends TestException {
+public class InvalidVariableAnnotation extends Exception {
 
 }

@@ -126,8 +126,8 @@ public class FlowControl extends DatabaseTestCase {
 
 			}
 		} catch (Exception e) {
-			log.debug("DEBUG ");
-			log.fatal("[!] Reloading variables failed",e);
+			log.debug("DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG ");
+			log.error("[!] Reloading variables failed", e);
 			throw e;
 		}
 	}

@@ -13,7 +13,7 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
-import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
+import org.xmlblackbox.test.infrastructure.plugin.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.ITableUtil;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;

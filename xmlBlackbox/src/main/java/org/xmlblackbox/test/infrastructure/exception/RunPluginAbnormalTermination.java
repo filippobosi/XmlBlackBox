@@ -1,6 +1,6 @@
 package org.xmlblackbox.test.infrastructure.exception;
 
-public class RunPluginAbnormalTermination extends TestException {
+public class RunPluginAbnormalTermination extends Exception {
 
 	public RunPluginAbnormalTermination(String errorMessage) {
 		super(errorMessage);
@@ -11,10 +11,10 @@ public class RunPluginAbnormalTermination extends TestException {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RunPluginAbnormalTermination(Exception ex, String errorMessage) {
-		super(ex, errorMessage);
-		// TODO Auto-generated constructor stub
-	}
+//	public RunPluginAbnormalTermination(Exception ex, String errorMessage) {
+//		super(ex, errorMessage);
+//		// TODO Auto-generated constructor stub
+//	}
 	
 	
 	

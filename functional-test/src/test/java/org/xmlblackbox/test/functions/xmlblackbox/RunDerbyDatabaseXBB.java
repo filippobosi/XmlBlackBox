@@ -10,7 +10,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.xmlblackbox.test.infrastructure.exception.RunPluginAbnormalTermination;
-import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
+import org.xmlblackbox.test.infrastructure.plugin.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 public class RunDerbyDatabaseXBB extends GenericRunnablePlugin  {

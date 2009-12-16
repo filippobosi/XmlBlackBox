@@ -53,7 +53,7 @@ public class ReplaceFromXML extends ReplaceString {
 			throw e;
 		} catch (VariableNotFound e) {
 			log.error("[!] Replace fallito : " + e.getClass().getSimpleName() + " " + value);
-			throw e;
+			throw new TestException( e, e.getMessage());
 		}
 		return valoreVariabile;
 	}

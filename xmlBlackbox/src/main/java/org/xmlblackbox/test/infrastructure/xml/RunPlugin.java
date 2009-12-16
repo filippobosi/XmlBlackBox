@@ -8,8 +8,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
-import org.xmlblackbox.test.infrastructure.functions.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
+import org.xmlblackbox.test.infrastructure.plugin.GenericRunnablePlugin;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 public class RunPlugin extends XmlElement {
