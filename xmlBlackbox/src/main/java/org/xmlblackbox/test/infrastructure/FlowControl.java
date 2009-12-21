@@ -49,6 +49,7 @@ import org.xmlblackbox.test.infrastructure.xml.XmlRowInterface;
 import org.xmlblackbox.test.infrastructure.xml.XmlValidate;
 
 import com.thoughtworks.selenium.Selenium;
+import org.apache.commons.lang.StringUtils;
 
 
 
@@ -164,6 +165,10 @@ public class FlowControl extends DatabaseTestCase {
 
 			//conn = new DatabaseConnection(genericConn);
 
+            log.debug("System.getProperty(\"XBB_STEP\") "+System.getProperty("XBB_STEP"));
+            log.debug("System.getenv(\"XBB_STEP\") "+System.getenv("XBB_STEP"));
+            String stepConfig = System.getenv("XBB_STEP");
+            log.debug("[Reading XML TestCase]");
 
 			log.debug("[Reading XML TestCase]");
 			ReadXmlDocument readXmlDocument = null;
@@ -199,6 +204,10 @@ public class FlowControl extends DatabaseTestCase {
 				executeNode((XmlElement) obj, step);
 				log.info("[Executing node][OK]");
 				step++;
+                if (stepConfig!=null && stepConfig.equals(""+step)){
+                    log.info("Exit configuration (-DXBB_STEP="+stepConfig+") a step "+stepConfig);
+				    break;
+                }
 			}
 		}catch(TestException e){
 			if (memory!=null){
@@ -264,6 +273,12 @@ public class FlowControl extends DatabaseTestCase {
 
                 Properties webNavigationProp = memory.getOrCreateRepository(Repository.WEB_NAVIGATION);
                 webNavigationProp.putAll(httpClient.getParameters());
+                Properties parametersProperties = new Properties();
+                log.info("httpClient.getParameters() "+httpClient.getParameters());
+                parametersProperties.putAll(httpClient.getParameters());
+                log.info("parametersProperties "+parametersProperties);
+                
+                memory.overrideRepository(Repository.PARAMETERS, parametersProperties);
 
                 if (httpClient.getType().equals(ClientWeb.HTTPTESTER)){
                     httpTestCase = httpClient.executeHttpClient(httpClient, httpTestCase, memory);

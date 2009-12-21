@@ -106,7 +106,7 @@ public class WaitTask extends Runnable  {
 	    		}
 	    		
 	    		logger.info("waiTaskItable.getRowCount() "+waiTaskItable.getRowCount());
-	    		if (waiTaskItable.getRowCount()>1){
+	    		if (waiTaskItable.getRowCount()>=1){
 		    		logger.info("Found one record according to the query executed");
 	    			waitExit = true;
 	    		}else{

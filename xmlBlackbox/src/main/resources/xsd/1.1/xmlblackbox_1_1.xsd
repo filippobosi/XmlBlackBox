@@ -145,7 +145,7 @@
 	</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="QUERY" type="xbb:QUERY" minOccurs="1"/>
+		<xs:element name="QUERY" type="xbb:QUERY" minOccurs="1" maxOccurs="unbounded"/>
 	</xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="version" type="xbb:executequery-version" use="required"/>
@@ -165,7 +165,7 @@
 	</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:any processContents="lax" minOccurs="1"/>
+		<xs:any processContents="lax" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
 	<xs:attribute name="name" type="xs:string" use="required"/>
 	<xs:attribute name="version" type="xbb:checkdb-version" use="required"/>
