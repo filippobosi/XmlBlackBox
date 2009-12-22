@@ -110,7 +110,7 @@ public class ClientWeb extends Runnable  {
 	public void build(Element clientElement) throws Exception {
 		parameters = new HashMap<String, String>();
 
-        Element parametersElement = clientElement.getChild("PARAMETERS");
+        Element parametersElement = clientElement.getChild("PARAMETERS", uriXsd);
     	if (parametersElement!=null) {
     		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
     		while (parametersList.hasNext()){
@@ -121,6 +121,7 @@ public class ClientWeb extends Runnable  {
     			parameters.put(pname, pvalue);
     		}
     	}
+		logger.debug("parameters "+parameters);
 
 		ClientWeb httpClient=this;
 		logger.debug("clientElement "+clientElement);

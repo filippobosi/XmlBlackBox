@@ -165,8 +165,10 @@ public class FlowControl extends DatabaseTestCase {
 
 			//conn = new DatabaseConnection(genericConn);
 
-            log.debug("System.getProperty(\"XBB_STEP\") "+System.getProperty("XBB_STEP"));
-            log.debug("System.getenv(\"XBB_STEP\") "+System.getenv("XBB_STEP"));
+//            log.debug("System.getProperty(\"XBB_STEP\") "+System.getProperty("XBB_STEP"));
+//            log.debug("System.getenv(\"XBB_STEP\") "+System.getenv("XBB_STEP"));
+//            log.debug("System.getProperties() "+System.getProperties());
+//            log.debug("System.getenv() "+System.getenv());
             String stepConfig = System.getenv("XBB_STEP");
             log.debug("[Reading XML TestCase]");
 

@@ -15,10 +15,11 @@ public class WebApplicationTest extends SeleniumEnvironment implements SeleniumN
     @Override
 	public Selenium executeNavigation(MemoryData memory) throws Exception {
 
-        Properties prop = memory.getRepository(Repository.WEB_NAVIGATION);
-        super.initialize("http://localhost:8080", memory.getRepository(Repository.FILE_PROPERTIES));
+        Properties prop = memory.getRepository(Repository.PARAMETERS);
+        String webUrl = prop.getProperty("EXAMPLE_WEB_URL");
+        super.initialize(webUrl, memory.getRepository(Repository.FILE_PROPERTIES));
 
-        selenium.open("http://localhost:8080/WebApplicationTest");
+        selenium.open(webUrl);
         selenium.waitForPageToLoad("30000");
 
         assertTrue("\"Hello World\" not found!", selenium.isTextPresent("Hello World"));
