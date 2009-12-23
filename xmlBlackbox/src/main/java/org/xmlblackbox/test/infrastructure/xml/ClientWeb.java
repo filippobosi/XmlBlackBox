@@ -110,17 +110,19 @@ public class ClientWeb extends Runnable  {
 	public void build(Element clientElement) throws Exception {
 		parameters = new HashMap<String, String>();
 
-        Element parametersElement = clientElement.getChild("PARAMETERS", uriXsd);
-    	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
-    		while (parametersList.hasNext()){
-    			Element parameterElement = (Element) parametersList.next();
-    			String pname = parameterElement.getAttributeValue("name");
-    			String pvalue = parameterElement.getAttributeValue("value");
-
-    			parameters.put(pname, pvalue);
-    		}
-    	}
+//        Element parametersElement = clientElement.getChild("PARAMETERS", uriXsd);
+//    	if (parametersElement!=null) {
+//    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
+//    		while (parametersList.hasNext()){
+//    			Element parameterElement = (Element) parametersList.next();
+//    			String pname = parameterElement.getAttributeValue("name");
+//    			String pvalue = parameterElement.getAttributeValue("value");
+//
+//    			parameters.put(pname, pvalue);
+//    		}
+//    	}
+		parameters = parseParameters(clientElement.getChild("PARAMETERS", uriXsd));
+				
 		logger.debug("parameters "+parameters);
 
 		ClientWeb httpClient=this;

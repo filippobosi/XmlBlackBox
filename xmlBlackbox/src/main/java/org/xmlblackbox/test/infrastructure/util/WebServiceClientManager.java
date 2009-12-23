@@ -114,15 +114,7 @@ public class WebServiceClientManager{
             log.info("Invoke del Web Service webServiceClient.getFileOutput() : "+webServiceClient.getFileOutput());
         	log.info("Invoke del Web Service richiesta : "+richiesta[0].xmlText());
 
-
-//        	for (int i = 0; i < stubClass.getDeclaredMethods().length; i++) {
-//        		Method method = stubClass.getDeclaredMethods()[i];
-//            	log.info("method.getName() "+method.getName());
-//            	if(method.getParameterTypes().length>0)
-//            		log.info("method.getParameterTypes() "+method.getParameterTypes()[0]);
-//        		
-//			}
-			Method metodo=stubClass.getDeclaredMethod(webServiceClient.getOperation(), parametriInvocazione);
+        	Method metodo=stubClass.getDeclaredMethod(webServiceClient.getOperation(), parametriInvocazione);
 			log.info("Invoke del Web Service ("+webServiceClient.getOperation()+")");
             response=(XmlObject)metodo.invoke(binding, valoriInvocazione);
 			log.info("After the Web Service invoke ("+webServiceClient.getOperation()+")");

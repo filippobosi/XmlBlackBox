@@ -95,17 +95,8 @@ public class WebServiceClient extends Runnable {
 
         parameters = new HashMap();
 
-        Element parametersElement = clientElement.getChild("PARAMETERS", uriXsd);
-    	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
-    		while (parametersList.hasNext()){
-    			Element parameterElement = (Element) parametersList.next();
-    			String pname = parameterElement.getAttributeValue("name");
-    			String pvalue = parameterElement.getAttributeValue("value");
-    			
-    			parameters.put(pname, pvalue);
-    		}
-    	}
+        
+    	parameters = parseParameters(clientElement);
 
 	}
 

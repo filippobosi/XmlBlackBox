@@ -60,6 +60,7 @@ public abstract class XmlElement {
 	public abstract void build(Element checkInsertXmlElement) throws Exception;
 
 	public abstract String getRepositoryName();
+	
 	protected HashMap parseParameters(Element parameters){
 		HashMap<String,String> params = new HashMap<String, String>();
 

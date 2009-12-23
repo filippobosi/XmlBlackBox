@@ -104,18 +104,9 @@ public class HTTPUploader extends Runnable  {
 	public void build(Element uploaderElement) throws Exception {
 		parameters = new HashMap<String, String>();
 
-        Element parametersElement = uploaderElement.getChild("PARAMETERS");
-    	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
-    		while (parametersList.hasNext()){
-    			Element parameterElement = (Element) parametersList.next();
-    			String pname = parameterElement.getAttributeValue("name");
-    			String pvalue = parameterElement.getAttributeValue("value");
-    			
-    			parameters.put(pname, pvalue);
-    		}
-    	}
-    	
+		
+		parameters = parseParameters(uploaderElement);
+		
 		HTTPUploader httpUploader=this;
 		logger.info("uploaderElement "+uploaderElement);
 		logger.info("uploaderElement.getAttributeValue(nome) "+uploaderElement.getAttributeValue("name"));

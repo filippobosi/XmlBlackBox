@@ -50,17 +50,19 @@ public class RunQuery extends XmlElement{
 		log.info("executeQueryElement.getChildren(\"QUERY\").size() "+executeQueryElement.getChildren("QUERY").size());
 		queryList = new Vector();
 
-        Element parametersElement = executeQueryElement.getChild("PARAMETERS");
-    	if (parametersElement!=null) {
-    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
-    		while (parametersList.hasNext()){
-    			Element parameterElement = (Element) parametersList.next();
-    			String pname = parameterElement.getAttributeValue("name");
-    			String pvalue = parameterElement.getAttributeValue("value");
-
-    			parameters.put(pname, pvalue);
-    		}
-    	}
+		
+//        Element parametersElement = executeQueryElement.getChild("PARAMETERS");
+//    	if (parametersElement!=null) {
+//    		Iterator parametersList = parametersElement.getChildren("PARAMETER", uriXsd).iterator();
+//    		while (parametersList.hasNext()){
+//    			Element parameterElement = (Element) parametersList.next();
+//    			String pname = parameterElement.getAttributeValue("name");
+//    			String pvalue = parameterElement.getAttributeValue("value");
+//
+//    			parameters.put(pname, pvalue);
+//    		}
+//    	}
+    	parameters = parseParameters(executeQueryElement);
 
     	Iterator<Element> queryIterator = executeQueryElement.getChildren("QUERY", uriXsd).iterator();
     	while(queryIterator.hasNext()){
