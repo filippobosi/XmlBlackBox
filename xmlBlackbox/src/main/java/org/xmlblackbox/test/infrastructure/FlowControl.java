@@ -304,7 +304,7 @@ public class FlowControl extends DatabaseTestCase {
             } else if (obj instanceof WebServiceClient) {
                 WebServiceClient webServiceClient= (WebServiceClient) obj;
                 //log.info("Eseguito il wsc "+webServiceClient.getNome());
-                webServiceClient.eseguiWebService(memory, step);
+                webServiceClient.executeWebServiceClient();
             } else if (obj instanceof WaitTask) {
             	WaitTask waitTask= (WaitTask) obj;
                 log.info("Eseguito il waitTask "+waitTask.getNome());

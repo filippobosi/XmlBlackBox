@@ -1,20 +1,21 @@
 package org.xmlblackbox.test.infrastructure.xml;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Vector;
 
+import org.apache.axis2.client.Stub;
+import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.output.XMLOutputter;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
-import org.xmlblackbox.test.infrastructure.util.MemoryData;
-import org.xmlblackbox.test.infrastructure.util.WebServiceClientManager;
 
 /**
  * Es. Esegue la funzione PresaInCaricoLotto sulla classe Stub WebServiceStub inviando conme richiesta
@@ -84,8 +85,6 @@ public class WebServiceClient extends Runnable {
     	if (operationServizioElement!=null){
     		wsClient.setOperation(operationServizioElement.getText());
     	}
-        
-    	
     	
     	Element fileOutput = clientElement.getChild("FILE-OUTPUT", uriXsd);
     	logger.debug("fileOutput "+fileOutput);
@@ -137,19 +136,125 @@ public class WebServiceClient extends Runnable {
 		return Repository.WEB_SERVICE;
 	}
 	
-    public void eseguiWebService(MemoryData memory, int step) throws Exception{
-        String fileInput = getFileInput();
-        XmlObject richiesta = null;
+	public XmlObject executeWebServiceClient() throws Exception
+	{
+        File fileInput = new File(getFileInput());
+		
+        XmlObject richiesta = XmlObject.Factory.parse(fileInput);
 
-        WebServiceClientManager webServiceClientManager =
-            new WebServiceClientManager(this, memory.getOrCreateRepository(getRepositoryName()), getNome(), step);
+		XmlObject response=null;
+		
+        Stub binding = null;
+        
+//		fileInput = new File(fileInput.getParent()+"/"+testCaseName+fileInput.getName());
+        
+		logger.info("################ ");
+		logger.info("Client WS: " + getNome());
+		logger.info("URL: " + getUrl());
+		logger.info("OPERATION: " + getOperation());
+		logger.info("STUB: " + getStub());
+		logger.info("FILEINPUT: " + fileInput);
+		logger.info("################ ");
+		
+		  try{
+              saveRichiesta(richiesta);
+          }catch(Throwable e){
+            logger.info ("Eccezione ", e);
+          }
+		
+        logger.debug("executeWebServiceClient ");
+        try {
+        	Class stubClass=Class.forName(getStub());
+        	
+        	Class[] parametri=new Class[1];
+        	parametri[0]=String.class;
+        	
+        	Object[] values=new Object[1];
+        	values[0]=getUrl();
+			logger.info("---- values : " +values[0]);
+			logger.info("---- WS Operation     : " +getOperation());
+        	
+			binding = (Stub)
+				stubClass.getConstructor(parametri).newInstance(values);
+			
+			logger.info("---- WS Operation     : " +getOperation());
+			Class[] parametriInvocazione=new Class[1];
+			
+			for(int ipar=0; ipar < 1; ipar++){
+				logger.info("ipar: " +ipar);
+				logger.info("richiesta[ipar].xmlText(): " +richiesta.xmlText());
+				
+				Class[] interfacce=richiesta.getClass().getInterfaces();
+				
+				for (int i=0; i < interfacce.length; i++){
+					if (XmlObject.class.isAssignableFrom(interfacce[i])){
+						parametriInvocazione[0]=interfacce[i];
+						logger.info("   Parametro invocazione #0 assegnato: "+parametriInvocazione[0]);
+						break;
+					}
+				}
+			}
+			logger.info("---- WS Operation  ----------------");
+			
+			//Definisce il timeout del socket
+//			String timeout = (String) prop.getProperty("timeoutInMilliSeconds");
+//			if (timeout == null || timeout.equals("")) 
+				
+			String timeout ="300000";
+			
+			((org.apache.axis2.client.Stub)binding)._getServiceClient().getOptions().setTimeOutInMilliSeconds(Integer.parseInt(timeout));
+			
+			((org.apache.axis2.client.Stub)binding)._getServiceClient().getOptions().setProperty(HTTPConstants.CONNECTION_TIMEOUT, new Integer(1*240*1000));
+			
+        	Object valoriInvocazione=richiesta;
 
-            XmlObject richiestaTmp = XmlObject.Factory.parse(new File(fileInput));
+            logger.info("Invoke del Web Service getFileOutput() : "+getFileOutput());
+        	logger.info("Invoke del Web Service richiesta : "+richiesta.xmlText());
 
-//            doInsertCheck(webServiceClient, richiestaTmp, null);
-            richiesta = richiestaTmp;
-    		webServiceClientManager.executeWebServiceClient(richiesta);
-    }
+        	Method metodo=stubClass.getDeclaredMethod(getOperation(), parametriInvocazione);
+			logger.info("Invoke del Web Service ("+getOperation()+")");
+            response=(XmlObject)metodo.invoke(binding, valoriInvocazione);
+			logger.info("After the Web Service invoke ("+getOperation()+")");
+			logger.info ("WS Resonse= [" +response.toString()+ "]");
+
+        } catch (InvocationTargetException e) {
+//        	try{
+//        		logger.error("Fault", e);
+//        		response=(XmlObject)e.getTargetException().getClass().getMethod("getFaultMessage", new Class[0]).invoke(e.getTargetException(), new Object[0]);
+//        		saveRisposta(response);
+//        		return response;
+//        	}catch(NoSuchMethodException nsme){
+//        		logger.error("Exception", nsme);
+//        	}
+        	logger.error("Exception", e);
+        	throw e; 
+        }
+		
+		saveRisposta(response);
+        return response;
+
+	}
+	private void saveRisposta(XmlObject rispostaWebService) throws IOException, XmlException{
+		
+		logger.info("getFileOutput() "+ getFileOutput());
+		File fileToSave = new File(getFileOutput());
+		XmlOptions xmlOptions = new XmlOptions();
+        xmlOptions.setSavePrettyPrint();
+		rispostaWebService.save(new File(fileToSave.getParentFile()+"/"+fileToSave.getName()), xmlOptions);
+
+	}
+	
+	private void saveRichiesta(XmlObject richiestaWebService) throws IOException, XmlException{
+		
+		logger.info("getFileInput() "+ getFileInput());
+		File fileToSave = new File(getFileInput());
+		XmlOptions xmlOptions = new XmlOptions();
+        xmlOptions.setSavePrettyPrint();
+		richiestaWebService.save(new File(fileToSave.getParentFile()+"/"+fileToSave.getName()), xmlOptions);
+        
+
+	}
+
     
     
 
