@@ -1,0 +1,2 @@
+call mvn install:install-file -DgroupId=saxon8 -DartifactId=saxon8-dom -Dversion=8.6.1 -Dpackaging=jar -Dfile=lib/saxon-8-6-1/saxon8-dom.jar -DgeneratePom=true -o
+call mvn install:install-file -DgroupId=saxon8 -DartifactId=saxon8 -Dversion=8.6.1 -Dpackaging=jar -Dfile=lib/saxon-8-6-1/saxon8.jar -DgeneratePom=true -o
