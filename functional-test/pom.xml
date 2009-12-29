@@ -21,7 +21,7 @@
                 <directory>src/test/java/</directory>
             </testResource>
             <testResource>
-                <directory>target/generated-sources/axis2/wsdl2code/resources/</directory>
+                <directory>${basedir}/target/generated-sources/axis2/wsdl2code/resources/</directory>
             </testResource>
             <testResource>
                 <directory>${basedir}/target/generated-sources/wsdl2code/src</directory>
@@ -53,6 +53,9 @@
 		      </goals>
 		   </execution>
 		</executions>
+		<dependencies>
+		
+		</dependencies>
 		<inherited>true</inherited>
 		<configuration>
 		   <schemaDirectory>src/test/resources/xsd/xmlbeans</schemaDirectory>
@@ -76,7 +79,7 @@
                             <staleFile>target/generated-sources/NewWebService/.staleFlagNewWebService</staleFile>
                         </configuration>
                     </execution>
-                    <execution>
+                    <!--execution>
                         <id>Sgate</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -88,7 +91,7 @@
                             <packageName>org.xmlblackbox.test.webservice.client</packageName>
                             <staleFile>target/generated-sources/NewWebService/.staleFlagNewWebService</staleFile>
                         </configuration>
-                    </execution>
+                    </execution-->
                 </executions>
 <!--
 			<executions>
@@ -194,6 +197,23 @@
         </profile>
     </profiles>
     <dependencies>
+	    <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans-xpath</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>saxon8</groupId>
+            <artifactId>saxon8-dom</artifactId>
+            <version>8.6.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>saxon8</groupId>
+            <artifactId>saxon8</artifactId>
+            <version>8.6.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>it.httptester</groupId>
             <artifactId>httptester</artifactId>
@@ -273,11 +293,11 @@
            <artifactId>xmlbeans</artifactId>
            <version>2.2.0</version>
        </dependency>
-	   <dependency>
+	   <!--dependency>
       		<groupId>xmlbeans</groupId>
 		  <artifactId>xbean</artifactId>
 		  <version>2.2.0</version>
-	   </dependency>
+	   </dependency-->
 	   <dependency>
       		<groupId>org.xmlblackbox.test</groupId>
 			<artifactId>xmlblackbox</artifactId>

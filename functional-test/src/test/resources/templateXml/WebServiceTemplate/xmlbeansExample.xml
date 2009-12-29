@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<getPerson xmlns="http://webservice.test.xmlblackbox.org/">
+     <arg0>
+        <address>111</address>
+        <name>nkn1111111</name>
+        <surname>sur11111</surname>
+     </arg0>
+     <arg0>
+        <address>222222</address>
+        <name>name22222222</name>
+        <surname>222222</surname>
+     </arg0>
+</getPerson>

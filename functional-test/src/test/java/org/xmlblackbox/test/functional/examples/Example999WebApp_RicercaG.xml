@@ -66,27 +66,18 @@
     
     <!-- Example for creating an Xml file with modified value -->
     <XML-CONTENT name="xmlContent1" version="1.1" 
-            fileinput="src/test/resources/templateXml/WebServiceTemplate/xmlbeansExample.xml"
+            fileinput="src/test/resources/templateXml/WebServiceTemplate/NewWebServiceTemplate.xml"
             fileoutput="target/Example999WebApp_1_out.xml"
             namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
 	        <XML-INSERT-ROW name="arg0"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:address"
-                    value="Via aaaaaaaaaaaa"/>
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:address"
+                    value="Via emilia"/>
 	        <XML-INSERT-ROW name="arg1"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:name"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:name"
                     value="Giulio"/>
 	        <XML-INSERT-ROW name="arg2"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:surname"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:surname"
                     value="Bianchi"/>
-	        <XML-INSERT-ROW name="arg0"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:address"
-                    value="Via bbbbbbbbbbbb"/>
-	        <XML-INSERT-ROW name="arg1"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:name"
-                    value="Gino"/>
-	        <XML-INSERT-ROW name="arg2"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:surname"
-                    value="Blu"/>
 	</XML-CONTENT>
 
     <SET-VARIABLE version="1.1" name="setVariableFromXml">
@@ -101,23 +92,14 @@
             fileinput="target/Example999WebApp_1_out.xml"
             namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
 	        <XML-CHECK-ROW name="arg0"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:address"
-                    value="Via aaaaaaaaaaaa"/>
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:address"
+                    value="Via emilia"/>
 	        <XML-CHECK-ROW name="arg1"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:name"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:name"
                     value="Giulio"/>
 	        <XML-CHECK-ROW name="arg2"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:surname"
+                    xpath="$this//xsd:getPerson/xsd:arg0/xsd:surname"
                     value="Bianchi"/>
-	        <XML-CHECK-ROW name="arg0"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:address"
-                    value="Via bbbbbbbbbbbb"/>
-	        <XML-CHECK-ROW name="arg1"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:name"
-                    value="Gino"/>
-	        <XML-CHECK-ROW name="arg2"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:surname"
-                    value="Blu"/>
     </XML-CONTENT>
 	
 
@@ -141,29 +123,20 @@
             fileinput="target/Example999WebApp_2_out.xml"
             namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
 	        <XML-CHECK-ROW name="arg0"
-                    xpath="$this//xsd:getPersonResponse/return[1]/address"
+                    xpath="$this//xsd:getPersonResponse/return/address"
                     value="Via romaaaaaaaaaaaaaaaaaaaa"/>
 	        <XML-CHECK-ROW name="arg1"
-                    xpath="$this//xsd:getPersonResponse/return[1]/name"
+                    xpath="$this//xsd:getPersonResponse/return/name"
                     value="Mario"/>
 	        <XML-CHECK-ROW name="arg2"
-                    xpath="$this//xsd:getPersonResponse/return[1]/surname"
+                    xpath="$this//xsd:getPersonResponse/return/surname"
                     value="Rossi"/>
-	        <XML-CHECK-ROW name="arg0"
-                    xpath="$this//xsd:getPersonResponse/return[2]/address"
-                    value="Via milanooooooo"/>
-	        <XML-CHECK-ROW name="arg1"
-                    xpath="$this//xsd:getPersonResponse/return[2]/name"
-                    value="Paolo"/>
-	        <XML-CHECK-ROW name="arg2"
-                    xpath="$this//xsd:getPersonResponse/return[2]/surname"
-                    value="Bianchi"/>
     </XML-CONTENT>
 
     <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
-            <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.WebApplicationTest</FILE-NAVIGATION>
+            <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.RicercaGoogleXBB</FILE-NAVIGATION>
             <PARAMETERS>
-    		    	<PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}"/>
+    		    	<PARAMETER name="GOOGLE_WEB_URL" value="http://www.google.it/"/>
             </PARAMETERS>
     </SELENIUM>
 

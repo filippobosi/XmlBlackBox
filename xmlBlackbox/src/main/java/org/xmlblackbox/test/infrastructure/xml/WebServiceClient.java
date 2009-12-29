@@ -18,9 +18,10 @@ import org.jdom.Element;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 
 /**
- * Es. Esegue la funzione PresaInCaricoLotto sulla classe Stub WebServiceStub inviando conme richiesta
+ * Es. Esegue la funzione ............ sulla classe Stub WebServiceStub inviando conme richiesta
  * il file template a cui vengono applicate le modifiche definite in EDIT_NODE
  * <br>
+ * 
  * &lt;WEB-SERVICE-CLIENT nome="webservice.presaInCaricoEsportaAnagrafica001 "&lt;<br>
  *      &lt;FILE_INPUT&lt;target/EsportaAnagrafica001_2_in.xml.xml&lt;/FILE_INPUT&lt;<br
  *      &lt;FILE_OUTPUT&lt;target/EsportaAnagrafica001_2_out.xml&lt;/FILE_OUTPUT&lt;<br
@@ -41,9 +42,7 @@ public class WebServiceClient extends Runnable {
 
     HashMap<String, String> parameters = null;
 	
-//	private List insertCheck = new Vector();
-	private List fileTemplate = new Vector();
-	
+
 	public WebServiceClient(Element el) throws Exception {
 		super(el);
 		build(el);
@@ -146,8 +145,6 @@ public class WebServiceClient extends Runnable {
 		
         Stub binding = null;
         
-//		fileInput = new File(fileInput.getParent()+"/"+testCaseName+fileInput.getName());
-        
 		logger.info("################ ");
 		logger.info("Client WS: " + getNome());
 		logger.info("URL: " + getUrl());
@@ -156,11 +153,12 @@ public class WebServiceClient extends Runnable {
 		logger.info("FILEINPUT: " + fileInput);
 		logger.info("################ ");
 		
-		  try{
-              saveRichiesta(richiesta);
-          }catch(Throwable e){
-            logger.info ("Eccezione ", e);
-          }
+		try{
+			saveRequest(richiesta);
+		}catch(Exception e){
+			logger.info ("Eccezione ", e);
+			throw e;
+		}
 		
         logger.debug("executeWebServiceClient ");
         try {
@@ -180,18 +178,15 @@ public class WebServiceClient extends Runnable {
 			logger.info("---- WS Operation     : " +getOperation());
 			Class[] parametriInvocazione=new Class[1];
 			
-			for(int ipar=0; ipar < 1; ipar++){
-				logger.info("ipar: " +ipar);
-				logger.info("richiesta[ipar].xmlText(): " +richiesta.xmlText());
-				
-				Class[] interfacce=richiesta.getClass().getInterfaces();
-				
-				for (int i=0; i < interfacce.length; i++){
-					if (XmlObject.class.isAssignableFrom(interfacce[i])){
-						parametriInvocazione[0]=interfacce[i];
-						logger.info("   Parametro invocazione #0 assegnato: "+parametriInvocazione[0]);
-						break;
-					}
+			logger.info("richiesta.xmlText(): " +richiesta.xmlText());
+			
+			Class[] interfacce=richiesta.getClass().getInterfaces();
+			
+			for (int i=0; i < interfacce.length; i++){
+				if (XmlObject.class.isAssignableFrom(interfacce[i])){
+					parametriInvocazione[0]=interfacce[i];
+					logger.info("   Parametro invocazione #0 assegnato: "+parametriInvocazione[0]);
+					break;
 				}
 			}
 			logger.info("---- WS Operation  ----------------");
@@ -230,11 +225,11 @@ public class WebServiceClient extends Runnable {
         	throw e; 
         }
 		
-		saveRisposta(response);
+		saveResponse(response);
         return response;
 
 	}
-	private void saveRisposta(XmlObject rispostaWebService) throws IOException, XmlException{
+	private void saveResponse(XmlObject rispostaWebService) throws IOException, XmlException{
 		
 		logger.info("getFileOutput() "+ getFileOutput());
 		File fileToSave = new File(getFileOutput());
@@ -244,7 +239,7 @@ public class WebServiceClient extends Runnable {
 
 	}
 	
-	private void saveRichiesta(XmlObject richiestaWebService) throws IOException, XmlException{
+	private void saveRequest(XmlObject richiestaWebService) throws IOException, XmlException{
 		
 		logger.info("getFileInput() "+ getFileInput());
 		File fileToSave = new File(getFileInput());
