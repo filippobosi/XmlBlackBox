@@ -45,7 +45,7 @@
 	 <plugin>
 		<groupId>org.codehaus.mojo</groupId>
 		<artifactId>xmlbeans-maven-plugin</artifactId>
-		<version>2.3.3</version>
+		<version>2.2.0</version>
 		<executions>
 		   <execution>
 		      <goals>
@@ -54,7 +54,12 @@
 		   </execution>
 		</executions>
 		<dependencies>
-		
+			<dependency>
+		           <groupId>org.apache.xmlbeans</groupId>
+		           <artifactId>xmlbeans</artifactId>
+		           <version>2.4.0</version>
+		            <scope>test</scope>
+		       </dependency>
 		</dependencies>
 		<inherited>true</inherited>
 		<configuration>
@@ -209,24 +214,28 @@
             <version>2.4.0</version>
             <scope>test</scope>
         </dependency>
-	<dependency>
-           <groupId>org.apache.xmlbeans</groupId>
-           <artifactId>xmlbeans</artifactId>
-           <version>2.4.0</version>
-            <scope>test</scope>
-       </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon-dom</artifactId>
             <version>9</version>
             <scope>test</scope>
+            <!--scope>system</scope>
+	    <systemPath>${basedir}/lib/saxon-9-0-0-4/saxon9-dom.jar</systemPath-->
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon</artifactId>
             <version>9</version>
             <scope>test</scope>
+            <!--scope>system</scope>
+	    <systemPath>${basedir}/lib/saxon-9-0-0-4/saxon9.jar</systemPath-->
         </dependency>
+	<dependency>
+           <groupId>org.apache.xmlbeans</groupId>
+           <artifactId>xmlbeans</artifactId>
+           <version>2.4.0</version>
+            <scope>test</scope>
+       </dependency>
         <dependency>
             <groupId>it.httptester</groupId>
             <artifactId>httptester</artifactId>
