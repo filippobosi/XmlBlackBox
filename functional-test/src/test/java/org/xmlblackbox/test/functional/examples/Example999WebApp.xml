@@ -128,7 +128,7 @@
         <STUB>org.xmlblackbox.test.webservice.client.NewWebServiceServiceStub</STUB>
         <OPERATION>getPerson</OPERATION>
         <PARAMETERS>
-        	<PARAMETER name="EXAMPLE_WEB_SERVICE_URL" value="http://localhost:8080/WebApplicationTest/NewWebService"/>
+        	<PARAMETER name="EXAMPLE_WEB_SERVICE_URL" value="${EXAMPLE_WEB_SERVICE_URL@fileProperties}"/>
         </PARAMETERS>
     </WEB-SERVICE-CLIENT>		
 
