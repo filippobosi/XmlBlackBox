@@ -5,17 +5,15 @@
 
 package org.xmlblackbox.test.functional.examples;
 
-import java.sql.Connection;
 import java.util.Properties;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlObject;
 import org.xmlblackbox.test.infrastructure.FlowControl;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
-import org.xmlblackbox.test.infrastructure.util.DBConnection;
 import org.xmlblackbox.test.util.Configurator;
-import org.xmlblackbox.test.webservice.client.NewWebServiceServiceStub;
 
 /**
  *
