@@ -143,7 +143,7 @@ public class MemoryData {
 		memoryObject.put(nameConnection, conn);
 	}
 
-    public void setObject(String nameObject, Connection object){
+    public void setObject(String nameObject, Object object){
 		memoryObject.put(nameObject, object);
 	}
 

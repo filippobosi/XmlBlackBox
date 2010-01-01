@@ -1,4 +1,4 @@
-package org.xmlblackbox.test.selenium.xmlblackbox;
+package org.xmlblackbox.test.selenium;
 
 import com.thoughtworks.selenium.*;
 import java.util.Properties;

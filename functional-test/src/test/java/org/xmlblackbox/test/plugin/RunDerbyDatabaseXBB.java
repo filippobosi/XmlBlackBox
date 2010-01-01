@@ -1,4 +1,4 @@
-package org.xmlblackbox.test.functions.xmlblackbox;
+package org.xmlblackbox.test.plugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

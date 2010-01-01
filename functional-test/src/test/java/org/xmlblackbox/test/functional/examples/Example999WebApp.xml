@@ -11,20 +11,41 @@
                 <PARAMETER name="addOrSubDays" value="0"/>
             </PARAMETERS>
     </RUN-PLUGIN>
+    <SET-VARIABLE version="1.1" name="setVariableFromXml">
+        <SET name="today" value="${generatedDate@runPlugin}" type="VALUE_TYPE"/>
+    </SET-VARIABLE>
+    <!-- Execute a Plugin to create a yesterday date (-1 days from today) with a yyyy-MM-dd pattern -->
+    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.infrastructure.plugin.GenerateDate" >
+            <PARAMETERS>
+                <PARAMETER name="pattern" value="yyyy-MM-dd" />
+                <PARAMETER name="addOrSubDays" value="-1"/>
+            </PARAMETERS>
+    </RUN-PLUGIN>
+    <SET-VARIABLE version="1.1" name="setVariableFromXml">
+        <SET name="yesterday" value="${generatedDate@runPlugin}" type="VALUE_TYPE"/>
+    </SET-VARIABLE>
+
+    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.plugin.CreateNewInformationObject" >
+            <PARAMETERS>
+                <PARAMETER name="nameReturnObject" value="person" />
+            </PARAMETERS>
+    </RUN-PLUGIN>
 
     <!-- execute delete query when the ID='1' -->
     <EXECUTE-QUERY version="1.1" name="delete record">
         <QUERY connection="DERBY" name="delete record" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='1'" type="DELETE"/>
         <QUERY connection="DERBY" name="delete record2" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='2'" type="DELETE"/>
+        <QUERY connection="DERBY" name="delete record2" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='3'" type="DELETE"/>
     </EXECUTE-QUERY>
 
     <!-- 
     Execute insert query using ${generatedDate@runPlugin} 
     (generated in the RUN-PLUGIN task) as parameter -->
     <EXECUTE-QUERY version="1.1" name="insert records">
-        <QUERY connection="DERBY" name="insertRecord" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('1','description1',Date('${generatedDate@runPlugin}'))" type="INSERT"/>
+        <QUERY connection="DERBY" name="insertRecord" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('1','description1',Date('${today@setVariable}'))" type="INSERT"/>
         <QUERY connection="DERBY" name="insertRecord2" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('2','description2',Date('2009-08-23'))" type="INSERT"/>
         <QUERY connection="DERBY" name="insertRecord3" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('2','description3',Date('2009-08-24'))" type="INSERT"/>
+        <QUERY connection="DERBY" name="insertRecord3" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('3','description4',Date('${yesterday@setVariable}'))" type="INSERT"/>
     </EXECUTE-QUERY>
 
 
@@ -41,7 +62,7 @@
         <dataset>
             <table name="XMLBLACKBOX.HOUSE" SQL.WHERE="ID='1'">
                 <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
-                <row><value>1</value><value>description1</value><value>${generatedDate@runPlugin}</value></row>
+                <row><value>1</value><value>description1</value><value>${today@setVariable}</value></row>
             </table>
         </dataset>
         <dataset>
@@ -51,12 +72,12 @@
                 <row><value>2</value><value>description3</value><value>2009-08-24</value></row>
             </table>
         </dataset>
-        <!--dataset>
-            <table name="XMLBLACKBOX.PIPPO" SQL.WHERE="ID_TABLE=20">
-                <column>ID_TABLE</column><column>VALUE_TABLE</column>
-                <row><value>20</value><value>30</value></row>
+        <dataset>
+            <table name="XMLBLACKBOX.HOUSE" SQL.WHERE="ID='3' ORDER BY START_DATE">
+                <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
+                <row><value>3</value><value>description4</value><value>${yesterday@setVariable}</value></row>
             </table>
-        </dataset-->
+        </dataset>
     </CHECK-DB>
 
     <!-- setVariable example getting value from db chosing-->
@@ -160,12 +181,18 @@
                     value="Bianchi"/>
     </XML-CONTENT>
 
-    <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
-            <FILE-NAVIGATION>org.xmlblackbox.test.selenium.xmlblackbox.WebApplicationTest</FILE-NAVIGATION>
+    <!--SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
+            <FILE-NAVIGATION>org.xmlblackbox.test.selenium.WebApplicationTest</FILE-NAVIGATION>
             <PARAMETERS>
     		    	<PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}"/>
             </PARAMETERS>
-    </SELENIUM>
+    </SELENIUM-->
+
+    <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.plugin.ReadNewInformationObject" >
+            <PARAMETERS>
+                <PARAMETER name="nameReturnObject" value="person" />
+            </PARAMETERS>
+    </RUN-PLUGIN>
 
 </TEST>
 
