@@ -193,18 +193,18 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>9</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/saxon-9-0-0-4/saxon9.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>saxon-dom</artifactId>
 			<version>9</version>
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/saxon-9-0-0-4/saxon9-dom.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>saxon</artifactId>
-			<version>9</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/saxon-9-0-0-4/saxon9.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>
