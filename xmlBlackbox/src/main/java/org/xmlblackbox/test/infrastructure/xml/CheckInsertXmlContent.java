@@ -20,7 +20,9 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.xmlblackbox.test.infrastructure.exception.XmlCheckException;
 import org.xmlblackbox.test.infrastructure.exception.TestException;
+import org.xmlblackbox.test.infrastructure.exception.XmlInsertException;
 import org.xmlblackbox.test.infrastructure.interfaces.Repository;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
@@ -243,18 +245,21 @@ public class CheckInsertXmlContent extends Runnable {
         }
     }
     
-    public XmlObject checkValueInXml(XmlObject xobj, XmlCheckRow xmlRow, MemoryData memory) throws TestException{
+    public XmlObject checkValueInXml(XmlObject xobj, XmlCheckRow xmlRow, MemoryData memory) throws Exception{
 
     	Properties prop = memory.getOrCreateRepository(getRepositoryName());
         XmlObject[] xmlObject = null;
 
         xmlObject = xobj.selectPath(xmlRow.getNamespace()+xmlRow.getXPath());
 
+        logger.info("DoctypeName "+xobj.documentProperties().getDoctypeName());
+        logger.info("DoctypePublicId "+xobj.documentProperties().getDoctypePublicId());
+
 
         logger.info("xmlObject "+xmlObject);
         if (xmlObject!=null && xmlObject.length==0){
-            logger.info("xmlObject.length "+xmlObject.length);
-            throw new TestException("The XML file ("+xmlRow.getFileName()+") does not contains "+xmlRow.getXPath());
+            String error= "XmlObject not found searching by xpath query \""+xmlRow.getNamespace()+xmlRow.getXPath()+"\". Check the namespace.";
+            throw new XmlCheckException(error);
         }
         logger.info("xmlObject.length "+xmlObject.length);
         logger.info("xmlObject[0] "+xmlObject[0]);
@@ -278,14 +283,22 @@ public class CheckInsertXmlContent extends Runnable {
 
     }
     
-    public XmlObject insertValueInXml(XmlObject xobj, XmlInsertRow xmlRow, MemoryData memory) throws TestException{
+    public XmlObject insertValueInXml(XmlObject xobj, XmlInsertRow xmlRow, MemoryData memory) throws Exception{
 
     	Properties prop = memory.getOrCreateRepository(getRepositoryName());
         XmlObject[] xmlObject = null;
         logger.info("xmlRow.getNamespace() "+xmlRow.getNamespace());
         logger.info("xmlRow.getXPath() "+xmlRow.getXPath());
 
+        logger.info("DoctypeName "+xobj.documentProperties().getDoctypeName());
+        logger.info("DoctypePublicId "+xobj.documentProperties().getDoctypePublicId());
+
         xmlObject = xobj.selectPath(xmlRow.getNamespace()+xmlRow.getXPath());
+
+        if (xmlObject.length<1){
+            String error= "XmlObject not found searching by xpath query \""+xmlRow.getNamespace()+xmlRow.getXPath()+"\". Check the namespace.";
+            throw new XmlInsertException(error);
+        }
 
         logger.info("xobj 1 "+xobj);
 

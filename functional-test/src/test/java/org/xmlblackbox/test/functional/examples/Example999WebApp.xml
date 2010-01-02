@@ -98,28 +98,28 @@
     
     <!-- Example for creating an Xml file with modified value -->
     <XML-CONTENT name="xmlContent1" version="1.1" 
-            fileinput="src/test/resources/templateXml/WebServiceTemplate/xmlbeansExample.xml"
-            fileoutput="target/Example999WebApp_1_out.xml"
-            namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
-	        <XML-INSERT-ROW name="arg0"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:address"
-                    value="Via aaaaaaaaaaaa"/>
-	        <XML-INSERT-ROW name="arg1"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:name"
-                    value="Giulio"/>
-	        <XML-INSERT-ROW name="arg2"
-                    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:surname"
-                    value="Bianchi"/>
-	        <XML-INSERT-ROW name="arg0"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:address"
-                    value="Via bbbbbbbbbbbb"/>
-	        <XML-INSERT-ROW name="arg1"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:name"
-                    value="Gino"/>
-	        <XML-INSERT-ROW name="arg2"
-                    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:surname"
-                    value="Blu"/>
-	</XML-CONTENT>
+	    fileinput="src/test/resources/templateXml/WebServiceTemplate/xmlbeansExample.xml"
+	    fileoutput="target/Example999WebApp_1_out.xml"
+	    namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
+		<XML-INSERT-ROW name="arg0"
+		    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:address"
+		    value="Via aaaaaaaaaaaa"/>
+		<XML-INSERT-ROW name="arg1"
+		    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:name"
+		    value="Giulio"/>
+		<XML-INSERT-ROW name="arg2"
+		    xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:surname"
+		    value="Bianchi"/>
+		<XML-INSERT-ROW name="arg0"
+		    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:address"
+		    value="Via bbbbbbbbbbbb"/>
+		<XML-INSERT-ROW name="arg1"
+		    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:name"
+		    value="Gino"/>
+		<XML-INSERT-ROW name="arg2"
+		    xpath="$this//xsd:getPerson/xsd:arg0[2]/xsd:surname"
+		    value="Blu"/>
+    </XML-CONTENT>
 
     <!-- Example for creating a variable getting data from xml file -->
     <SET-VARIABLE version="1.1" name="setVariableFromXml">

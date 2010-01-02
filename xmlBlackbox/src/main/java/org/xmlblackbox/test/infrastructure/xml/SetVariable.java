@@ -30,6 +30,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.ITable;
 import org.jdom.Namespace;
 import org.jdom.output.XMLOutputter;
+import org.xmlblackbox.test.infrastructure.exception.SetVariableException;
 import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 /**
@@ -114,7 +115,7 @@ public class SetVariable extends XmlElement{
         this.setList = setList;
     }
 
-    public static  void setVariableFromXml(Set set, Properties prop) throws TestException {
+    public static  void setVariableFromXml(Set set, Properties prop) throws Exception {
 
 
         XmlObject[] xmlObject = null;
@@ -123,6 +124,12 @@ public class SetVariable extends XmlElement{
             InputStream is = new FileInputStream(set.getFileName());
             xobj = XmlObject.Factory.parse(is);
             xmlObject = xobj.selectPath(set.getNamespace()+set.getXPath());
+
+            if (xmlObject.length == 0){
+                String error= "XmlObject not found searching by xpath query \""+set.getNamespace()+set.getXPath()+"\". Check the namespace.";
+                throw new SetVariableException(error);
+            }
+
 
         }
         catch (XmlException e) {

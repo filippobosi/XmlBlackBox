@@ -412,10 +412,10 @@ public class FlowControl extends DatabaseTestCase {
             }
         } catch (TestException e) {
             e.setErrorMessage("Node Failed "+obj.getName()+". "+e.toString());
-            log.error("[!] Execution Node Failed : "+obj.getName(),e);
+            log.error(e.getClass().getSimpleName()+" [!] Execution Node Failed : "+obj.getName(),e);
             throw e;
         } catch (Exception e) {
-            log.error("[!] Execution Node Failed : "+obj.getName(),e);
+            log.error(e.getClass().getSimpleName()+" [!] Execution Node Failed : "+obj.getName(), e);
             throw e;
         }
 	}
