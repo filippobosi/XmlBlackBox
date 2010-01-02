@@ -62,7 +62,7 @@ public abstract class SeleniumEnvironment extends SeleneseTestCase {
 		if (firstSelenium == null) {
 			startServer(prop);
 			selenium = new DefaultSelenium(server_ip, server_port, "*chrome", url);
-	        logger.info("selenium "+selenium);
+            logger.info("selenium "+selenium);
 			try{
 				selenium.start();
 			}catch(Exception e){

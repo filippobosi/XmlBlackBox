@@ -22,6 +22,7 @@ public class WebApplicationTest extends SeleniumEnvironment implements SeleniumN
         selenium.open(webUrl);
         selenium.waitForPageToLoad("30000");
 
+//        if(true){throw new Exception("PROVA");}
         assertTrue("\"Hello World\" not found!", selenium.isTextPresent("Hello World"));
         
         return selenium;

@@ -5,17 +5,8 @@ import it.imolinfo.httptester.HttpTestCaseSimple;
 import it.imolinfo.httptester.WebNavigationSession;
 import it.imolinfo.httptester.exception.SystemException;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -25,17 +16,7 @@ import java.util.Properties;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.ITable;
 import org.jdom.Element;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlObject;
 
 
 import org.xmlblackbox.test.infrastructure.exception.TestException;
@@ -45,9 +26,9 @@ import org.xmlblackbox.test.infrastructure.util.MemoryData;
 
 import com.tapsterrock.jiffie.JiffieException;
 import com.thoughtworks.selenium.Selenium;
+import java.io.File;
 import java.sql.Connection;
 import org.dbunit.database.DatabaseConnection;
-import org.jdom.Namespace;
 /**
  * Es.
  *  Login fatta con Selenium all'indirizzo WEB_URL@testProp trovato nel
@@ -221,44 +202,6 @@ public class ClientWeb extends Runnable  {
 		this.parameters = parameters;
 	}
 
-
-//	public class HttpParameter {
-//
-//		private String paramName = null;
-//		private String paramValue = null;
-//		private String paramFrom = null;
-//
-//		public HttpParameter(String paramName, String paramValue, String paramFrom) {
-//			this.paramName = paramName;
-//			this.paramValue = paramValue;
-//			this.paramFrom = paramFrom;
-//		}
-//
-//		public String getParamName() {
-//			return paramName;
-//		}
-//
-//		public void setParamName(String paramName) {
-//			this.paramName = paramName;
-//		}
-//
-//		public String getParamValue() {
-//			return paramValue;
-//		}
-//
-//		public void setParamValue(String paramValue) {
-//			this.paramValue = paramValue;
-//		}
-//
-//		public String getParamFrom() {
-//			return paramFrom;
-//		}
-//
-//		public void setParamFrom(String paramFrom) {
-//			this.paramFrom = paramFrom;
-//		}
-//	}
-
 	public String getOutputPrefix() {
 		return outputPrefix;
 	}
@@ -344,17 +287,27 @@ public class ClientWeb extends Runnable  {
         }catch(Exception e){
 
 			logger.error("Eccezione durante la navigazione. ", e);
-            String seleniumPath = memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("SELENIUM_PATH");
-            String errorDir = memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty(" SELENIUM_HTML_ERROR");
+            String seleniumPath = memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("SELENIUM_PATH_ERROR");
+            logger.info("seleniumPath : "+seleniumPath);
+
             if (seleniumPath==null){
                 seleniumPath = "";
             }
        	    if (seleniumImpl!=null && seleniumImpl.getSelenium()!=null && seleniumImpl.getSelenium().getHtmlSource()!=null){
+
+                   File path = new File(seleniumPath);
+                   if (!path.exists()){
+                       path.mkdirs();
+                   }
                    logger.info("Creazione del file di output di errore "+seleniumPath+getFileNavigation()+"_"+getNome().replace(' ', '_')+"_selenium.html");
-       	           FileWriter fstream = new FileWriter(seleniumPath+errorDir+getFileNavigation()+"_"+getNome().replace(' ', '_')+"_selenium.html");
+
+       	           String fileName = seleniumPath+getFileNavigation()+"_"+getNome().replace(' ', '_')+"_selenium";
+                   FileWriter fstream = new FileWriter(fileName+".html");
         	       BufferedWriter out = new BufferedWriter(fstream);
         	       out.write(seleniumImpl.getSelenium().getHtmlSource());
         	       out.close();
+                   seleniumImpl.getSelenium().windowMaximize();
+                   seleniumImpl.getSelenium().captureScreenshot(fileName+".png");
         	}
 
             String timeOpenSeleniumOnError = memory.getOrCreateRepository(Repository.FILE_PROPERTIES).getProperty("TIME_OPEN_SELENIUM_ON_ERROR");
