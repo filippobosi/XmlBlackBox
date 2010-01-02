@@ -29,7 +29,7 @@
         <SET name="yesterday" value="${generatedDate@runPlugin}" type="VALUE_TYPE"/>
     </SET-VARIABLE>
 
-    <!-- Execute a Plugin to create a Person object and put it in session. Person is red in ReadNewInformationObject plugin-->
+    <!-- Execute a Plugin to create a Person object and put it in session. Person is read in ReadNewInformationObject plugin-->
     <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.plugin.CreateNewInformationObject" >
             <PARAMETERS>
                 <PARAMETER name="nameReturnObject" value="person" />
@@ -52,7 +52,6 @@
         <QUERY connection="DERBY" name="insertRecord3" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('3','description4',Date('${yesterday@setVariable}'))" type="INSERT"/>
     </EXECUTE-QUERY>
 
-
     <!-- 
     Wait for a record in the table HOUSE with the ID='1' when 
     found the wait finish otherwise wait until timeout. 
@@ -63,7 +62,7 @@
     </WAIT-TASK>
 
     <!-- Checkdb example verify VALUE in HOUSE table chosing the connection 
-    DERBY and the where-condition and is-present attributes-->
+    DERBY using where-condition and is-present attributes-->
     <CHECK-DB version="1.1" connection="DERBY" name="checkDB">
         <dataset>
             <table name="XMLBLACKBOX.HOUSE" where-condition="ID='1'">
@@ -79,7 +78,7 @@
             </table>
         </dataset>
         <dataset>
-            <table name="XMLBLACKBOX.HOUSE" where-condition="ID='3' ORDER BY START_DATE">
+            <table name="XMLBLACKBOX.HOUSE" where-condition="ID='3'">
                 <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
                 <row><value>3</value><value>description4</value><value>${yesterday@setVariable}</value></row>
             </table>
@@ -92,7 +91,7 @@
         </dataset>
     </CHECK-DB>
 
-    <!-- setVariable example getting value from db chosing-->
+    <!-- setVariable example getting value from db chosing DERBY connection-->
     <SET-VARIABLE version="1.1" name="setVariable1">
         <SET connection="DERBY" name="VALUE_HOUSE" query="SELECT DESCRIPTION FROM HOUSE  WHERE ID='1'" type="DB_TYPE" />
     </SET-VARIABLE>
@@ -122,20 +121,21 @@
                     value="Blu"/>
 	</XML-CONTENT>
 
+    <!-- Example for creating a variable getting data from xml file -->
     <SET-VARIABLE version="1.1" name="setVariableFromXml">
         <SET name="idSetVariable" filename="target/Example999WebApp_1_out.xml"
             namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';"
-            xpath="$this//xsd:getPerson/xsd:arg0/xsd:address"
+            xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:address"
             type="XML_TYPE"/>
     </SET-VARIABLE>
 
-	<!-- Example to verify values in xml file -->
+    <!-- Example to verify values in xml file -->
     <XML-CONTENT version="1.1" name="XML-CONTENT Check"
             fileinput="target/Example999WebApp_1_out.xml"
             namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
 	        <XML-CHECK-ROW name="arg0"
                     xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:address"
-                    value="Via aaaaaaaaaaaa"/>
+                    value="${idSetVariable@setVariable}"/>
 	        <XML-CHECK-ROW name="arg1"
                     xpath="$this//xsd:getPerson/xsd:arg0[1]/xsd:name"
                     value="Giulio"/>
@@ -153,7 +153,7 @@
                     value="Blu"/>
     </XML-CONTENT>
 	
-
+    <!-- Example to make a web service call using xml prepared befor as input-->
     <WEB-SERVICE-CLIENT version="1.1" name="webservice">
         <FILE-INPUT>target/Example999WebApp_1_out.xml</FILE-INPUT>
         <FILE-OUTPUT>target/Example999WebApp_2_out.xml</FILE-OUTPUT>
@@ -165,11 +165,12 @@
         </PARAMETERS>
     </WEB-SERVICE-CLIENT>		
 
+    <!-- Example to validate an xml file against xsd file-->
     <VALIDATE-XML version="1.1" name="Validate"
         xml="target/Example999WebApp_2_out.xml"
         xsd="src/test/resources/wsdl/NewWebService.xsd" />
-
-	<!-- Example to verify values in xml file -->
+    
+    <!-- Example to verify values in xml file -->
     <XML-CONTENT version="1.1" name="XML-CONTENT Check"
             fileinput="target/Example999WebApp_2_out.xml"
             namespace="declare namespace xsd='http://webservice.test.xmlblackbox.org/';">
@@ -193,6 +194,7 @@
                     value="Bianchi"/>
     </XML-CONTENT>
 
+    <!-- Example to do a selenium navigation -->
     <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.WebApplicationTest</FILE-NAVIGATION>
             <PARAMETERS>
@@ -200,6 +202,7 @@
             </PARAMETERS>
     </SELENIUM>
 
+    <!-- Execute a Plugin to read information from Person object in session. Person is created in CreateNewInformationObject plugin-->
     <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.plugin.ReadNewInformationObject" >
             <PARAMETERS>
                 <PARAMETER name="nameReturnObject" value="person" />
