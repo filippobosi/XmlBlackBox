@@ -6,7 +6,7 @@ public class IncludeFileNotFound extends Exception {
 
     private Exception containedException = null;
     private String errorMessage = null;
-    protected final static Logger log = Logger.getLogger(TestException.class);
+    protected final static Logger log = Logger.getLogger(IncludeFileNotFound.class);
 
     /**
     * Costruttore vuoto

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <TEST version="1.1" name="Example999" xmlns="http://www.xmlblackbox.org/xsd/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmlblackbox.org/xsd/src/test/resources/xmlblackbox_1_0.xsd">
 
-   	<!-- Connection initialize -->
+    <!-- Connection initialize using INCLUDE-FILE tag. This tag is useful to use in different test case part 
+    in commmon to more than one test-->
     <INCLUDE-FILE version="1.1" filename="/org/xmlblackbox/test/functional/examples/ConfigConnectionDerby.xml"></INCLUDE-FILE>
 
     <!-- Execute a Plugin to create a today date (0 days from today) with a yyyy-MM-dd pattern -->
@@ -11,9 +12,11 @@
                 <PARAMETER name="addOrSubDays" value="0"/>
             </PARAMETERS>
     </RUN-PLUGIN>
-    <SET-VARIABLE version="1.1" name="setVariableFromXml">
+    <!--create a yesterday variable using generatedDate@runPlugin (generated in the RUN-PLUGIN task)-->
+    <SET-VARIABLE version="1.1" name="setVariableFromValue">
         <SET name="today" value="${generatedDate@runPlugin}" type="VALUE_TYPE"/>
     </SET-VARIABLE>
+    
     <!-- Execute a Plugin to create a yesterday date (-1 days from today) with a yyyy-MM-dd pattern -->
     <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.infrastructure.plugin.GenerateDate" >
             <PARAMETERS>
@@ -21,26 +24,27 @@
                 <PARAMETER name="addOrSubDays" value="-1"/>
             </PARAMETERS>
     </RUN-PLUGIN>
-    <SET-VARIABLE version="1.1" name="setVariableFromXml">
+    <!--create a yesterday variiable using generatedDate@runPlugin (generated in the RUN-PLUGIN task)-->
+    <SET-VARIABLE version="1.1" name="setVariableFromValue">
         <SET name="yesterday" value="${generatedDate@runPlugin}" type="VALUE_TYPE"/>
     </SET-VARIABLE>
 
+    <!-- Execute a Plugin to create a Person object and put it in session. Person is red in ReadNewInformationObject plugin-->
     <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.plugin.CreateNewInformationObject" >
             <PARAMETERS>
                 <PARAMETER name="nameReturnObject" value="person" />
             </PARAMETERS>
     </RUN-PLUGIN>
 
-    <!-- execute delete query when the ID='1' -->
+    <!-- execute delete query when the ID='1' or ID='2' or ID='3' -->
     <EXECUTE-QUERY version="1.1" name="delete record">
         <QUERY connection="DERBY" name="delete record" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='1'" type="DELETE"/>
         <QUERY connection="DERBY" name="delete record2" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='2'" type="DELETE"/>
-        <QUERY connection="DERBY" name="delete record2" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='3'" type="DELETE"/>
+        <QUERY connection="DERBY" name="delete record3" query="DELETE FROM XMLBLACKBOX.HOUSE WHERE ID='3'" type="DELETE"/>
     </EXECUTE-QUERY>
 
     <!-- 
-    Execute insert query using ${generatedDate@runPlugin} 
-    (generated in the RUN-PLUGIN task) as parameter -->
+    Execute insert query using ${today@setvariable} and ${yesterday@setvariable} as parameters -->
     <EXECUTE-QUERY version="1.1" name="insert records">
         <QUERY connection="DERBY" name="insertRecord" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('1','description1',Date('${today@setVariable}'))" type="INSERT"/>
         <QUERY connection="DERBY" name="insertRecord2" query="INSERT INTO XMLBLACKBOX.HOUSE (ID,DESCRIPTION,START_DATE) VALUES('2','description2',Date('2009-08-23'))" type="INSERT"/>
@@ -51,31 +55,39 @@
 
     <!-- 
     Wait for a record in the table HOUSE with the ID='1' when 
-    found the wait finish otherwise wait until timeout
+    found the wait finish otherwise wait until timeout. 
+    This is useful to know the finish of async call
     -->
     <WAIT-TASK connection="DERBY" version="1.1" name="task">
     	<WAIT query="select * from XMLBLACKBOX.HOUSE where ID='1'" timeout="10" />
     </WAIT-TASK>
 
-    <!-- Checkdb example verify VALUE in HOUSE chosing the connection-->
+    <!-- Checkdb example verify VALUE in HOUSE table chosing the connection 
+    DERBY and the where-condition and is-present attributes-->
     <CHECK-DB version="1.1" connection="DERBY" name="checkDB">
         <dataset>
-            <table name="XMLBLACKBOX.HOUSE" SQL.WHERE="ID='1'">
+            <table name="XMLBLACKBOX.HOUSE" where-condition="ID='1'">
                 <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
                 <row><value>1</value><value>description1</value><value>${today@setVariable}</value></row>
             </table>
         </dataset>
         <dataset>
-            <table name="XMLBLACKBOX.HOUSE" SQL.WHERE="ID='2' ORDER BY START_DATE">
+            <table name="XMLBLACKBOX.HOUSE" where-condition="ID='2' ORDER BY START_DATE">
                 <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
                 <row><value>2</value><value>description2</value><value>2009-08-23</value></row>
                 <row><value>2</value><value>description3</value><value>2009-08-24</value></row>
             </table>
         </dataset>
         <dataset>
-            <table name="XMLBLACKBOX.HOUSE" SQL.WHERE="ID='3' ORDER BY START_DATE">
+            <table name="XMLBLACKBOX.HOUSE" where-condition="ID='3' ORDER BY START_DATE">
                 <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
                 <row><value>3</value><value>description4</value><value>${yesterday@setVariable}</value></row>
+            </table>
+        </dataset>
+        <dataset>
+            <table name="XMLBLACKBOX.HOUSE" where-condition="ID='99'" is-present="false">
+                <column>ID</column><column>DESCRIPTION</column><column>START_DATE</column>
+                <row><value>4</value><value>description5</value><value>${yesterday@setVariable}</value></row>
             </table>
         </dataset>
     </CHECK-DB>
@@ -181,12 +193,12 @@
                     value="Bianchi"/>
     </XML-CONTENT>
 
-    <!--SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
+    <SELENIUM version="1.1" name="Example999 navigazione con SELENIUM">
             <FILE-NAVIGATION>org.xmlblackbox.test.selenium.WebApplicationTest</FILE-NAVIGATION>
             <PARAMETERS>
     		    	<PARAMETER name="EXAMPLE_WEB_URL" value="${EXAMPLE_WEB_URL@fileProperties}"/>
             </PARAMETERS>
-    </SELENIUM-->
+    </SELENIUM>
 
     <RUN-PLUGIN version="1.1" class="org.xmlblackbox.test.plugin.ReadNewInformationObject" >
             <PARAMETERS>

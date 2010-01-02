@@ -52,11 +52,11 @@ public abstract class SeleniumEnvironment extends SeleneseTestCase {
         logger.info("prop.getProperty(SELENIUM_HOST_SERVER) "+prop.getProperty("SELENIUM_HOST_SERVER"));
         logger.info("prop.getProperty(SELENIUM_PORT_SERVER) "+prop.getProperty("SELENIUM_PORT_SERVER"));
 
-        
+
         String server_ip = prop.getProperty("SELENIUM_HOST_SERVER");
         Integer server_port = new Integer(prop.getProperty("SELENIUM_PORT_SERVER"));
-        
-        
+
+
         logger.info("firstSelenium "+firstSelenium);
         logger.info("url "+url);
 		if (firstSelenium == null) {
@@ -76,16 +76,17 @@ public abstract class SeleniumEnvironment extends SeleneseTestCase {
 	}
 
 	private void startServer(Properties prop) {
-        
+
         RemoteControlConfiguration remote = new RemoteControlConfiguration();
-		remote.setPort(new Integer(prop.getProperty("SELENIUM_PORT_SERVER"))); 
+		remote.setPort(new Integer(prop.getProperty("SELENIUM_PORT_SERVER")));
+
         remote.setProfilesLocation(new File(prop.getProperty("SELENIUM_BROWSER_PROFILE_LOCATION")));
         remote.setFirefoxProfileTemplate(new File(prop.getProperty("SELENIUM_BROWSER_PROFILE_LOCATION")));
 
 		try {
 
 			server = new SeleniumServer(true, remote);
-			
+
 
 		}
 		catch (Exception e) {

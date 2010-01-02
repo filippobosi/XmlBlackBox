@@ -30,6 +30,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dbunit.dataset.ITableIterator;
 import org.dbunit.dataset.xml.XmlDataSet;
+import org.xmlblackbox.test.infrastructure.exception.CheckDbException;
 
 public class CheckDatabase extends XmlElement{
 
@@ -144,8 +145,10 @@ public class CheckDatabase extends XmlElement{
             DataSetXBB dataSetXbb = new DataSetXBB();
             dataset = iter.next();
             if (dataset!=null){
-                dataSetXbb.setSqlWhere(dataset.getChild("table", uriXsd).getAttributeValue("SQL.WHERE"));
+                dataSetXbb.setSqlWhere(dataset.getChild("table", uriXsd).getAttributeValue("where-condition"));
                 logger.debug("getSqlWhere() "+dataSetXbb.getSqlWhere());
+                dataSetXbb.setSqlIsPresent(dataset.getChild("table", uriXsd).getAttributeValue("is-present"));
+                logger.debug("getSqlIsPresent() "+dataSetXbb.getSqlIsPresent());
             }
 
             logger.debug("new XMLOutputter().outputString(dataset) "+ new XMLOutputter().outputString(dataset));
@@ -194,7 +197,7 @@ public class CheckDatabase extends XmlElement{
 	}
 
     public void checkDB(MemoryData memoryData, IDatabaseConnection conn, int step) throws Exception, TestException {
-		
+
         Iterator<DataSetXBB> dataSets = getDataSetList().iterator();
 
         while (dataSets.hasNext()) {
@@ -239,14 +242,18 @@ public class CheckDatabase extends XmlElement{
                 logger.debug("iTableAttesaRipulita.getRowCount() "+ iTableAttesaRipulita.getRowCount());
 
                 boolean sqlIsPresent = false;
-                logger.debug("columnNameList.contains(\"SQL.ISPRESENT\")"+ columnNameList.contains("SQL.ISPRESENT"));
+                logger.debug("columnNameList.contains(\"is-present\")"+ columnNameList.contains("is-present"));
 
-                if (columnNameList.contains("SQL.ISPRESENT")){
-                    sqlIsPresent = new Boolean((String)iTableAttesa.getValue(0,"SQL.ISPRESENT"));
+                if (dataSetXBB.getSqlIsPresent()!=null && iTableAttesaRipulita.getRowCount()==0){
+                    throw new CheckDbException("Configuration exception. \"is-present\" attribute could not be added with no records");
+                }
+
+                if (dataSetXBB.getSqlIsPresent()!=null){
+                    sqlIsPresent = new Boolean(dataSetXBB.getSqlIsPresent());
                     logger.debug("sqlIsPresent "+ sqlIsPresent);
                     if (!sqlIsPresent){
                         if (iTableReale.getRowCount()>0){
-                            new TestException("Resord found record non atteso nella tabella "+iTableAttesa.getTableMetaData().getTableName());
+                            new CheckDbException("Resord found record non atteso nella tabella "+iTableAttesa.getTableMetaData().getTableName());
                         }
                     }else{
                         logger.debug("Execution verify for dbCheck "+ getNome()+ ". Step "+step);
