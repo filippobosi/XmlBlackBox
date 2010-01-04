@@ -30,7 +30,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dbunit.dataset.ITableIterator;
 import org.dbunit.dataset.xml.XmlDataSet;
-import org.xmlblackbox.test.infrastructure.exception.CheckDbException;
+import org.xmlblackbox.test.infrastructure.exception.DbCheckException;
 
 public class CheckDatabase extends XmlElement{
 
@@ -245,7 +245,7 @@ public class CheckDatabase extends XmlElement{
                 logger.debug("columnNameList.contains(\"is-present\")"+ columnNameList.contains("is-present"));
 
                 if (dataSetXBB.getSqlIsPresent()!=null && iTableAttesaRipulita.getRowCount()==0){
-                    throw new CheckDbException("Configuration exception. \"is-present\" attribute could not be added with no records");
+                    throw new DbCheckException("Configuration exception. \"is-present\" attribute could not be added with no records");
                 }
 
                 if (dataSetXBB.getSqlIsPresent()!=null){
@@ -253,7 +253,7 @@ public class CheckDatabase extends XmlElement{
                     logger.debug("sqlIsPresent "+ sqlIsPresent);
                     if (!sqlIsPresent){
                         if (iTableReale.getRowCount()>0){
-                            new CheckDbException("Resord found record non atteso nella tabella "+iTableAttesa.getTableMetaData().getTableName());
+                            new DbCheckException("Resord found record non atteso nella tabella "+iTableAttesa.getTableMetaData().getTableName());
                         }
                     }else{
                         logger.debug("Execution verify for dbCheck "+ getNome()+ ". Step "+step);

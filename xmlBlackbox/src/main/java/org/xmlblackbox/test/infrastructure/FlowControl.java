@@ -50,6 +50,7 @@ import org.xmlblackbox.test.infrastructure.xml.XmlValidate;
 
 import com.thoughtworks.selenium.Selenium;
 import org.apache.commons.lang.StringUtils;
+import org.xmlblackbox.test.infrastructure.exception.DbCheckException;
 
 
 
@@ -368,6 +369,10 @@ public class FlowControl extends DatabaseTestCase {
                 while(iter.hasNext()){
                     Query query = iter.next();
                     IDatabaseConnection conn = new DatabaseConnection((Connection)memory.getConnectionByName(query.getConnection()));
+                    if (conn == null ||conn.getConnection()==null){
+                        throw new DbCheckException("Connection \""+query.getConnection()+"\" not found");
+                    }
+
                     log.info("Run query "+query.getQuery()+" about xml object "+query.getNome());
                     if (query.getType().equals(Query.UPDATE) || query.getType().equals(Query.INSERT)){
                         int result = conn.getConnection().createStatement().executeUpdate(query.getQuery());
@@ -412,10 +417,10 @@ public class FlowControl extends DatabaseTestCase {
             }
         } catch (TestException e) {
             e.setErrorMessage("Node Failed "+obj.getName()+". "+e.toString());
-            log.error(e.getClass().getSimpleName()+" [!] Execution Node Failed : "+obj.getName(),e);
+            log.error(e.getClass().getSimpleName()+" [!] Execution Node Failed : ", e);
             throw e;
         } catch (Exception e) {
-            log.error(e.getClass().getSimpleName()+" [!] Execution Node Failed : "+obj.getName(), e);
+            log.error(e.getClass().getSimpleName()+" [!] Execution Node Failed : ", e);
             throw e;
         }
 	}

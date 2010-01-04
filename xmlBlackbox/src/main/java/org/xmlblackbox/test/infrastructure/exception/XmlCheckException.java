@@ -2,23 +2,23 @@ package org.xmlblackbox.test.infrastructure.exception;
 
 import org.apache.log4j.Logger;
 
-public class CheckDbException extends Exception {
+public class XmlCheckException extends Exception {
 
     private Exception containedException = null;
     private String errorMessage = null;
-    protected final static Logger log = Logger.getLogger(CheckDbException.class);
+    protected final static Logger log = Logger.getLogger(XmlCheckException.class);
 
     /**
     * Costruttore vuoto
     */
-    public CheckDbException() {
+    public XmlCheckException() {
         super();
     }
 
     /**
     * Costruttore con argomenti
     */
-    public CheckDbException(Exception ex, String errorMessage) {
+    public XmlCheckException(Exception ex, String errorMessage) {
       containedException = ex;
       this.errorMessage = errorMessage;
     }
@@ -27,7 +27,7 @@ public class CheckDbException extends Exception {
    /**
    * Costruttore con argomenti
    */
-   public CheckDbException(String errorMessage) {
+   public XmlCheckException(String errorMessage) {
 
      this.errorMessage = errorMessage;
    }
