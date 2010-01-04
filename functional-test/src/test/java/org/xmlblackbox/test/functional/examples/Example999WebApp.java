@@ -52,20 +52,17 @@ public class Example999WebApp extends FlowControl{
        	try {
             
             Properties fileProperties = Configurator.getProperties();
-//            org.xmlblackbox.test.webservice.client.NewWebServiceServiceStub stub = new NewWebServiceServiceStub();
-
-
             log.info("Esegue l'execute");
             Configurator.configureLog4J();
             execute(this.getClass(),Configurator.getProperties());
             //execute(this.getClass(),Configurator.getProperties(), DBConnection.getConnection().getConnection());
-            log.info("fine execute");
+            log.info("stop execute");
    		} catch (TestException e) {
-   			log.error("Eccezione", e.getContainedException());
-   			fail("Eccezione "+e);
+   			log.error("Exception ", e.getContainedException());
+   			fail("Exception "+e);
    		} catch (Exception e) {
-   			log.error("Eccezione", e);
-   			fail("Eccezione "+e.getMessage());
+   			log.error("Exception ", e);
+   			fail("Exception "+e.getMessage());
    		}
    	}
 
