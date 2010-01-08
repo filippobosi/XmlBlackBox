@@ -6,7 +6,7 @@
 	<artifactId>xmlblackbox</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
-	<name>XmlBlackbox</name>
+	<name>XmlBlackBox</name>
 	<build>
 		<testResources>
 			<testResource>
@@ -18,6 +18,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+					  <manifest>
+					    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+					  </manifest>
+					  <manifestEntries>
+					    <Implementation-Build>${buildNumber}</Implementation-Build>
+					  </manifestEntries>
+					</archive>
+			        </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
