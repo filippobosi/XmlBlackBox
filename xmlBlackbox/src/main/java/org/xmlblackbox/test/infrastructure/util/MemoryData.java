@@ -25,11 +25,8 @@ import org.xmlblackbox.test.infrastructure.exception.VariableNotFound;
 
 import java.sql.Connection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
