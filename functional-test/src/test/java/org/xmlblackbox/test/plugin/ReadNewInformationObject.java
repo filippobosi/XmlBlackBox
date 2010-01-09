@@ -18,6 +18,10 @@ public class ReadNewInformationObject extends GenericRunnablePlugin  {
 
         Person person = (Person)memory.getObjectByName(prop.getProperty("nameReturnObject"));
 
+        if (person==null){
+            throw new RunPluginAbnormalTermination();
+
+        }
         log.info("person.getName() "+person.getName());
         log.info("person.getSurname() "+person.getSurname());
 

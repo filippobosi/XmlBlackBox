@@ -263,11 +263,6 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/ojdbc14-10.2.0.2.jar</systemPath>
 		</dependency>
-		<!--
-			dependency> <groupId>xmlbeans</groupId>
-			<artifactId>xbean</artifactId> <version>2.4.0</version>
-			<scope>compile</scope> </dependency
-		-->
 		<dependency>
 			<groupId>jdom</groupId>
 			<artifactId>jdom</artifactId>
@@ -285,14 +280,17 @@
 			<version>1.2.14</version>
 			<scope>compile</scope>
 		</dependency>
-		<!--
-			dependency> <groupId>xmlbeans</groupId>
-			<artifactId>xbean</artifactId> <version>2.2.0</version> </dependency
-		-->
 		<dependency>
 			<groupId>org.xmlblackbox.test</groupId>
 			<artifactId>xmlblackbox</artifactId>
 			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.xmlblackbox.test</groupId>
+			<artifactId>xmlblackbox</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/xmlblackbox-1.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ws.commons.axiom</groupId>
@@ -340,12 +338,6 @@
 			<artifactId>derby</artifactId>
 			<version>10.4.2.0</version>
 		</dependency>
-		<!--
-			dependency> <groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-xmlbeans</artifactId> <version>1.3</version>
-			</dependency
-		-->
-
 	</dependencies>
 	<pluginRepositories>
 		<pluginRepository>
